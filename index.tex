@@ -1,0 +1,120 @@
+%
+% FH Technikum Wien
+% !TEX encoding = UTF-8 Unicode
+%
+% Erstellung von Master- und Bachelorarbeiten an der FH Technikum Wien mit Hilfe von LaTeX und der Klasse TWBOOK
+%
+% Um ein eigenes Dokument zu erstellen, müssen Sie folgendes ergänzen:
+% 1) Mit \documentclass[..] einstellen: Master- oder Bachelorarbeit, Studiengang und Sprache
+% 2) Mit \newcommand{\FHTWCitationType}.. Zitierstandard festlegen (wird in der Regel vom Studiengang vorgegeben - bitte erfragen)
+% 3) Deckblatt, Kurzfassung, etc. ausfüllen
+% 4) und die Arbeit schreiben (die verwendeten Literaturquellen in Literatur.bib eintragen)
+%
+% Getestet mit TeXstudio mit Zeichenkodierung ISO-8859-1 (=ansinew/latin1) und MikTex unter Windows
+% Zu beachten ist, dass die Kodierung der Datei mit der Kodierung des paketes inputenc zusammen passt!
+% Die Kodierung der Datei twbook.cls MUSS ANSI betragen!
+% Bei der Verwendung von UTF8 muss dnicht nur die Kodierung des Dokuments auf UTF8 gestellt sein, sondern auch die des BibTex-Files!
+%
+% Bugreports und Feedback bitte per E-Mail an latex@technikum-wien.at
+%
+% Versionen
+% *) V0.7: 9.1.2015, RO: Modeline angepasst und verschoben
+% *) V0.6: 10.10.2014, RO: Weitere Anpassung an die UK
+% *) V0.5: 8.8.2014, WK: Literaturquellen überarbeitet und angepasst
+% *) V0.4: 4.8.2014, WK: Initalversion in SVN eingespielt
+%
+\documentclass[MSE,Master,english]{twbook}%\documentclass[Bachelor,BMR,ngerman]{twbook}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{float}
+
+\newboolean{showImages} % Deklaration einer boolschen Variable
+\setboolean{showImages}{true} % Zuweisung eines Wertes.
+
+\newboolean{showListings} % Deklaration einer boolschen Variable
+\setboolean{showListings}{true} % Zuweisung eines Wertes.
+
+\newboolean{showTables} % Deklaration einer boolschen Variable
+\setboolean{showTables}{true} % Zuweisung eines Wertes.
+
+\newboolean{showUnusedContent} % Deklaration einer boolschen Variable
+\setboolean{showUnusedContent}{false} % Zuweisung eines Wertes.
+
+
+%
+% Hier biblatex & Biber konfigurieren; Vergessen Sie nicht, dass Sie biber verwenden müssen um eine Bibliothek zu erzeugen
+%
+\usepackage[backend=biber, style=numeric]{biblatex}
+\addbibresource{Literatur.bib}
+
+%
+% Bei Bedarf bitte hier die Syntax-Highlightings anpassen
+%
+\usepackage{minted}
+\makeatletter
+% Setzen der Bezeichnungen für das Quellcodeverzeichnis/Abkürzungsverzeichnis in Abhängigkeit von der eingestellten Sprache
+\providecommand\listacroname{}
+\@ifclasswith{twbook}{english}
+{%
+    \renewcommand\listoflistingscaption{List of source codes}
+    \renewcommand\listacroname{List of Abbreviations}
+}{%
+    \renewcommand\listoflistingscaption{Quellcodeverzeichnis}
+    \renewcommand\listacroname{Abkürzungsverzeichnis}
+}
+\makeatother
+
+% Die nachfolgenden Pakete stellen sonst nicht benötigte Features zur Verfügung
+\usepackage{blindtext}
+
+%
+% Einträge für Deckblatt, Kurzfassung, etc.
+%
+\title{Can GraphQL bring a performance improvement in micro-frontend architectures?}
+\author{Florian Mold, BSc}
+\studentnumber{11776836}
+%\author{Titel Vorname Name, Titel\and{}Titel Vorname Name, Titel}
+%\studentnumber{XXXXXXXXXXXXXXX\and{}XXXXXXXXXXXXXXX}
+\supervisor{David Leitner, MSc}
+%\supervisor[Begutachter]{Titel Vorname Name, Titel}
+%\supervisor[Begutachterin]{Titel Vorname Name, Titel}
+%\secondsupervisor{Titel Vorname Name, Titel}
+%\secondsupervisor[Begutachter]{Titel Vorname Name, Titel}
+%\secondsupervisor[Begutachterinnen]{Titel Vorname Name, Titel}
+\place{Wien}
+\kurzfassung{In diesem Projektbericht wird untersucht, ob eine Mikro-Frontend-Architektur von einer gemeinsamen Caching-Schicht profitieren kann. Außerdem wird untersucht, ob das Senden von einem Teil einer GraphQL Query an das GraphQL-Backend, welche Felder entfernt, die sich bereits im Cache befinden, einen Leistungsvorteil bietet. Der Prototyp wurde mit drei verschiedenen Ansätzen evaluiert und anhand der Anfrage- und Antwortgröße verglichen. Es wird diskutiert, ob die Vorteile der zusätzlichen Komplexität durch die Verbesserungen durch Caching die Nachteile überwiegen.}
+\schlagworte{GraphQL, Micro-frontend, Caching, Backend-For-Frontend}
+\outline{This project report evaluates whether a micro-frontend architecture can benefit from a shared caching layer. Furthermore, we evaluate whether sending partial queries to the GraphQL backend that remove fields that are already in the cache provides a performance benefit. The prototype was evaluated using three different approaches and compared based on query and response size. The debate is whether the benefits of the added complexity from the improvements through caching outweigh the disadvantages.}
+
+\keywords{GraphQL, Micro-frontend, Caching, Backend-For-Frontend}
+%\acknowledgements{\blindtext}
+
+\begin{document}
+
+\maketitle
+
+
+\input{chapters/introduction.tex}
+
+\input{chapters/background.tex}
+
+\input{chapters/applied-methods.tex}
+
+\input{chapters/results.tex}
+
+\input{chapters/conclusion.tex}
+
+\chapter*{\listacroname}
+\begin{acronym}[XXXXX]
+    % \acro{WWW}[WWW]{wor ld wide web}
+\end{acronym}
+
+%
+% Hier beginnt der Anhang.
+%
+\clearpage
+\appendix
+\chapter{Anhang A}
+\clearpage
+\chapter{Anhang B}
+\end{document}
