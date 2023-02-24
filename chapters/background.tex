@@ -6,9 +6,48 @@ Afterwards a brief overview of GraphQL is presented. Additional
 
 \section{Micro-Frontend Architecture}
 
+Micro-frontends try to apply the same principles from the microservice architecture to frontend development. Often times a microservice architecture with is developed by several teams has only one frontend application. Therefore, when adding new features a single team can be overwhelmed. Like a microservice architecture, a micro-frontend architecture focuses on developing many small frontend-applications, instead of developing a large software monolith. Each micro-frontend can be developed independently by another team. But a challenge is that the micro-frontend should appear as a single application to the user. Therefore, the different applications have to be integrated, which can be a challenge.
+
+The term micro-frontend should not lead to false conclusions about the size of an application. The size of micro-frontends can vary. It can range from a simple login to a complex single-page application.
+
+Building micro-frontends with the web allows different strategies of integrating the applications. Three different strategies exist to combine multiple micro-frontends into an app-shell. The client-side integration, the server-side integration and the combination of these two strategies and the combination of both strategies.
+
+
+
 \subsection{Characteristics}
 
+Micro-frontends tend to follow the same characteristics as microservices.
+
+\subsubsection{Autonomous}
+
+Technically a micro-frontend is a completely independent and runnable application.
+The integration of the micro-frontends happens only through the frontend. The different micro-frontends are composed withing an app-shell. The application shell is a separete application that is usually the entry-point for the user to interact with all micro-frontends. The app-shell also provides the layout of the page and defines where the micro-frontends are placed.
+
+\subsubsection{Technology Agnostic}
+
+Just as microservices architectures, micro-frontend architectures can be technology agnostic. The current frontend development landscape offers a lot of JavaScript frameworks to choose from.
+
+\subsubsection{Independently Depoyable}
+
+The autonomy of micro-frontends offer the possibility for independent deployments. A large monolithical micro-frontends is trickier to deploy. There is no need to have communication over multiple teams to deploy the application.
+
+
+\subsubsection{Small and Easy to Maintain}
+
+
+
+\subsubsection{Resilience}
+
+
+
+\subsubsection{Resilience}
+
+
+
 \subsection{Integration strategies}
+
+\subsubsection{Server-Side Integration}
+\subsubsection{Client-Side Integration}
 
 \subsection{Communication}
 

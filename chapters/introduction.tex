@@ -27,15 +27,15 @@ The term micro-frontend can be misleading, as can the term microservice. It has 
 
 \ifshowUnusedContent
 % TODO(FM): Integration strategy not really important for short explaination
-% Micro-frontends offer various strategies for integration. Integration means how the frontends are composed on the frontend. The web allows multiple strategies to incorporate the micro-frontends. 
+Micro-frontends offer various strategies for integration. Integration means how the frontends are composed on the frontend. The web allows multiple strategies to incorporate the micro-frontends. 
 
-% [1] M. Bischof and D. Leitner, “Analysis of the Suitability of a Microservice and a Micro-Frontend Architecture for an Existing Monolithic System,” p. 88.
+[1] M. Bischof and D. Leitner, “Analysis of the Suitability of a Microservice and a Micro-Frontend Architecture for an Existing Monolithic System,” p. 88.
 
-% \begin{itemize}
-%     \item Server Side Integration 
-%     \item Client Side Integration
-%     \item Build time Integration
-% \end{itemize}
+\begin{itemize}
+    \item Server Side Integration 
+    \item Client Side Integration
+    \item Build time Integration
+\end{itemize}
 
 \fi
 
@@ -101,23 +101,19 @@ Consumer-driven APIs are the opposite of generic APIs. They follow the idea of p
 \subsubsection{Backend for Frontend}
 
 \ifshowUnusedContent
-% TODO(FM): Too specific for the project report.
-% Every microservice provides its functionality to consumers with APIs. But it is not advisable that clients directly communicate with microservice APIs. Microservice offer fine-grained interfaces which were made especially for the communication between microservices. Therefore, the client usually has to make multiple requests to fetch the data needed for a view. ([7] S. Newman, Building microservices: designing fine-grained systems, First Edition. Beijing Sebastopol, CA: O’Reilly Media, 2015, (ISBN 978-1-4919-5035-7).
+TODO(FM): Too specific for the project report.
+Every microservice provides its functionality to consumers with APIs. But it is not advisable that clients directly communicate with microservice APIs. Microservice offer fine-grained interfaces which were made especially for the communication between microservices. Therefore, the client usually has to make multiple requests to fetch the data needed for a view. ([7] S. Newman, Building microservices: designing fine-grained systems, First Edition. Beijing Sebastopol, CA: O’Reilly Media, 2015, (ISBN 978-1-4919-5035-7).
 
-% This leads to many requests, which is also known as over-requesting.
+This leads to many requests, which is also known as over-requesting.
 
-% Another problem could be that a cluster of microservices use another form of communication. For example an asynchronous message-bus or another protocol like GRPC. There is the next problem. Clients usually communicate using synchronous communication, where microservices could use asynchronous communication. Without an adapter in between, the communication will not work properly. Even if the communication is possible, the client needs to know many details (IP-address) about the cluster of microservices. And the client might have to connect to multiple microservice to fetch the data needed to display one view. Therefore the client has to join the data in-memory. Changing the API of a microservice would have a ripple effect on the requests on the frontends, because they would have to be changed in many places.
+Another problem could be that a cluster of microservices use another form of communication. For example an asynchronous message-bus or another protocol like GRPC. There is the next problem. Clients usually communicate using synchronous communication, where microservices could use asynchronous communication. Without an adapter in between, the communication will not work properly. Even if the communication is possible, the client needs to know many details (IP-address) about the cluster of microservices. And the client might have to connect to multiple microservice to fetch the data needed to display one view. Therefore the client has to join the data in-memory. Changing the API of a microservice would have a ripple effect on the requests on the frontends, because they would have to be changed in many places.
 
-% [1] C. Richardson, Microservices patterns: with examples in Java. Shelter Island, New York: Manning Publications, 2019, (ISBN 978-1-61729-454-9).
+[1] C. Richardson, Microservices patterns: with examples in Java. Shelter Island, New York: Manning Publications, 2019, (ISBN 978-1-61729-454-9).
 
-% To solve this problem the clients communicate with an API gateway or a more client centric backend-for-frontend service. Internally these services communicate with the microservice-cluster. An API gateway is a service that represents an abstraction of the microservice APIs and is an entry point to the microservice-cluster. The main task of a gateway is to forward tasks to the correct microservice. The even might implement functionalities like authorization and authentication or transform the protocol. Like transforming HTTP to GRPC. With API gateways it is also easier to split a microservice into two for example, without a ripple effect to change all clients as well.
+To solve this problem the clients communicate with an API gateway or a more client centric backend-for-frontend service. Internally these services communicate with the microservice-cluster. An API gateway is a service that represents an abstraction of the microservice APIs and is an entry point to the microservice-cluster. The main task of a gateway is to forward tasks to the correct microservice. The even might implement functionalities like authorization and authentication or transform the protocol. Like transforming HTTP to GRPC. With API gateways it is also easier to split a microservice into two for example, without a ripple effect to change all clients as well.
 
-% But the problem with API gateways is the ownership. Multiple teams will add their functionality to the gateway and might come into conflict. The APIs are often not suited for the needs of clients and it has to be avoided that client logic is developed into the API gateway.
+But the problem with API gateways is the ownership. Multiple teams will add their functionality to the gateway and might come into conflict. The APIs are often not suited for the needs of clients and it has to be avoided that client logic is developed into the API gateway.
 
-
-% ([14] P. Siriwardena and N. Dias, Microservices security in action. Manning Publications, 2020, (ISBN 978-1-61729-595-9).)
-
-% ([12] M. Geers, Micro Frontends in Action. Manning Publications, 2020)
 \fi
 
 To solve these problems, the backend-for-frontend pattern is often used. This pattern provides each client with its own API, which specialized for the needs of the client. \cite{book:2018:richardson:microservices-patterns}
@@ -138,13 +134,6 @@ With this architectural approach the backend-for-frontend and the frontend form 
 
 GraphQL was developed by Facebook and refers to itself as the query language for an API. It provides the client with the opportunity to ask exactly for the data is needed. GraphQL offers the advantage that all data must be loaded from only one URL. With the help of the types within the GraphQL schema, the technology offers an understandable description of the
 API for clients. \cite{misc:-:graphql-org} The functionality of GraphQL on the frontend can be compared to SQL on the database level. The client writes its queries with the desired fields from a dataset.
-
-% \subsection{Apollo Cache}
-
-% Explain how the Apollo Cache works
-
-% \section{(technical) Motivation}
-
 
 \section{(technical) Motivation}
 
