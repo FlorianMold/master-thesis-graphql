@@ -105,7 +105,7 @@ The \textbf{ApolloClient} will update the cache so that it looks like this.
 \end{listing}
 \fi
 
-Let's describe how the response from the server is transformed into the representation from the cache seen in listing \ref{code:background:query-user-cache-representation}. The cache object contains a key \textbf{ROOT\_QUERY}. This element contains the name of the queries that were executed and the results from all queries. The query \textbf{allUsers} was fetched, therefore the \textbf{ROOT\_Query} contains a field with the name \textbf{users}. The listing \ref{code:background:query-user-cache-representation} shows that the content of the \textbf{ApolloClient} is clearly different from the servers response. Instead of the user-information every array item consists of an object with a \textbf{\_\_ref} key. The value of the key is simply the \textbf{\_\_typename} and \textbf{id} of the user concatenated. The data from the response has been normalised and added to the cache object. Next to the \textbf{ROOT\_QUERY} element, the actual user-information is stored. Each has the same key as the \textbf{\_\_ref} from the \textbf{ROOT\_QUERY}. 
+Let's describe how the response from the server is transformed into the representation from the cache seen in listing \ref{code:background:query-user-cache-representation}. The cache object contains a key \textbf{ROOT\_QUERY}. This element contains the name of the queries that were executed and the results from all queries. The query \textbf{allUsers} was fetched, therefore the \textbf{ROOT\_QUERY} contains a field with the name \textbf{users}. The listing \ref{code:background:query-user-cache-representation} shows that the content of the \textbf{ApolloClient} is clearly different from the servers response. Instead of the user-information every array item consists of an object with a \textbf{\_\_ref} key. The value of the key is simply the \textbf{\_\_typename} and \textbf{id} of the user concatenated. The data from the response has been normalised and added to the cache object. Next to the \textbf{ROOT\_QUERY} element, the actual user-information is stored. Each has the same key as the \textbf{\_\_ref} from the \textbf{ROOT\_QUERY}. 
 
 The same principle applies to arbitrary deep queries. The following query produces:
 
@@ -289,16 +289,43 @@ And the cache looks like the following:
 \end{listing}
 \fi
 
-This should be avoided. If data of an unnormalised object has to be updated every occurence of the item in the cache has to be updated manually. You must also never request the same thing sometimes with an id and sometimes without, because \textbf{ApolloClient} will throw an error when trying to update the cache after such a query.
+This should be avoided. If data of an unnormalized object has to be updated every occurrence of the item in the cache has to be updated manually. You must also never request the same thing sometimes with an id and sometimes without, because \textbf{ApolloClient} will throw an error when trying to update the cache after such a query.
 
-
-The Apollo Client's cache stores the data a flat lookup table of objects that reference eachother. \cite{misc:-:apollo-cache-overview}
+The Apollo Client's cache stores the data a flat lookup table of objects that reference each other. These objects correspond to the objects that are returned by the GraphQL queries. A single cached object might include fields that were fetched by multiple queries. That means that multiple queries can fetch different fields for the same object. Before storing the data, the cache needs to normalize it. \cite{misc:-:apollo-cache-overview}
 
 Whenever the Apollo Client receives the response data of a query it does the following. a
 
-\begin{enumerate}
-  \item \textbf{Identify objects}:
-  \item \textbf{Generate cache IDs}:
-  \item \textbf{Replace object fields with references}:
-  \item \textbf{Store normalized objects}:
-\end{enumerate}
+\paragraph{1. Identify objects} 
+
+The cache identifies all distinct objects included in query response.
+
+\begin{itemize}
+  \item A \textbf{User} with id \textbf{36bad921-8fcf-4f33-9f29-0d3cd70205c8}
+  \item A \textbf{User} with id \textbf{a2096556-9a4e-4994-9de8-86c9e85ed6a1}
+\end{itemize}
+
+\paragraph{2. Generate cache IDs} 
+
+After identifying all objects, the cache generates a cache ID for each object. A cache ID uniquely identifies a particular object, while it is in the \textbf{InMemoryCache}.
+
+So, the cache IDs for the objects are: 
+
+\begin{itemize}
+  \item \textbf{User:36bad921-8fcf-4f33-9f29-0d3cd70205c8}
+  \item \textbf{User:a2096556-9a4e-4994-9de8-86c9e85ed6a1}
+\end{itemize}
+
+By default, an object's cache ID is the concentation of the object's \textbf{\_\_typename} and \textbf{id} (or \textbf{\_id}) fields.
+
+If the cache can't generate a cache ID for a particular object, that object is directly cached inside its parent object, and must be referenced via the parent. Therefore the cache is not always completely flat.
+
+\paragraph{3. Replace object fields with references} 
+
+Next, the cache takes each field that contains an object and replaces its value with a reference to the appropriate object.
+
+...
+
+\paragraph{4. Store normalized objects} 
+
+The resulting objects are stored inside the cache's flat lookup table. Whenever an incoming object has the same cache ID as an existing cached object, the fields of those objects are merged together. If the incoming and the existing object
+
