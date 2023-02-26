@@ -61,18 +61,4 @@ The officical documentation states that GraphQL is a query language for APIs and
 
 GraphQL was initially developed at Facebook in 2012. In 2015 the project was made open-source and available to the public. The motivation behind the initial development of GraphQL was the limited flexibility of available API technologies like REST.
 
-\subsection{Apollo Server and Client}
-
-GraphQL is a query language and follows specific rules. The development of a GraphQL server and client is up to the application developer. Facebook has developed their own implementation of a GraphQL server and client. The server is called GraphQL.js and the client is called Relay.
-
-Apollo 
-
-Apollo Client is m
-
-\subsubsection{How does the cache work?}
-
-This section describes how the cache of apollo works.
-
-By default all GraphQL requests made with \textbf{ApolloClient} are cached inside the browsers memory. This is needed, to ensure to reduce round-trips to the server in subsequent requests of the same query, because the requested data can be served from the cache.
-
-The caching mechanism reduces the load of the server, but it introduces issues with cache management.
+\include{chapters/background/apollo-client.tex}
