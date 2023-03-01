@@ -1,17 +1,17 @@
 \subsection{Apollo Server and Client}
 
-GraphQL is a query language and follows specific rules. The development of a GraphQL server and client is up to the application developer. Facebook has developed their own implementation of a GraphQL server and client. The server is called GraphQL.js and the client is called Relay.
+GraphQL has a specification and is a query language. The development of a GraphQL server and client is up to the application developer. Facebook's has created their own GraphQL implementation of the specification in JavaScript with GraphQL.js for the backend and Relay for the frontend. Relay is very a prominent example of a GraphQL client, but it only exists for Facebook's React framework. When evaluating different GraphQL clients, Apollo was chosen as it has support for almost every possible programming language and framework.
 
-Apollo 
+Apollo Server is an open-source implementation of the GraphQL specification. It offer any feature that a GraphQL server has. And it offers \textbf{Apollo Sandbox} out of the box. \cite{misc:-:apollo-server-introduction} \textbf{Apollo Sandbox} helps local development. The \textbf{Apollo Sandbox} loads the GraphQL Schema from the server with the help of the Introspection Query. \cite{misc:-:apollo-sandbox} Such an environment enables executing queries, mutations directly inside the browser. 
 
-Apollo Client is m
+Apollo Client is a community driven project and has npm packages for almost all frontend development environments like the big frameworks as Angular, React and Vue.js. The library fetches, caches and manages the data of the application. The package for Angular is designed with Angular patterns in mind to integrate perfectly with the framework. Apollo Client offer the possibility to cache already made requests. \cite{misc:-:apollo-angular-client-overview} \cite{misc:-:apollo-client-overview} This leads to the next section, where the cache is explained in more detail.
 
 \subsubsection{How does the in-memory cache work?}
 
-This section describes how the cache in apollo-client works. By default all GraphQL requests made with \textbf{ApolloClient} are cached inside the browsers memory. This enables Apollo Client to respond almost immediately to queries for already-cached data, without even sending a network request. This is needed, to ensure to reduce round-trips to the server in subsequent requests of the same query, because the requested data can be served from the cache. The caching mechanism reduces the load of the server, but introduces issues with cache management. \textbf{ApolloClient} includes a caching mechanism called ApolloCache and the propretary implementation called \textbf{InMemoryCache}. There are several Open-Source alternatives, that implement the \textbf{ApolloCache} interface.
+This section describes how the cache in apollo-client works. By default all GraphQL requests made with \textbf{ApolloClient} are cached inside the browsers memory. This enables Apollo Client to respond almost immediately to queries for already-cached data, without even sending a network request. This is needed, to ensure to reduce round-trips to the server in subsequent requests of the same query, because the requested data can be served from the cache. The caching mechanism reduces the load of the server, but introduces issues with cache management. \textbf{ApolloClient} includes a caching mechanism called ApolloCache and the proprietary implementation called \textbf{InMemoryCache}. There are several Open-Source alternatives, that implement the \textbf{ApolloCache} interface.
 
 \ifshowImages
-\begin{figure}[!htbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.6\linewidth]{images/background/apollo/apollo-client-basic-cache.jpeg}
 \caption{All requests made during the measurement of the first approach}\label{figure:background:user-query-first-time}
@@ -20,9 +20,8 @@ This section describes how the cache in apollo-client works. By default all Grap
 
 The flow of the cache, when the query \textbf{user} is executed the first time is shown in figure \ref{figure:background:user-query-first-time}.
 
-
 \ifshowImages
-\begin{figure}[!htbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.6\linewidth]{images/background/apollo/apollo-client-basic-cache-warm.jpeg}
 \caption{All requests made during the measurement of the first approach}\label{figure:background:user-query-second-time}
@@ -291,7 +290,7 @@ And the cache looks like the following:
 
 This should be avoided. If data of an unnormalized object has to be updated every occurrence of the item in the cache has to be updated manually. You must also never request the same thing sometimes with an id and sometimes without, because \textbf{ApolloClient} will throw an error when trying to update the cache after such a query.
 
-The Apollo Client's cache stores the data a flat lookup table of objects that reference each other. These objects correspond to the objects that are returned by the GraphQL queries. A single cached object might include fields that were fetched by multiple queries. That means that multiple queries can fetch different fields for the same object. Before storing the data, the cache needs to normalize it. \cite{misc:-:apollo-cache-overview}
+The Apollo Client's cache stores the data a flat lookup table of objects that reference each other. These objects correspond to the objects that are returned by the GraphQL queries. A single cached object might include fields that were fetched by multiple queries. That means that multiple queries can fetch different fields for the same object. Before storing the data, the cache needs to normalize it. \cite{misc:-:apollo-client-cache-overview}
 
 Whenever the Apollo Client receives the response data of a query it does the following. a
 
