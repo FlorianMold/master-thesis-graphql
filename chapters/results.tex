@@ -38,67 +38,65 @@ The following steps show the first path through the application.
 
 For the path through the application \textbf{59} GraphQL queries would have to be executed against the backend, if no caching mechanism were in place. The next sections highlight the results in more detail.
 
-\ifshowUnusedContent
-% To make the testing process easier, I wrote a provider that allows me to easily change the settings to match one of the three approaches. As shown in listing \ref{listing:results:graphql-client-configuration} the UI\_GRAPHQL\_CLIENT\_OPTIONS\_CONFIG injection-token can be used to set if the cache should be should be shared (shareCache) or if a new instance of the cache should be provided. The settings of UI\_REDUCE\_QUERY\_OPTIONS (reduceQueries) can be used, whether the queries should be reduced with the data already inside the cache or not.
+To make the testing process easier, I wrote a provider that allows me to easily change the settings to match one of the three approaches. As shown in listing \ref{listing:results:graphql-client-configuration} the UI\_GRAPHQL\_CLIENT\_OPTIONS\_CONFIG injection-token can be used to set if the cache should be should be shared (shareCache) or if a new instance of the cache should be provided. The settings of UI\_REDUCE\_QUERY\_OPTIONS (reduceQueries) can be used, whether the queries should be reduced with the data already inside the cache or not.
 
-% \ifshowListings
-% \begin{listing}[htbp]
-% \begin{minted}{typescript}
-% @NgModule({
-%   provide: [
-%     {
-%       provide: UI_GRAPHQL_CLIENT_OPTIONS_CONFIG,  
-%       useValue: {  
-%         shareCache: false,  
-%         persistCache: false,  
-%         useTypePolicies: true,  
-%         typePolicies: UI_DASHBOARD_APP_TYPE_POLICIES,  
-%       } as UiGraphQLClientOptionsConfig,  
-%     },  
-%     {  
-%       provide: UI_REDUCE_QUERY_OPTIONS,  
-%       useValue: {  
-%         reduceQueries: false,  
-%       } as UiReduceQueryOptions,  
-%     }
-%    ],
-% })
-% export class UiContactRemoteCoreModule {}
-% \end{minted}
-% \caption{Providers to configure the behavior of the cache and query-reduction}\label{listing:results:graphql-client-configuration}
-% \end{listing}
-% \fi
-
-% \begin{itemize}
-%     \item allEmailTypes: 1
-%     \item allSalutations: 5
-%     \item allContactsSubset: 1
-%     \item contactTitlesAggregated: 1
-%     \item allTitles: 5
-%     \item allContractsSubset: 1
-%     \item allInvoicesSubset: 1
-%     \item contactCountriesAggregated: 1
-%     \item allCountries: 5
-%     \item allArticleUnits: 3
-%     \item allCurrencies: 3
-%     \item allVats: 3
-%     \item allSalesCountries: 5
-%     \item allInvoiceTypes: 3
-%     \item allUsersSubset: 1
-%     \item \_allContactsMeta: 2
-%     \item allContacts: 2
-%     \item Contact: 1
-%     \item \_allInvoicesMeta: 2
-%     \item allInvoices: 2
-%     \item Invoice: 1
-%     \item \_allContractsMeta: 2
-%     \item allContracts: 2
-%     \item Contract: 1
-%     \item \_allUsersMeta: 2
-%     \item allUsers: 2
-%     \item User: 1
-% \end{itemize}
+\ifshowListings
+\begin{listing}[H]
+\begin{minted}{typescript}
+@NgModule({
+  provide: [
+    {
+      provide: UI_GRAPHQL_CLIENT_OPTIONS_CONFIG,  
+      useValue: {  
+        shareCache: false,  
+        persistCache: false,  
+        useTypePolicies: true,  
+        typePolicies: UI_DASHBOARD_APP_TYPE_POLICIES,  
+      } as UiGraphQLClientOptionsConfig,  
+    },  
+    {  
+      provide: UI_REDUCE_QUERY_OPTIONS,  
+      useValue: {  
+        reduceQueries: false,  
+      } as UiReduceQueryOptions,  
+    }
+   ],
+})
+export class UiContactRemoteCoreModule {}
+\end{minted}
+\caption{Providers to configure the behavior of the cache and query-reduction}\label{listing:results:graphql-client-configuration}
+\end{listing}
 \fi
+
+\begin{itemize}
+    \item allEmailTypes: 1
+    \item allSalutations: 5
+    \item allContactsSubset: 1
+    \item contactTitlesAggregated: 1
+    \item allTitles: 5
+    \item allContractsSubset: 1
+    \item allInvoicesSubset: 1
+    \item contactCountriesAggregated: 1
+    \item allCountries: 5
+    \item allArticleUnits: 3
+    \item allCurrencies: 3
+    \item allVats: 3
+    \item allSalesCountries: 5
+    \item allInvoiceTypes: 3
+    \item allUsersSubset: 1
+    \item \_allContactsMeta: 2
+    \item allContacts: 2
+    \item Contact: 1
+    \item \_allInvoicesMeta: 2
+    \item allInvoices: 2
+    \item Invoice: 1
+    \item \_allContractsMeta: 2
+    \item allContracts: 2
+    \item Contract: 1
+    \item \_allUsersMeta: 2
+    \item allUsers: 2
+    \item User: 1
+\end{itemize}
 
 \subsubsection{Separate cache, no query reduction}
 
@@ -111,23 +109,21 @@ After completing the path through the applications, the Chrome Developer Tools p
     \item 10.7 MB transferred
 \end{itemize}
 
-\ifshowUnusedContent
-%  To configure this behavior the following settings have to be provided to the UI\_GRAPHQL\_CLIENT\_OPTIONS\_CONFIG- and UI\_REDUCE\_QUERY\_OPTIONS injection-tokens inside the core-modules of the micro-frontend.
+ To configure this behavior the following settings have to be provided to the UI\_GRAPHQL\_CLIENT\_OPTIONS\_CONFIG- and UI\_REDUCE\_QUERY\_OPTIONS injection-tokens inside the core-modules of the micro-frontend.
 
-% \begin{itemize}
-%     \item shareCache: false
-%     \item reduceQueries: false
-% \end{itemize}
+\begin{itemize}
+    \item shareCache: false
+    \item reduceQueries: false
+\end{itemize}
 
-% 47 requests have to be made to the GraphQL backend which can be seen in figure \ref{figure:results:no-shared-cache-no-reduction-chrome-dev-tools}. 6 of the 53 requests have to be removed, because these requests are done to load the other micro-frontends from their remote location. These requests are only needed for the functionality of the micro-service architecture.
+47 requests have to be made to the GraphQL backend which can be seen in figure \ref{figure:results:no-shared-cache-no-reduction-chrome-dev-tools}. 6 of the 53 requests have to be removed, because these requests are done to load the other micro-frontends from their remote location. These requests are only needed for the functionality of the micro-service architecture.
 
-% \ifshowImages
-% \begin{figure}[!htbp]
-% \centering
-% \includegraphics[width=0.6\linewidth]{images/1-attempt/no-shared-cache-no-reduction.png}
-% \caption{All requests made during the measurement of the first approach}\label{figure:results:no-shared-cache-no-reduction-chrome-dev-tools}
-% \end{figure}
-% \fi
+\ifshowImages
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{images/1-attempt/no-shared-cache-no-reduction.png}
+\caption{All requests made during the measurement of the first approach}\label{figure:results:no-shared-cache-no-reduction-chrome-dev-tools}
+\end{figure}
 \fi
 
 The total size of the queries was 17.46 KB and the size of the responses was 10.78 MB. The 47 queries retrieve a total of 61426 records from the GraphQL backend.
@@ -143,23 +139,21 @@ After completing the path, the Chrome Developer Tools provide the following metr
     \item 8.5 MB transferred
 \end{itemize}
 
-\ifshowUnusedContent
-%  To configure this behavior the following settings have to be provided to the UI\_GRAPHQL\_CLIENT\_OPTIONS\_CONFIG- and UI\_REDUCE\_QUERY\_OPTIONS injection-tokens inside the core-modules of the micro-frontends.
+ To configure this behavior the following settings have to be provided to the UI\_GRAPHQL\_CLIENT\_OPTIONS\_CONFIG- and UI\_REDUCE\_QUERY\_OPTIONS injection-tokens inside the core-modules of the micro-frontends.
 
-% \begin{itemize}
-%     \item shareCache: true
-%     \item reduceQueries: false
-% \end{itemize}
+\begin{itemize}
+    \item shareCache: true
+    \item reduceQueries: false
+\end{itemize}
 
-% 36 requests have to be made to the GraphQL backend which can be seen in figure \ref{figure:results:no-shared-cache-no-reduction-chrome-dev-tools}. 6 requests have to be subtracted (settings.json, module-federation.manifest.json) like previously.
+36 requests have to be made to the GraphQL backend which can be seen in figure \ref{figure:results:no-shared-cache-no-reduction-chrome-dev-tools}. 6 requests have to be subtracted (settings.json, module-federation.manifest.json) like previously.
 
-% \ifshowImages
-% \begin{figure}[!htbp]
-% \centering
-% \includegraphics[width=0.6\linewidth]{images/1-attempt/shared-not-reduced-cache.png}
-% \caption{All requests made during the measurement of the second approach}\label{figure:results:shared-cache-no-reduction-chrome-dev-tools}
-% \end{figure}
-% \fi
+\ifshowImages
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{images/1-attempt/shared-not-reduced-cache.png}
+\caption{All requests made during the measurement of the second approach}\label{figure:results:shared-cache-no-reduction-chrome-dev-tools}
+\end{figure}
 \fi
 
 The total size of the queries was 15.176 KB and the size of the responses was 8.5 MB. The 36 queries retrieve a total of 51319 records from the GraphQL backend.
@@ -175,23 +169,21 @@ After completing the path, the Chrome Developer Tools provide the following metr
     \item 8.4 MB transferred
 \end{itemize}
 
-\ifshowUnusedContent
-%  To configure this behavior the following settings have to be provided to the UI\_GRAPHQL\_CLIENT\_OPTIONS\_CONFIG- and UI\_REDUCE\_QUERY\_OPTIONS injection-tokens inside the core-modules of the micro-frontends.
+ To configure this behavior the following settings have to be provided to the UI\_GRAPHQL\_CLIENT\_OPTIONS\_CONFIG- and UI\_REDUCE\_QUERY\_OPTIONS injection-tokens inside the core-modules of the micro-frontends.
 
-% \begin{itemize}
-%     \item shareCache: true
-%     \item reduceQueries: false
-% \end{itemize}
+\begin{itemize}
+    \item shareCache: true
+    \item reduceQueries: false
+\end{itemize}
 
-% 36 requests have to be made to the GraphQL backend which can be seen in figure \ref{figure:results:no-shared-cache-no-reduction-chrome-dev-tools}. 6 requests have to be subtracted (settings.json, module-federation.manifest.json).
+36 requests have to be made to the GraphQL backend which can be seen in figure \ref{figure:results:no-shared-cache-no-reduction-chrome-dev-tools}. 6 requests have to be subtracted (settings.json, module-federation.manifest.json).
 
-% \ifshowImages
-% \begin{figure}[!htbp]
-% \centering
-% \includegraphics[width=0.6\linewidth]{images/1-attempt/shared-reduced-cache.png}
-% \caption{All requests made during the measurement of the third approach}\label{figure:results:shared-cache-reduction-chrome-dev-tools}
-% \end{figure}
-% \fi
+\ifshowImages
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{images/1-attempt/shared-reduced-cache.png}
+\caption{All requests made during the measurement of the third approach}\label{figure:results:shared-cache-reduction-chrome-dev-tools}
+\end{figure}
 \fi
 
 The total size of the queries was 13.533 KB and the size of the responses was 8.37 MB. The 36 queries retrieve a total of 51319 records from the GraphQL backend.
@@ -225,23 +217,20 @@ When comparing the first- with the second-approach there is a massive difference
 \end{table}
 \fi
 
-\ifshowUnusedContent
-% TODO(FM): Too detailed
-% Following requests have been omitted, when using a shared cache between the micro-frontends:
+Following requests have been omitted, when using a shared cache between the micro-frontends:
 
-% \begin{itemize}
-%     \item allCountries(User-MF, Contact-MF): 2
-%     \item allSalutations(User-MF, Contact-MF): 2
-%     \item allTitles(User-MF, Contact-MF): 2
-%     \item allArticleUnits(Sales-MF): 1
-%     \item allCurrencies(Sales-MF): 1
-%     \item allVats(Sales-MF): 1
-%     \item allSalesCountries(Sales-MF): 1
-%     \item allInvoiceTypes(Sales-MF): 1
-% \end{itemize}
+\begin{itemize}
+    \item allCountries(User-MF, Contact-MF): 2
+    \item allSalutations(User-MF, Contact-MF): 2
+    \item allTitles(User-MF, Contact-MF): 2
+    \item allArticleUnits(Sales-MF): 1
+    \item allCurrencies(Sales-MF): 1
+    \item allVats(Sales-MF): 1
+    \item allSalesCountries(Sales-MF): 1
+    \item allInvoiceTypes(Sales-MF): 1
+\end{itemize}
 
-% The data of the requests is usually used for filling select-controls inside detail-views and has to be fetched in every micro-frontends, when not using a shared-cache. The first three queries are used inside micro-frontends on the dashboard, the contact micro-frontend and the user micro-frontend. The last five queries are used inside micro-frontends on the dashboard and the sales micro-frontend.
-\fi
+The data of the requests is usually used for filling select-controls inside detail-views and has to be fetched in every micro-frontends, when not using a shared-cache. The first three queries are used inside micro-frontends on the dashboard, the contact micro-frontend and the user micro-frontend. The last five queries are used inside micro-frontends on the dashboard and the sales micro-frontend.
 
 \paragraph{Comparing the first- and third-approach}
 
@@ -293,113 +282,111 @@ Between the first- and the second-approach, there is almost no difference in req
 \end{table}
 \fi
 
-\ifshowUnusedContent
-% \subsection{2. Attempt}
+\subsection{2. Attempt}
 
-% The following enumeration shows the second path through the application. This attempt was made, with an authenticated user.
+The following enumeration shows the second path through the application. This attempt was made, with an authenticated user.
 
-% \begin{enumerate}
-%     \item Open Users
-%     \item Open second Users page
-%     \item Open the first User on the second page
-%     \item Open the second User on the second page
-%     \item Open Invoices
-%     \item Open second Invoices page
-%     \item Open the first invoice on the second page
-%     \item Open the second invoice on the second page
-%     \item Open Contracts
-%     \item Open second Contracts page
-%     \item Open the first Contract on the second page
-%     \item Open the second Contract on the second page
-%     \item Open Contacts
-%     \item Open second Contacts page
-%     \item Open the first Contact on the second page
-%     \item Open the second Contact on the second page
-%     \item Open Dashboard
-% \end{enumerate}
+\begin{enumerate}
+    \item Open Users
+    \item Open second Users page
+    \item Open the first User on the second page
+    \item Open the second User on the second page
+    \item Open Invoices
+    \item Open second Invoices page
+    \item Open the first invoice on the second page
+    \item Open the second invoice on the second page
+    \item Open Contracts
+    \item Open second Contracts page
+    \item Open the first Contract on the second page
+    \item Open the second Contract on the second page
+    \item Open Contacts
+    \item Open second Contacts page
+    \item Open the first Contact on the second page
+    \item Open the second Contact on the second page
+    \item Open Dashboard
+\end{enumerate}
 
-% For this path through the application \textbf{59} queries in total have to be executed against the
-% GraphQL backend, when no caching mechanism are implemented.
+For this path through the application \textbf{59} queries in total have to be executed against the
+GraphQL backend, when no caching mechanism are implemented.
 
-% \begin{itemize}
-%     \item userByToken: 9
-%     \item \_allUsersMeta: 2
-%     \item allUsers: 2
-%     \item allCountries: 5
-%     \item allSalutations: 5
-%     \item allTitles: 5
-%     \item User: 2
-%     \item \_allInvoicesMeta: 2
-%     \item allInvoices: 2
-%     \item allArticleUnits: 3
-%     \item allCurrencies: 3
-%     \item allVats: 3
-%     \item allSalesCountries: 5
-%     \item allInvoiceTypes: 3
-%     \item Invoice: 2
-%     \item \_allContractsMeta: 2
-%     \item allContracts: 2
-%     \item Contract: 2
-%     \item \_allContactsMeta: 2
-%     \item allContacts: 2
-%     \item Contact: 2
-%     \item allEmailTypes: 1
-%     \item allContactsSubset: 1
-%     \item contactTitlesAggregated: 1
-%     \item allContractsSubset: 1
-%     \item allInvoicesSubset: 1
-%     \item contactCountriesAggregated: 1
-%     \item allUsersSubset: 1
-% \end{itemize}
+\begin{itemize}
+    \item userByToken: 9
+    \item \_allUsersMeta: 2
+    \item allUsers: 2
+    \item allCountries: 5
+    \item allSalutations: 5
+    \item allTitles: 5
+    \item User: 2
+    \item \_allInvoicesMeta: 2
+    \item allInvoices: 2
+    \item allArticleUnits: 3
+    \item allCurrencies: 3
+    \item allVats: 3
+    \item allSalesCountries: 5
+    \item allInvoiceTypes: 3
+    \item Invoice: 2
+    \item \_allContractsMeta: 2
+    \item allContracts: 2
+    \item Contract: 2
+    \item \_allContactsMeta: 2
+    \item allContacts: 2
+    \item Contact: 2
+    \item allEmailTypes: 1
+    \item allContactsSubset: 1
+    \item contactTitlesAggregated: 1
+    \item allContractsSubset: 1
+    \item allInvoicesSubset: 1
+    \item contactCountriesAggregated: 1
+    \item allUsersSubset: 1
+\end{itemize}
 
-% \begin{table}[]
-%     \begin{tabular}{|l|l|l|l|}
-%     \hline
-%                                     & Request Size & Response Size & Request Amount  \\
-%     \hline
-%      No Reduction, Shared Cache     &  16884 B        &  8364416 B   & 37 \\
-%      \hline
-%      Reduction, Shared Cache        &  14718 B        &  8361306 B   & 37 \\
-%      \hline
-%     \textbf{Diff}                   & \textbf{2166 B (0.0016 MB)} & \textbf{3110 B (0.062  MB)} & \textbf{11} \\
-%      \hline
-%     \end{tabular}
-%     \caption{Vergleich der State of the art Serious games.}
-%     \label{tab:serious-game-comparison}
-% \end{table}
+\begin{table}[]
+    \begin{tabular}{|l|l|l|l|}
+    \hline
+                                    & Request Size & Response Size & Request Amount  \\
+    \hline
+     No Reduction, Shared Cache     &  16884 B        &  8364416 B   & 37 \\
+     \hline
+     Reduction, Shared Cache        &  14718 B        &  8361306 B   & 37 \\
+     \hline
+    \textbf{Diff}                   & \textbf{2166 B (0.0016 MB)} & \textbf{3110 B (0.062  MB)} & \textbf{11} \\
+     \hline
+    \end{tabular}
+    \caption{Vergleich der State of the art Serious games.}
+    \label{tab:serious-game-comparison}
+\end{table}
 
-% \begin{table}[]
-%     \begin{tabular}{|l|l|l|l|}
-%     \hline
-%                                     & Request Size & Response Size & Request Amount  \\
-%     \hline
-%      No Reduction, No Shared Cache     &  22955 B        &  10713304 B   & 62 \\
-%      \hline
-%      Reduction, Shared Cache        &  14718 B        &  8361306 B   & 37 \\
-%      \hline
-%     \textbf{Diff}                   & \textbf{8237 B (0.0016 MB)} & \textbf{2351998 B (0.062  MB)} & \textbf{25} \\
-%      \hline
-%     \end{tabular}
-%     \caption{Vergleich der State of the art Serious games.}
-%     \label{tab:serious-game-comparison}
-% \end{table}
+\begin{table}[]
+    \begin{tabular}{|l|l|l|l|}
+    \hline
+                                    & Request Size & Response Size & Request Amount  \\
+    \hline
+     No Reduction, No Shared Cache     &  22955 B        &  10713304 B   & 62 \\
+     \hline
+     Reduction, Shared Cache        &  14718 B        &  8361306 B   & 37 \\
+     \hline
+    \textbf{Diff}                   & \textbf{8237 B (0.0016 MB)} & \textbf{2351998 B (0.062  MB)} & \textbf{25} \\
+     \hline
+    \end{tabular}
+    \caption{Vergleich der State of the art Serious games.}
+    \label{tab:serious-game-comparison}
+\end{table}
 
-% \begin{table}[]
-%     \begin{tabular}{|l|l|l|l|}
-%     \hline
-%                                     & Request Size & Response Size & Request Amount  \\
-%     \hline
-%      No Reduction, No Shared Cache     &  22955 B        &  10713304 B   & 62 \\
-%      \hline
-%      No Reduction, Shared Cache        &  16884 B        &  8364416 B   & 37 \\
-%      \hline
-%     \textbf{Diff}                   & \textbf{6071 B (0.0016 MB)} & \textbf{2348888 B (0.062  MB)} & \textbf{25} \\
-%      \hline
-%     \end{tabular}
-%     \caption{Vergleich der State of the art Serious games.}
-%     \label{tab:serious-game-comparison}
-% \end{table}
-\fi
+\begin{table}[]
+    \begin{tabular}{|l|l|l|l|}
+    \hline
+                                    & Request Size & Response Size & Request Amount  \\
+    \hline
+     No Reduction, No Shared Cache     &  22955 B        &  10713304 B   & 62 \\
+     \hline
+     No Reduction, Shared Cache        &  16884 B        &  8364416 B   & 37 \\
+     \hline
+    \textbf{Diff}                   & \textbf{6071 B (0.0016 MB)} & \textbf{2348888 B (0.062  MB)} & \textbf{25} \\
+     \hline
+    \end{tabular}
+    \caption{Vergleich der State of the art Serious games.}
+    \label{tab:serious-game-comparison}
+\end{table}
 
 % \section{Stale data}
 
