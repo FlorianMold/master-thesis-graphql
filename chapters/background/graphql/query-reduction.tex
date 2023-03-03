@@ -59,7 +59,7 @@ The queries are almost identical, but there is an additional field, this will re
 query {
   allUsers {
     id
-    email // Additional field
+    email
   }
 }
 \end{minted}
@@ -67,4 +67,6 @@ query {
 \end{listing}
 \fi
 
-The id can't be reduced as it needed to merge the data together afterwards. Depending how many shared selections exist inside the application's queries, a lot of server resources can be saved by reducing the queries. 
+The id can't be removed from the query as it needed to merge the existing and incoming data together afterwards. Depending how many shared selections exist inside the application's queries, a lot of server resources can be saved by reducing the queries. 
+
+Apollo Client does not offer this behavior by default. 
