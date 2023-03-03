@@ -102,7 +102,7 @@ Micro-frontends tend to follow the same characteristics as microservices.
 \subsubsection{Autonomous}
 
 Technically a micro-frontend is a completely independent and runnable application.
-The integration of the micro-frontends happens only through the frontend. The different micro-frontends are composed withing an app-shell. The application shell is a separete application that is usually the entry-point for the user to interact with all micro-frontends. The app-shell also provides the layout of the page and defines where the micro-frontends are placed.
+The integration of the micro-frontends happens only through the frontend. The different micro-frontends are composed withing an app-shell. The application shell is a separate application that is usually the entry-point for the user to interact with all micro-frontends. The app-shell also provides the layout of the page and defines where the micro-frontends are placed. \cite{book:2020:geers:micro-frontends-in-action}
 
 \subsubsection{Technology Agnostic}
 
@@ -115,17 +115,24 @@ The autonomy of micro-frontends offer the possibility for independent deployment
 
 \subsubsection{Small and Easy to Maintain}
 
-
-
-\subsubsection{Resilience}
-
-
+Because micro-frontends only cover a small domain of an application, the source code is smaller and easier to understand. A smaller codebase is especially helpful for understanding a program. 
+Due to the easier understanding of the domain, the application can be easier rewritten with a state of the art technology. \cite{book:2020:geers:micro-frontends-in-action}
 
 \subsubsection{Resilience}
+
+Micro-frontends offer the possibility to build an application by composing multiple small standalone application into a fully fledged application. Depending on the integration strategy micro-frontends are usually combined at runtime. 
+% \cite{motivation}
+
+A micro-frontend architecture provide better failure isolation. One micro-frontend crashing does not have an effect on the other micro-frontends inside the application. Some parts of the application might not work, but other parts of the application are still useable. The app-shell can react to a failure and tell users that the application is not working as expected and will be available back soon. For
+
+\subsection{Downsides}
+
+Due to the many advantages of micro-frontends there are also a downsides using this architectural approach. The independent development comes with the disadvantage of having redundancies. Each micro-frontend needs a separate build-process and also a continuous integration pipeline.
+\cite{book:2020:geers:micro-frontends-in-action}
 
 
 \input{chapters/background/micro-frontend/integration-strategies.tex}
 
-\subsection{Communication}
+\input{chapters/background/micro-frontend/communication.tex}
 
 \input{chapters/background/micro-frontend/backend-for-frontend.tex}
