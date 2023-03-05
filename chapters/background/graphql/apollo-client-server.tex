@@ -322,15 +322,77 @@ If the cache can't generate a cache ID for a particular object, that object is d
 
 Next, the cache takes each field that contains an object and replaces its value with a reference to the appropriate object.
 
-...
+\ifshowListings
+\begin{listing}[H]
+\begin{minted}{typescript}
+{
+  __typename: 'User',
+  id: '36bad921-8fcf-4f33-9f29-0d3cd70205c8',
+  username: 'Florian',
+  title: {
+    __typename: 'Title',
+    id: '2adb1120-d911-4196-ab1b-d5043cc7a00a',
+    name: 'BSc.'
+  }
+}, 
+\end{minted}
+\caption{The result of the GraphQL query from listing \ref{code:background:no-id-query-user-cache}}
+\end{listing}
+\fi
+
+And here's that same object after replacement:
+
+\ifshowListings
+\begin{listing}[H]
+\begin{minted}{typescript}
+{
+  __typename: 'User',
+  id: '36bad921-8fcf-4f33-9f29-0d3cd70205c8',
+  username: 'Florian',
+  title: {
+    __ref: 'Title:36bad921-8fcf-4f33-9f29-0d3cd70205c8',
+  }
+}, 
+\end{minted}
+\caption{The result of the GraphQL query from listing \ref{code:background:no-id-query-user-cache}}
+\end{listing}
+\fi
+
+The \textbf{title} field now contains a reference to the appropriate normalized \textbf{Title} object.
+
+If another \textbf{User} with the same \textbf{title}, that normalized \textbf{Title} object is reused. Normalization can drastically reduce data duplication inside the cache. It also helps to make the data stay synchronous to the server.
 
 \paragraph{4. Store normalized objects} 
 
 The resulting objects are stored inside the cache's flat lookup table. Whenever an incoming object has the same cache ID as an existing cached object, the fields of those objects are merged together. If the incoming and the existing object share existing fields, the incoming object overwrites the cached value for those fields. Fields that exist only one one object are preserved. This normalization constructs a partial copy of the graph on our client. \cite{misc:-:apollo-client-cache-overview}
 
-
 \subsubsection{Seeing the content of the cache}
 
-To fully understand the structure of the cache, the content can be printed to the Browsers development console. 
+Apollo offers development tools for the browser in form of browser extensions. The \textbf{Apollo Client Developer Tools} can be installed for Chrome and Firefox. The extension can be found in the Chrome Web Store and the Firefox Add-ons Store. \cite{misc:-:apollo-developer-tools} To fully understand the structure of the cache, the content can be printed to the browsers development console. The browser extension adds a tab to the browser inspection tools. A part of the developer tools are shown in figure \ref{fig:background:apollo:apollo-dev-tools}.
 
-Apollo offers development tools for the browser in form of extensions. The \textbf{Apollo Client Developer Tools} can be installed for Chrome and Firefox. The extension can be found in the Chrome Web Store and the Firefox Add-ons Store. \cite{misc:-:apollo-developer-tools}
+\ifshowImages
+  \begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{images/background/apollo/apollo-dev-tools.jpeg}
+  \caption{All requests made during the measurement of the first approach}\label{fig:background:apollo:apollo-dev-tools}
+  \end{figure}
+\fi
+
+The development tools offer the following four main features:
+
+\begin{itemize}
+  \item \textbf{GraphiQL}: Send queries to your server through your web application's configured Apollo Client instance, or query the Apollo Client cache to see what data is loaded.
+  \item \textbf{Watched query inspector}: View active queries, variables and cached results, and re-run individual queries.
+  \item \textbf{Mutation inspector}: View active mutations and their variables, and re-run individual mutations
+  \item \textbf{Cache inspector}: Visualize the Apollo Client and search it by field name and/or value.
+\end{itemize}
+
+Another method to access the content of the cache is through the \textbf{window} object in JavaScript. The object can be accessed through \textbf{window.\_\_APOLLO\_CLIENT\_\_.cache.extract(\)\}.
+
+\ifshowImages
+  \begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{images/background/apollo/apollo-cache-browser-window.jpeg}
+  \caption{All requests made during the measurement of the first approach}\label{fig:background:apollo:apollo-cache-browser-window}
+  \end{figure}
+\fi
