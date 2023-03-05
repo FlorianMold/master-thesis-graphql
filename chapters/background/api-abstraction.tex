@@ -1,0 +1,16 @@
+\section{API Abstraction Layer}
+
+Every microservice provides its functionality to consumers with APIs. But it is not advisable that clients directly communicate with microservice APIs. Microservice offer fine-grained interfaces which were made especially for the communication between microservices. Therefore, the client usually has to make multiple requests to fetch the data and aggregate them to display a view inside the application. \cite{book:2021:newman:background:bff:micro-services} This leads to many requests, which is also known as over-requesting, which has a negative impact on the user experience. \cite{book:2018:richardson:background:bff:microservices-patterns}
+
+% TODO: Progressive enhancement missing
+
+Another problem could be that a cluster of microservices uses another form of communication. For example an asynchronous message-bus or another protocol like GRPC. Clients usually communicate using synchronous communication, where microservices might use asynchronous communication. Without an adapter in between, the communication will not work properly. Even if the communication is possible, the client needs to know many internal details about the cluster of microservices like the IP-address. It is not clear, which microservice offers the data that is needed for the client. Changing the API of a microservice would have a ripple effect on the requests on the frontends, because they would have to be changed in many places. \cite{book:2018:richardson:microservices-patterns}
+
+To solve this problem the clients communicate with an API gateway or a more client centric backend-for-frontend service. API gateways present an abstraction of a microservice APIs. It is the entry point to the system that is composed of multiple microservices. \cite{book:2020:siriwardena:background:bff:microservice-security-in-action} 
+
+The main task of a gateway is to forward tasks to the correct microservice and compose API for loading the needed data in one request. The even might implement functionalities like authorization and authentication or transform the protocol. Like transforming HTTP to GRPC. With API gateways it is also easier to split a microservice into two service, without a ripple effect to change all clients that consume that microservice as well. \cite{book:2018:richardson:microservices-patterns}
+
+But the problem with API gateways is the ownership. Multiple teams will add their functionality to the gateway and might come into conflict. The APIs are often not suited for the needs of clients and it has to be avoided that client logic is developed into the API gateway. Another pattern to bypass the problems with API gateways is the backend-for-frontend pattern. \cite{book:2018:richardson:microservices-patterns}
+
+With this approach each client application has its own API gateway, which is called backend-for-frontend service. This service is specially adapted for the needs of the client. \cite{book:2018:richardson:microservices-patterns} \cite{book:2021:newman:background:bff:micro-services} This allows every team to develop their backend-for-frontend isolated and autonomous. Therefore a team can develop a complete vertical product starting from the microservice to the backend-for-frontend and finally the micro-frontend. \cite{book:2020:geers:micro-frontends-in-action}
+

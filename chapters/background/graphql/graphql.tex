@@ -1,16 +1,40 @@
 \section{GraphQL}
 
-GraphQL was developed by Facebook and refers to itself as the query language for an API. It provides the client with the opportunity to ask exactly for the data is needed. GraphQL offers the advantage that all data can be loaded from only one URL. With the help of the types within the GraphQL schema, the technology offers an understandable description of the API for clients. \cite{misc:-:background:graphql:graphql-org} The functionality of GraphQL on the frontend can be compared to SQL on the database level. The client writes its queries with the desired fields from a dataset.
+GraphQL was developed by Facebook and refers to itself as the query language for an API. It provides the client with the opportunity to ask exactly for the data is needed. GraphQL offers the advantage that all data can be loaded from only one URL. With the help of the types within the GraphQL schema, the technology offers an understandable description of the API for clients. \cite{misc:-:background:graphql:graphql-org} The functionality of GraphQL on the frontend can be compared to SQL on the database level. The client writes its queries with the desired fields from a type.
 
 The official documentation states that GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data. GraphQL provides a complete and understandable description of the data in your API, gives clients the power to ask for exactly what they need and nothing more, makes it easier to evolve APIs over time, and enables powerful developer tools. GraphQL is implemented in many languages and frameworks. It has a large ecosystem of libraries and tools.
 
 \subsection{Origins and history}
 
-GraphQL was initially developed at Facebook in 2012. In 2015 the project was made open-source and available to the public. The motivation behind the initial development of GraphQL was the limited flexibility of available API technologies like REST.
+GraphQL was initially developed at Facebook in 2012. In 2015 the project was made open-source and available to the public. The motivation behind the initial development of GraphQL was the limited flexibility of available API technologies like REST. Mobile devices needed only a subset of the fields that a REST endpoint offered. And the exact amount of fields can change dynamically. The static background of REST does not offer this behavior. Using REST based APIs for clients that do not need all fields would introduce the problem of Overfetching. Clients will receive more information than is actually needed. This leads to problems as mobile networks often have limited network traffic. Overfetching puts additional strain on the users data plan. \cite{misc:2015:bryon:background:graphql:graphql-query-language}
 
 \subsection{GraphQL Characteristics}
 
-Due 
+GraphQL is based on several design principles: \cite{misc:-:background:graphql:graphql-specification}
+
+\begin{itemize}
+    \item \textbf{Hierachical}: Queries in GraphQL are structured in a hierarchical manner, allowing the clients to specify what data they need and in what format. This approach enables efficient data retrieval and reduces network overhead.
+    
+    \item \textbf{Product-centric}: GraphQL is designed to be product-centric, rather than data-centric. This means that developers can create APIs that match the needs of specific products or features, rather than being constrained by the limitations of a pre-defined data schema.
+    
+    \item \textbf{Strong typing}: GraphQL is strongly-typed, meaning that the types of data are defined explicitly in the schema. This provides clarity and reduces ambiguity in the API design, while also enabling powerful tools for type checking and code generation.
+    
+    \item \textbf{Client-specified queries}: In GraphQL, the client specifies the structure of the query, rather than the server. This approach allows clients to retrieve only the data they need, reducing network overhead and enabling faster, more responsive applications.
+    
+    \item \textbf{Introspective}: GraphQL provides a built-in introspection system that enables clients to query the schema itself, allowing for powerful self-documentation and tooling capabilities.
+
+    \item \textbf{Declarative}: GraphQL queries are declarative, meaning that they specify what data is needed, rather than how it should be retrieved. This approach allows the server to optimize the query execution, while also making it easier to reason about and understand the API.
+\end{itemize}
+
+\subsubsection{Advantages}
+
+\subsubsection{Disadvantages}
 
 
+
+
+% Section about apollo-client
 \input{chapters/background/graphql/apollo-client-server}
+
+% Section about the query reduction
+\input{chapters/background/graphql/query-reduction.tex}

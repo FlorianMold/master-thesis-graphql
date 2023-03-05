@@ -1,8 +1,10 @@
 \subsection{Query Reduction}
 
-In large applications, it is likely that the same query is executed with different selection sets over and over again. Unless the selection set of the query is perfectly identical, Apollo Client will fetch the query from the server. Ignoring the fact that many of the queries fields are already inside the cache.
+This section describes the theory behind reducing queries with already existing data inside the cache. Apollo Client does not offer this behavior by default. The Github repository features a lot of feature requests that want such a feature implemented for queries. Unfortunately this did not happen. The next section describes how the theory behind reduction works.
 
-An example query is shown in listing \ref{code:background:graphql:query-reduction:example-query-simple}
+\subsubsection{Theoretical Concept}
+
+In large applications, it is likely that the same query is executed with different selection sets over and over again. Unless the selection set of the query is perfectly identical, Apollo Client will fetch the query from the server. Ignoring the fact that many of the queries fields are already inside the cache. An example query is shown in listing \ref{code:background:graphql:query-reduction:example-query-simple}
 
 \ifshowListings
 \begin{listing}[H]
@@ -22,7 +24,7 @@ query {
   }
 }
 \end{minted}
-\caption{TODO}\label{code:background:graphql:query-reduction:example-query-simple}
+\caption{An exemplary GraphQL query that fetches all users}\label{code:background:graphql:query-reduction:example-query-simple}
 \end{listing}
 \fi
 
@@ -47,7 +49,7 @@ query {
   }
 }
 \end{minted}
-\caption{TODO}\label{code:background:graphql:query-reduction:example-query-extended}
+\caption{An exemplary GraphQL query that fetches all users with an additional field}\label{code:background:graphql:query-reduction:example-query-extended}
 \end{listing}
 \fi
 
@@ -63,10 +65,8 @@ query {
   }
 }
 \end{minted}
-\caption{TODO}\label{code:background:graphql:query-reduction:example-query-reduced}
+\caption{The part of the exemplary query that is necessary}\label{code:background:graphql:query-reduction:example-query-reduced}
 \end{listing}
 \fi
 
 The id can't be removed from the query as it needed to merge the existing and incoming data together afterwards. Depending how many shared selections exist inside the application's queries, a lot of server resources can be saved by reducing the queries. 
-
-Apollo Client does not offer this behavior by default. 

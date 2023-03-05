@@ -125,14 +125,13 @@ Micro-frontends offer the possibility to build an application by composing multi
 
 A micro-frontend architecture provide better failure isolation. One micro-frontend crashing does not have an effect on the other micro-frontends inside the application. Some parts of the application might not work, but other parts of the application are still useable. The app-shell can react to a failure and tell users that the application is not working as expected and will be available back soon. For
 
-\subsection{Downsides}
+\subsection{Downsides of Micro-frontend architecture}
 
-Due to the many advantages of micro-frontends there are also a downsides using this architectural approach. The independent development comes with the disadvantage of having redundancies. Each micro-frontend needs a separate build-process and also a continuous integration pipeline.
-\cite{book:2020:geers:micro-frontends-in-action}
+Due to the many advantages of micro-frontends there are also a downsides using this architectural approach. The independent development comes with the disadvantage of having redundancies. Each micro-frontend needs a separate build-process and also a continuous integration pipeline. If multiple teams use the same code and a bug is found, the wrong behavior can't be fixed in a central place. Therefore, it is important to share knowledge between the teams to avoid running in the same bad situations. But this should not lead to dependencies between the different development teams.
+\cite{book:2020:geers:micro-frontends-in-action} 
 
 
 \input{chapters/background/micro-frontend/integration-strategies.tex}
 
 \input{chapters/background/micro-frontend/communication.tex}
 
-\input{chapters/background/micro-frontend/backend-for-frontend.tex}
