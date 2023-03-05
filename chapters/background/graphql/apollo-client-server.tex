@@ -1,36 +1,42 @@
 \subsection{Apollo Server and Client}
 
-GraphQL has a specification and is a query language. The development of a GraphQL server and client is up to the application developer. Facebook's has created their own GraphQL implementation of the specification in JavaScript with GraphQL.js for the backend and Relay for the frontend. Relay is very a prominent example of a GraphQL client, but it only exists for Facebook's React framework. When evaluating different GraphQL clients, Apollo was chosen as it has support for almost every possible programming language and framework.
+GraphQL has a specification and is a query language. The development of a GraphQL server and client is up to the application developer. Facebook's has created their own GraphQL implementation of the specification in JavaScript with GraphQL.js for the backend and Relay for the frontend. Relay is very a prominent example of a GraphQL client, but it is only available for Facebook's React framework. When evaluating different GraphQL clients, Apollo was chosen as it has support for almost every possible programming language and framework.
 
-Apollo Server is an open-source implementation of the GraphQL specification. It offer any feature that a GraphQL server has. And it offers \textbf{Apollo Sandbox} out of the box. \cite{misc:-:apollo-server-introduction} \textbf{Apollo Sandbox} helps local development. The \textbf{Apollo Sandbox} loads the GraphQL Schema from the server with the help of the Introspection Query. \cite{misc:-:apollo-sandbox} Such an environment enables executing queries, mutations directly inside the browser. 
+Apollo Server is an open-source implementation of the GraphQL specification. It offers any feature that a GraphQL server has. And it offers \textbf{Apollo Sandbox} out of the box. \cite{misc:-:background:graphql:apollo-server-introduction} \textbf{Apollo Sandbox} helps local development. The \textbf{Apollo Sandbox} loads the GraphQL Schema from the server with the help of the Introspection Query. \cite{misc:-:background:graphql:apollo-sandbox} Such an environment enables executing queries and mutations directly inside the browser. 
 
-Apollo Client is a community driven project and has npm packages for almost all frontend development environments like the big frameworks as Angular, React and Vue.js. The library fetches, caches and manages the data of the application. The package for Angular is designed with Angular patterns in mind to integrate perfectly with the framework. Apollo Client offer the possibility to cache already made requests. \cite{misc:-:apollo-angular-client-overview} \cite{misc:-:apollo-client-overview} This leads to the next section, where the cache is explained in more detail.
+Apollo Client is a community driven project and has npm packages for almost all frontend development environments like Angular, React and Vue.js. The library fetches, caches and manages the data of the application. The package for Angular is designed with Angular patterns in mind to integrate perfectly with the framework. Apollo Client offer the possibility to cache already made requests. \cite{misc:-:background:graphql:apollo-angular-client-overview} \cite{misc:-:background:graphql:apollo-client-overview} This leads to the next section, where the cache is explained in more detail.
 
 \subsubsection{How does the in-memory cache work?}
 
-This section describes how the cache in apollo-client works. By default all GraphQL requests made with \textbf{ApolloClient} are cached inside the browsers memory. This enables Apollo Client to respond almost immediately to queries for already-cached data, without even sending a network request. This is needed, to ensure to reduce round-trips to the server in subsequent requests of the same query, because the requested data can be served from the cache. The caching mechanism reduces the load of the server, but introduces issues with cache management. \textbf{ApolloClient} includes a caching mechanism called ApolloCache and the proprietary implementation called \textbf{InMemoryCache}. There are several Open-Source alternatives, that implement the \textbf{ApolloCache} interface.
+This section describes how the caching mechanism of the Apollo Client works. The structure of the cache is a local, normalized, in-memory cache. By default all GraphQL requests made with Apollo Client are cached inside the browsers memory. This enables Apollo Client to respond almost immediately to queries for already-cached data, without even sending a network request. This is needed, to ensure to reduce round-trips to the server in subsequent requests of the same query, because the requested data can be served from the cache. \cite{misc:-:background:graphql:apollo-client-cache-overview} The caching mechanism reduces the load of the server, but introduces issues with cache management. 
+
+\textbf{Apollo Client} includes a caching mechanism called Apollo Cache and the proprietary implementation called InMemoryCache. There are several Open-Source alternatives, that implement the ApolloCache interface, but Apollo's own implementation is the most mature implementation.
+
+Figure \ref{figure:background:graphql:user-query-first-time} shows an exemplary query to fetch a user with it's id. First the Apollo Client checks whether the user with the given id is already stored inside the cache. If the query with that id has not been executed before, a network query to fetch the user has to be made. The result from the GraphQL Server is stored inside the cache and returned to the application. To see data on the screen, four steps have to be made. \cite{misc:-:background:graphql:apollo-client-cache-overview}
 
 \ifshowImages
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.6\linewidth]{images/background/apollo/apollo-client-basic-cache.jpeg}
-\caption{All requests made during the measurement of the first approach}\label{figure:background:user-query-first-time}
-\end{figure}
+  \begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\linewidth]{images/background/apollo/apollo-client-basic-cache.jpeg}
+  \caption{The execution of a query which is not in the cache (Adapted from \cite{misc:-:background:graphql:apollo-client-cache-overview})}\label{figure:background:graphql:user-query-first-time}
+  \end{figure}
 \fi
 
-The flow of the cache, when the query \textbf{user} is executed the first time is shown in figure \ref{figure:background:user-query-first-time}.
+If the request with the same user id is made again, the flow of execution looks like in figure \ref{figure:background:graphql:user-query-second-time}. As seen in the figure, no network request has to be made to the GraphQL Server, because everything is served from the Apollo Cache alone. Compared to the four steps, only two need to be done here. \cite{misc:-:background:graphql:apollo-client-cache-overview}
 
 \ifshowImages
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.6\linewidth]{images/background/apollo/apollo-client-basic-cache-warm.jpeg}
-\caption{All requests made during the measurement of the first approach}\label{figure:background:user-query-second-time}
-\end{figure}
+  \begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\linewidth]{images/background/apollo/apollo-client-basic-cache-warm.jpeg}
+  \caption{Executing the same query again (Adapted from \cite{misc:-:background:graphql:apollo-client-cache-overview})}\label{figure:background:graphql:user-query-second-time}
+  \end{figure}
 \fi
 
-When the query is executed later with the same parameters, the flow looks like in figure \ref{figure:background:user-query-second-time}.
+\subsubsection{How is data stored inside the cache?}
 
-In order to correctly understand cache updates, it is important to understand the structure of the cache. The structure of the \textbf{InMemoryCache} is a simple normalized object. When the cache is empty, it is just an empty object. When the following query is requested from the server and the response is stored in the cache, the cache will look like this:
+In order to correctly understand cache updates, it is important to understand the structure of the cache. The InMemoryCache is a simple normalized object. The Apollo Client stores the data as a flat lookup table of objects that can reference each other. When the cache is empty, it is just an empty object. These objects correspond to the objects that are returned by the GraphQL queries. A single cached object might include fields that were fetched by multiple queries. That means that multiple queries can fetch different fields for the same object. Before storing the data, the cache needs to normalize it. \cite{misc:-:background:graphql:apollo-client-cache-overview}
+
+The query shown in listing \ref{code:background:graphql:query-user-cache} demonstrates how the data is stored inside the cache.
 
 \ifshowListings
 \begin{listing}[H]
@@ -43,11 +49,11 @@ query {
   }
 }
 \end{minted}
-\caption{An example of a query}\label{code:background:query-user-cache}
+\caption{An example of a query}\label{code:background:graphql:query-user-cache}
 \end{listing}
 \fi
 
-And the server responds with the following result. The \textbf{\_\_typename} property is automatically appended to the query by the \textbf{ApolloClient}.
+The server responds with the following result. The \textbf{\_\_typename} property is automatically appended to the query by the \textbf{ApolloClient}.
 
 \ifshowListings
 \begin{listing}[H]
@@ -63,17 +69,17 @@ And the server responds with the following result. The \textbf{\_\_typename} pro
     {
       __typename: 'User',
       id: 'a2096556-9a4e-4994-9de8-86c9e85ed6a1',
-      username: 'Daniel',
-      email: 'daniel@test.io'
+      username: 'Lisa',
+      email: 'lisa@test.io'
     }
   ]
 }
 \end{minted}
-\caption{The result of the GraphQL query from listing \ref{code:background:query-user-cache}}\label{code:background:query-user-response-result}
+\caption{The result of the GraphQL query from listing \ref{code:background:graphql:query-user-cache}}\label{code:background:graphql:query-user-response-result}
 \end{listing}
 \fi
 
-The \textbf{ApolloClient} will update the cache so that it looks like this.
+The \textbf{Apollo Client} will update the cache so that it looks like this.
 
 \ifshowListings
 \begin{listing}[H]
@@ -100,11 +106,11 @@ The \textbf{ApolloClient} will update the cache so that it looks like this.
   }
 }
 \end{minted}
-\caption{The data inside the cache with the response from listing \ref{code:background:query-user-response-result}}\label{code:background:query-user-cache-representation}
+\caption{The data inside the cache with the response from listing \ref{code:background:graphql:query-user-response-result}}\label{code:background:graphql:query-user-cache-representation}
 \end{listing}
 \fi
 
-Let's describe how the response from the server is transformed into the representation from the cache seen in listing \ref{code:background:query-user-cache-representation}. The cache object contains a key \textbf{ROOT\_QUERY}. This element contains the name of the queries that were executed and the results from all queries. The query \textbf{allUsers} was fetched, therefore the \textbf{ROOT\_QUERY} contains a field with the name \textbf{users}. The listing \ref{code:background:query-user-cache-representation} shows that the content of the \textbf{ApolloClient} is clearly different from the servers response. Instead of the user-information every array item consists of an object with a \textbf{\_\_ref} key. The value of the key is simply the \textbf{\_\_typename} and \textbf{id} of the user concatenated. The data from the response has been normalized and added to the cache object. Next to the \textbf{ROOT\_QUERY} element, the actual user-information is stored. Each has the same key as the \textbf{\_\_ref} from the \textbf{ROOT\_QUERY}. 
+Let's describe how the response from the server is transformed into the representation from the cache seen in listing \ref{code:background:graphql:query-user-cache-representation}. The cache object contains a key \textbf{ROOT\_QUERY}. This element contains the name of the queries that were executed and the results from all queries. The query \textbf{allUsers} was fetched, therefore the \textbf{ROOT\_QUERY} contains a field with the name \textbf{users}. The listing \ref{code:background:graphql:query-user-cache-representation} shows that the content of the \textbf{ApolloClient} is clearly different from the servers response. Instead of the user-information every array item consists of an object with a \textbf{\_\_ref} key. The value of the key is simply the \textbf{\_\_typename} and \textbf{id} of the user concatenated. The data from the response has been normalized and added to the cache object. Next to the \textbf{ROOT\_QUERY} element, the actual user-information is stored. Each has the same key as the \textbf{\_\_ref} from the \textbf{ROOT\_QUERY}. 
 
 The same principle applies to arbitrary deep queries. The following query produces:
 
@@ -122,7 +128,7 @@ query {
   }
 }
 \end{minted}
-\caption{An example of a query}\label{code:background:nested-query-user-cache}
+\caption{An example of a query}\label{code:background:graphql:nested-query-user-cache}
 \end{listing}
 \fi
 
@@ -156,7 +162,7 @@ And the server responds with the following result. The \textbf{\_\_typename} pro
   ]
 }
 \end{minted}
-\caption{The result of the GraphQL query from listing \ref{code:background:nested-query-user-cache}}\label{code:background:nested-query-user-response-result}
+\caption{The result of the GraphQL query from listing \ref{code:background:graphql:nested-query-user-cache}}\label{code:background:graphql:nested-query-user-response-result}
 \end{listing}
 \fi
 
@@ -194,15 +200,15 @@ And the server responds with the following result. The \textbf{\_\_typename} pro
   },
 }
 \end{minted}
-\caption{The data inside the cache with the response from listing \ref{code:background:nested-query-user-response-result}}\label{code:background:nested-query-user-cache-representation}
+\caption{The data inside the cache with the response from listing \ref{code:background:graphql:nested-query-user-response-result}}\label{code:background:graphql:nested-query-user-cache-representation}
 \end{listing}
 \fi
 
-The \textbf{ROOT\_QUERY} is exactly the same as with the query before. Each user contains a reference to a title. Both users have the same title, therefore the server returned duplicate data. But the cache normalisation causes the title to be only present once in the cache.
+The \textbf{ROOT\_QUERY} is exactly the same as with the query before. Each user contains a reference to a title. Both users have the same title, therefore the server returned duplicate data. But the cache normalization causes the title to be only present once in the cache.
 
-This behaviour is very helpful, because when a cache item is updated, the entire cache object doesn't have to be traversed in search for the instance that has been changed. Only a single item has to updated.
+This behavior is very helpful, because when a cache item is updated, the entire cache object doesn't have to be traversed in search for the instance that has been changed. Only a single item has to updated.
 
-The cache normalisation works when the query contains either a \textbf{\_id} or \textbf{id} field. Without an id the object can't be normalized. Here is an example:
+The cache normalization works when the query contains either a \textbf{\_id} or \textbf{id} field. Without an id the object can't be normalized. Here is an example:
 
 \ifshowListings
 \begin{listing}[H]
@@ -217,7 +223,7 @@ query {
   }
 }
 \end{minted}
-\caption{An example of a query}\label{code:background:no-id-query-user-cache}
+\caption{An example of a query}\label{code:background:graphql:no-id-query-user-cache}
 \end{listing}
 \fi
 
@@ -249,7 +255,7 @@ The response:
   ]
 }
 \end{minted}
-\caption{The result of the GraphQL query from listing \ref{code:background:no-id-query-user-cache}}\label{code:background:no-id-query-user-response-result}
+\caption{The result of the GraphQL query from listing \ref{code:background:graphql:no-id-query-user-cache}}\label{code:background:graphql:no-id-query-user-response-result}
 \end{listing}
 \fi
 
@@ -284,15 +290,15 @@ And the cache looks like the following:
   }
 }
 \end{minted}
-\caption{The data inside the cache with the response from listing \ref{code:background:no-id-query-user-response-result}}\label{code:background:no-id-query-user-cache-representation}
+\caption{The data inside the cache with the response from listing \ref{code:background:graphql:no-id-query-user-response-result}}\label{code:background:graphql:no-id-query-user-cache-representation}
 \end{listing}
 \fi
 
-This should be avoided. If data of an unnormalized object has to be updated every occurrence of the item in the cache has to be updated manually. You must also never request the same thing sometimes with an id and sometimes without, because \textbf{ApolloClient} will throw an error when trying to update the cache after such a query.
+This should be avoided. If data of an un-normalized object has to be updated every occurrence of the item in the cache has to be updated manually. You must also never request the same thing sometimes with an id and sometimes without, because \textbf{ApolloClient} will throw an error when trying to update the cache after such a query.
 
-The Apollo Client's cache stores the data a flat lookup table of objects that reference each other. These objects correspond to the objects that are returned by the GraphQL queries. A single cached object might include fields that were fetched by multiple queries. That means that multiple queries can fetch different fields for the same object. Before storing the data, the cache needs to normalize it. \cite{misc:-:apollo-client-cache-overview}
+\subsubsection{Data normalization}
 
-Whenever the Apollo Client receives the response data of a query it does the following. a
+Whenever the Apollo Client receives the response data of a query it does the following. 
 
 \paragraph{1. Identify objects} 
 
@@ -314,11 +320,11 @@ So, the cache IDs for the objects are:
   \item \textbf{User:a2096556-9a4e-4994-9de8-86c9e85ed6a1}
 \end{itemize}
 
-By default, an object's cache ID is the concentation of the object's \textbf{\_\_typename} and \textbf{id} (or \textbf{\_id}) fields.
+By default, an object's cache ID is the concatinated of the object's \textbf{\_\_typename} and \textbf{id} (or \textbf{\_id}) fields.
 
 If the cache can't generate a cache ID for a particular object, that object is directly cached inside its parent object, and must be referenced via the parent. Therefore the cache is not always completely flat.
 
-\paragraph{3. Replace object fields with references} 
+\paragraph{3. Replace object fields with references}
 
 Next, the cache takes each field that contains an object and replaces its value with a reference to the appropriate object.
 
@@ -336,7 +342,7 @@ Next, the cache takes each field that contains an object and replaces its value 
   }
 }, 
 \end{minted}
-\caption{The result of the GraphQL query from listing \ref{code:background:no-id-query-user-cache}}
+\caption{The result of the GraphQL query from listing \ref{code:background:graphql:no-id-query-user-cache}}
 \end{listing}
 \fi
 
@@ -354,7 +360,7 @@ And here's that same object after replacement:
   }
 }, 
 \end{minted}
-\caption{The result of the GraphQL query from listing \ref{code:background:no-id-query-user-cache}}
+\caption{The result of the GraphQL query from listing \ref{code:background:graphql:no-id-query-user-cache}}
 \end{listing}
 \fi
 
@@ -364,21 +370,21 @@ If another \textbf{User} with the same \textbf{title}, that normalized \textbf{T
 
 \paragraph{4. Store normalized objects} 
 
-The resulting objects are stored inside the cache's flat lookup table. Whenever an incoming object has the same cache ID as an existing cached object, the fields of those objects are merged together. If the incoming and the existing object share existing fields, the incoming object overwrites the cached value for those fields. Fields that exist only one one object are preserved. This normalization constructs a partial copy of the graph on our client. \cite{misc:-:apollo-client-cache-overview}
+The resulting objects are stored inside the cache's flat lookup table. Whenever an incoming object has the same cache ID as an existing cached object, the fields of those objects are merged together. If the incoming and the existing object share existing fields, the incoming object overwrites the cached value for those fields. Fields that exist only one one object are preserved. This normalization constructs a partial copy of the graph on our client. \cite{misc:-:background:graphql:apollo-client-cache-overview}
 
-\subsubsection{Seeing the content of the cache}
+\subsubsection{Understanding the structure of the cache}
 
-Apollo offers development tools for the browser in form of browser extensions. The \textbf{Apollo Client Developer Tools} can be installed for Chrome and Firefox. The extension can be found in the Chrome Web Store and the Firefox Add-ons Store. \cite{misc:-:apollo-developer-tools} To fully understand the structure of the cache, the content can be printed to the browsers development console. The browser extension adds a tab to the browser inspection tools. A part of the developer tools are shown in figure \ref{fig:background:apollo:apollo-dev-tools}.
+Apollo offers development tools for the browser in form of browser extensions. The \textbf{Apollo Client Developer Tools} can be installed for Chrome and Firefox. The extension can be found in the Chrome Web Store and the Firefox Add-ons Store. The browser extension adds a tab to the browser inspection tools. \cite{misc:-:background:graphql:apollo-developer-tools} The view of the cache contents from the Apollo Client Development Tools can be seen in  \ref{fig:background:graphql:apollo:apollo-dev-tools}.
 
 \ifshowImages
   \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{images/background/apollo/apollo-dev-tools.jpeg}
-  \caption{All requests made during the measurement of the first approach}\label{fig:background:apollo:apollo-dev-tools}
+  \caption{The content of the cache inside the Apollo Client Developer Tools}\label{fig:background:graphql:apollo:apollo-dev-tools}
   \end{figure}
 \fi
 
-The development tools offer the following four main features:
+The development tools offer the following four main features: \cite{misc:-:background:graphql:apollo-developer-tools}
 
 \begin{itemize}
   \item \textbf{GraphiQL}: Send queries to your server through your web application's configured Apollo Client instance, or query the Apollo Client cache to see what data is loaded.
@@ -387,12 +393,14 @@ The development tools offer the following four main features:
   \item \textbf{Cache inspector}: Visualize the Apollo Client and search it by field name and/or value.
 \end{itemize}
 
-Another method to access the content of the cache is through the \textbf{window} object in JavaScript. The object can be accessed through \textbf{window.\_\_APOLLO\_CLIENT\_\_.cache.extract(\)\}.
+Another method to access the content of the cache is through the \textbf{window} object in JavaScript. The object can be accessed through window.\_\_APOLLO\_CLIENT\_\_.cache.extract() inside the browsers development console.
 
 \ifshowImages
   \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{images/background/apollo/apollo-cache-browser-window.jpeg}
-  \caption{All requests made during the measurement of the first approach}\label{fig:background:apollo:apollo-cache-browser-window}
+  \caption{Viewing the contents of the cache inside the development console}\label{fig:background:graphql:apollo:apollo-cache-browser-window}
   \end{figure}
 \fi
+
+With this approach the content of the cache can be explored with the help of JavaScript methods.
