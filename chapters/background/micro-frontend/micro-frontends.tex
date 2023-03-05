@@ -1,6 +1,6 @@
 \section{Micro-Frontend Architecture}
 
-Micro-frontends should bring the same advantages of microservices from the backend to the frontend. Instead of creating a large frontend monolith, a micro-frontend architecture contains many small applications. The advantage is that every micro-frontend can be developed and deployed by a separate team. \cite{book:2020:geers:micro-frontends-in-action} The difference between frontend-monoliths and micro-frontends can be seen in figure \ref{figure:state-of-the-art:ui-monolith-micro-frontend}.
+Micro-frontends should bring the same advantages of microservices from the backend to the frontend. Instead of creating a large frontend monolith, a micro-frontend architecture contains many small applications. The advantage is that every micro-frontend can be developed and deployed by a separate team. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action} The difference between frontend-monoliths and micro-frontends can be seen in figure \ref{figure:state-of-the-art:ui-monolith-micro-frontend}.
 
 \ifshowImages
 \begin{figure}[H]
@@ -81,7 +81,7 @@ interface ContactModel {
 Consumer-driven APIs are the opposite of generic APIs. They follow the idea of providing the client with exactly the data it needs. Following the example above, the contact service would have an endpoint that returns only the first and last name as required for the request. These endpoints make communication with a client very simple and there is not the problem of over-fetching and over-requesting. However, creating an endpoint for each request creates an unmanageable set of endpoints. \cite{misc:2019:leitner:backend-for-frontends}
 
 
-To solve these problems, the backend-for-frontend pattern is often used. This pattern provides each client with its own API, which specialized for the needs of the client. \cite{book:2018:richardson:microservices-patterns}
+To solve these problems, the backend-for-frontend pattern is often used. This pattern provides each client with its own API, which specialized for the needs of the client. \cite{book:2018:richardson:background:bff:microservices-patterns}
 
 \ifshowImages
 \begin{figure}[H]
@@ -102,7 +102,7 @@ Micro-frontends tend to follow the same characteristics as microservices.
 \subsubsection{Autonomous}
 
 Technically a micro-frontend is a completely independent and runnable application.
-The integration of the micro-frontends happens only through the frontend. The different micro-frontends are composed withing an app-shell. The application shell is a separate application that is usually the entry-point for the user to interact with all micro-frontends. The app-shell also provides the layout of the page and defines where the micro-frontends are placed. \cite{book:2020:geers:micro-frontends-in-action}
+The integration of the micro-frontends happens only through the frontend. The different micro-frontends are composed withing an app-shell. The application shell is a separate application that is usually the entry-point for the user to interact with all micro-frontends. The app-shell also provides the layout of the page and defines where the micro-frontends are placed. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
 
 \subsubsection{Technology Agnostic}
 
@@ -116,7 +116,7 @@ The autonomy of micro-frontends offer the possibility for independent deployment
 \subsubsection{Small and Easy to Maintain}
 
 Because micro-frontends only cover a small domain of an application, the source code is smaller and easier to understand. A smaller codebase is especially helpful for understanding a program. 
-Due to the easier understanding of the domain, the application can be easier rewritten with a state of the art technology. \cite{book:2020:geers:micro-frontends-in-action}
+Due to the easier understanding of the domain, the application can be easier rewritten with a state of the art technology. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
 
 \subsubsection{Resilience}
 
@@ -128,7 +128,7 @@ A micro-frontend architecture provide better failure isolation. One micro-fronte
 \subsection{Downsides of Micro-frontend architecture}
 
 Due to the many advantages of micro-frontends there are also a downsides using this architectural approach. The independent development comes with the disadvantage of having redundancies. Each micro-frontend needs a separate build-process and also a continuous integration pipeline. If multiple teams use the same code and a bug is found, the wrong behavior can't be fixed in a central place. Therefore, it is important to share knowledge between the teams to avoid running in the same bad situations. But this should not lead to dependencies between the different development teams.
-\cite{book:2020:geers:micro-frontends-in-action} 
+\cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action} 
 
 
 \input{chapters/background/micro-frontend/integration-strategies.tex}
