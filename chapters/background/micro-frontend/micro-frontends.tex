@@ -21,113 +21,36 @@ The term micro-frontend should not lead to false conclusions about the size of a
 
 Building micro-frontends with the web allows different strategies of integrating the applications. Three different strategies exist to combine multiple micro-frontends into an app-shell. The client-side integration, the server-side integration and the combination of these two strategies and the combination of both strategies.
 
-\subsection{Generic APIs vs Consumer Driven APIs}
-
-The big decision in micro-frontend API development is to use either generic or consumer-oriented APIs. The difference is that generic APIs place great emphasis on reusability, while consumer-oriented APIs tailor the APIs to the customer.
-
-\subsubsection{Generic APIs}
-
-Generic APIs refer to APIs that are very general and can be used by different clients. However, this type of API has two major drawbacks. Over-fetching describes the problem of getting more data than is needed. Over-requesting describes the problem of needing multiple requests to get the data for a use case. Both problems are discussed in more detail in the next paragraphs. \cite{misc:2019:leitner:backend-for-frontends}
-
-\paragraph{Over-Fetching}
-
-For example, a contact service provides a contact-model that includes customer-number, first-name, second-name, uid-number and the address of the user, as seen in listing \ref{code:state-art:over-fetching}. However, one requirement of the application is to display only a contact's first and last name inside the header. Only two fields of the model are used, and the rest are unnecessarily queried. \cite{misc:2019:leitner:backend-for-frontends}
-
-\ifshowListings
-\begin{listing}[H]
-\begin{minted}{typescript}
-interface ContactModel {
-  id: string;
-  customerNumber: string;
-  firstName: string;
-  secondName: string;
-  uidNumber: string;
-
-  Address: {
-    id: string;
-    postalCode: string;
-    location: string;
-    Country: string;
-  }
-}
-\end{minted}
-\caption{Contact-Model that contains too much fields for the requirement.}\label{code:state-art:over-fetching}
-\end{listing}
-\fi
-
-\paragraph{Over-Requesting}
-
-Attempting to solve the problem of over-fetching by reducing the amount of data set that is returned leads directly to this problem. Listing \ref{code:state-art:over-requesting} shows the problem of over-requesting. If another requirement inside the application should display the address alongside the contact, two requests have to be performed every time. Afterwards, the two data sets have to be merged, which leads to high complexity on the client side. \cite{misc:2019:leitner:backend-for-frontends}
-
-\ifshowListings
-\begin{listing}[H]
-\begin{minted}{typescript}
-interface ContactModel {
-  id: string;
-  customerNumber: string;
-  firstName: string;
-  secondName: string;
-  uidNumber: string;
-
-  address_id: string;
-}
-\end{minted}
-\caption{Contact-Model model that links the address-model with an id.}\label{code:state-art:over-requesting}
-\end{listing}
-\fi
-
-\subsubsection{Consumer Driven APIs}
-
-Consumer-driven APIs are the opposite of generic APIs. They follow the idea of providing the client with exactly the data it needs. Following the example above, the contact service would have an endpoint that returns only the first and last name as required for the request. These endpoints make communication with a client very simple and there is not the problem of over-fetching and over-requesting. However, creating an endpoint for each request creates an unmanageable set of endpoints. \cite{misc:2019:leitner:backend-for-frontends}
-
-
-To solve these problems, the backend-for-frontend pattern is often used. This pattern provides each client with its own API, which specialized for the needs of the client. \cite{book:2018:richardson:background:bff:microservices-patterns}
-
-\ifshowImages
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\linewidth]{images/ui-bff-architecture.jpeg}
-\caption{Frontend architecture with the backend-for-frontend pattern.}\label{figure:state-of-the-art:ui-bff-architecture}
-\end{figure}
-\fi
-
-Figure \ref{figure:state-of-the-art:ui-bff-architecture} shows an exemplary micro-frontend architecture using the backend-for-frontend pattern. Each frontend has a service that retrieves data only for that specific client. Because the backend-for-frontends function as gateway to the domain services, the domain services can stay very generic and be reused by different clients. Backend-for-frontends should implement only the presentation logic that puts the data into the form that the client needs. It should avoid storing state. \cite{misc:2019:leitner:backend-for-frontends}
-
-With this architectural approach the backend-for-frontend and the frontend form a single deployment unit. If one application is changed, the other needs needs to adapt the changes. GraphQL is a perfect technology for implementing a backend-for-frontend, because it is specifically designed for implementing the presentation-layer.
-
 \subsection{Characteristics}
 
 Micro-frontends tend to follow the same characteristics as microservices.
 
 \subsubsection{Autonomous}
 
-Technically a micro-frontend is a completely independent and runnable application.
-The integration of the micro-frontends happens only through the frontend. The different micro-frontends are composed withing an app-shell. The application shell is a separate application that is usually the entry-point for the user to interact with all micro-frontends. The app-shell also provides the layout of the page and defines where the micro-frontends are placed. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
+Technically a micro-frontend is a completely independent and runnable application. The integration of the micro-frontends happens only through the frontend. The different micro-frontends are composed withing an app-shell. The application shell is a separate application that is usually the entry-point for the user to interact with all micro-frontends. The app-shell also provides the layout of the page and defines where the micro-frontends are placed. The autonomy should not go in the direction of complete isolation. But no dependencies should emerge, which could the autonomy. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
 
 \subsubsection{Technology Agnostic}
 
-Just as microservices architectures, micro-frontend architectures can be technology agnostic. The current frontend development landscape offers a lot of JavaScript frameworks to choose from.
+Just as microservices architectures, micro-frontend architectures can be technology agnostic. The current frontend development landscape offers a lot of JavaScript frameworks to choose from. The advantage of an application that consists of small independent building blocks is that parts can be rewritten with another technology more easily. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action} But using different technologies for different micro-frontends can lead to problems with the chosen form of integration and communication. The communication should be technology agnostic as well and should use browser native tools like Broadcast API.
+
+Another problem that could arise is the bundle size of modern JavaScript frameworks. If two frameworks like React and Angular are fetched, the total bundle size can be very large and a strain for network connections. Loading an running multiple micro-frontends is also resource intensive. Due bypass this problem and offer a standardized API, micro-frontends can be developed with the help of Web Components. With this approach, no specific framework is needed to the application. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action} 
 
 \subsubsection{Independently Depoyable}
 
-The autonomy of micro-frontends offer the possibility for independent deployments. A large monolithical micro-frontends is trickier to deploy. There is no need to have communication over multiple teams to deploy the application.
-
+The autonomy of micro-frontends offer the possibility for independent deployments. A large monolithical frontend application is more complex to deploy. There is no need to have communication and coordination over multiple teams to deploy the application. Organizational dependencies have a negative impact on the time-to-market, because development teams would have to wait for the release of another team. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action} 
 
 \subsubsection{Small and Easy to Maintain}
 
-Because micro-frontends only cover a small domain of an application, the source code is smaller and easier to understand. A smaller codebase is especially helpful for understanding a program. 
-Due to the easier understanding of the domain, the application can be easier rewritten with a state of the art technology. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
+Because micro-frontends only cover a small domain of an application, the source code is smaller and easier to understand. A smaller codebase is especially helpful for understanding the inner workings of software. 
+Due to the easier understanding of the domain, the application can be easier rewritten with a state of the art technology, if the old one becomes deprecated. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
 
 \subsubsection{Resilience}
 
-Micro-frontends offer the possibility to build an application by composing multiple small standalone application into a fully fledged application. Depending on the integration strategy micro-frontends are usually combined at runtime. 
-% \cite{motivation}
-
-A micro-frontend architecture provide better failure isolation. One micro-frontend crashing does not have an effect on the other micro-frontends inside the application. Some parts of the application might not work, but other parts of the application are still useable. The app-shell can react to a failure and tell users that the application is not working as expected and will be available back soon. For
+Micro-frontends offer the possibility to build an application by composing multiple independent applications into a fully fledged application. Depending on the integration strategy micro-frontends are usually combined at runtime. But the network, especially for mobile devices is not always without failures. A micro-frontend architecture provide better failure isolation. One micro-frontend crashing does not have an effect on the other micro-frontends inside the application. Some parts of the application might not work, but other parts of the application are still useable. The app-shell can react to a failure and tell users that the application is not working as expected and will be available back soon. \cite{article:2021:perltonen:background:micro-frontends:motivations-benefits-and-issues}
 
 \subsection{Downsides of Micro-frontend architecture}
 
-Due to the many advantages of micro-frontends there are also a downsides using this architectural approach. The independent development comes with the disadvantage of having redundancies. Each micro-frontend needs a separate build-process and also a continuous integration pipeline. If multiple teams use the same code and a bug is found, the wrong behavior can't be fixed in a central place. Therefore, it is important to share knowledge between the teams to avoid running in the same bad situations. But this should not lead to dependencies between the different development teams.
+Due to the many advantages of micro-frontends there are also a downsides using this architectural approach. The independent development comes with the disadvantage of having redundancies. Each micro-frontend needs a separate build-process and also a continuous integration pipeline. And if the backend-for-frontend approach is, every micro-frontend needs it own backend-for-frontend service. It might happen that a lot of code is duplicated. when implementing this pattern. If multiple teams use the same code and a bug is found, the wrong behavior can't be fixed in a central place. Therefore, it is important to share knowledge between the teams to avoid running in the same bad situations over and over again. But this should not lead to inter-team dependencies between the different teams.
 \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action} 
 
 
@@ -135,3 +58,4 @@ Due to the many advantages of micro-frontends there are also a downsides using t
 
 \input{chapters/background/micro-frontend/communication.tex}
 
+\input{chapters/background/micro-frontend/overfetching-overrequesting.tex}

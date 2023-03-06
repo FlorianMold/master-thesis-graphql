@@ -4,7 +4,7 @@ This section describes the theory behind reducing queries with already existing 
 
 \subsubsection{Theoretical Concept}
 
-In large applications, it is likely that the same query is executed with different selection sets over and over again. Unless the selection set of the query is perfectly identical, Apollo Client will fetch the query from the server. Ignoring the fact that many of the queries fields are already inside the cache. An example query is shown in listing \ref{code:background:graphql:query-reduction:example-query-simple}
+In large applications, it is likely that the same query is executed with different selection sets over and over again. Unless the selection set of the query is perfectly identical, Apollo Client will fetch the query from the server. Ignoring the fact that many of the queries fields are already inside the cache. An example query is shown in listing \ref{code:background:graphql:query-reduction:example-query-simple}.
 
 \ifshowListings
 \begin{listing}[H]
