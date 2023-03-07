@@ -1,19 +1,25 @@
 \section{Software Monoliths}
 
-A monolithic architecture is characterized that there is only one single codebase. Many developers, no matter from which team are working on the same application. This approach to development was the standard for a very long time and is well supported by various development tools.
+A monolithic architecture is characterized that there is only one single codebase. Many developers, no matter from which team are working on the same application. This approach to development was the standard for a very long time and is well supported by various modern development tools. By just having one application the developers have a complete overview over the complete application. A single database with one schema is mostly used for this software development approach. A prototypical architecture for a monolithical application is shown in figure 2. 
+
+With a monolith it is easier to apply drastic changes to the complete codebase. Modern IDE support refactoring properties for example over the complete project. Therefore it is relatively easy to apply changes to every layer of the application, even the database schema. All parts of the project can be tested directly by running the application and the related database. And the complete application can be built and deployed in one step. \cite{book:2018:richardson:background:bff:microservices-patterns}
+
+% TODO: add figure
+
+If the monoliths starts to grow in size, it is important to have a good software architecture. The code should be put in modules, which follow the rules of hight cohesion and low coupling of code elements. The modularisation just splits the code into multiple chunks, which are easier to understand, but the application is still just a single process. Modules can be developed separately, but the application has to be deployed as a unit. This requires coordination of various development teams. \cite{book:2018:richardson:background:bff:microservices-patterns}
+
+% TODO: figure of a separated monolith
 
 \subsubsection{Disadvantages}
 
-With a growing code base, monolithic architectures come with increased complexity. Each new feature adds another level of complexity, which leads to reduced development performance. Developing a new feature might be a very long process, due to the existing entry hurdle. The sheer size of the code base makes it difficult to understand, because program comprehension is a very important factor for the maintenance of software. Therefore, developers might create side effects when fixing a bug. The time for developing a new feature increases drastically and the internal architecture can become difficult to understand and maintain as well.
+% cite [2] correctly
 
-Another problem is, that multiple teams might work on the same chunks of code. It might happen that two different developers need to make a change to code in a shared library. It might happen that a developer changes code inside a module, which the developer does not have enough knowledge about the module. The change is also not coordinated with other software engineers. This might lead to unexpected behavior in the code of the other developer. The circumstance is also \textit{confused lines of ownership}, which are sources of failures for a software system.
+With a growing code base, monolithic architectures come with increased complexity. Each new feature adds another level of complexity, which leads to reduced developer performance. Developing a new feature might be a very long process, due to the existing entry hurdle. The sheer size of the code base makes it difficult to understand, because program comprehension is a very important factor for the maintenance of software. Therefore, developers might create side effects when fixing a bug. The time for developing a new feature increases drastically and the internal architecture can become difficult to understand and maintain as well.
 
-This might also lead \dots
+Another problem is, that multiple teams might work on the same chunks of code. It might happen that two different developers need to make a change to code in a shared library. It might happen that a developer changes code inside a module, where he doesn't have enough knowledge about. The change might be also not coordinated with other software engineers. This might lead to unexpected behavior in the code of the other developer. The circumstance is also \textit{confused lines of ownership}, which are sources of failures for a software system. \cite{book:2020:newman:background:monolith:monolith-to-microservices} \cite{inproceedings:2011:bird:background:monoliths:dont-touch-my-code}
 
-With a monolithic approach, the use of different technologies is not possible anymore. The technology stack is restricted to the entire life of the monolith. The introduction of a different programming language or a different framework is hardly possible and often leads to a complete rewrite of an application. \cite{book:2018:richardson:background:bff:microservices-patterns}
+With a monolithic approach, the use of different technologies is not possible anymore. The technology stack is restricted to the entire life of the monolith. The introduction of a different programming language or a different framework is hardly possible and often leads to a complete rewrite of an application. \cite{book:2018:richardson:background:bff:microservices-patterns} The problem with technology is that it always becomes deprecated and obsolete at one point in time. Applications based on such frameworks have to be migrated to a different programming language or framework. Simply rewriting the application in another framework is not simple, because every functionality of the application has to be understood.
 
-The problem with technology is that it always becomes deprecated at one point in time. Applications based on such frameworks have to migrated to a different technology. A simple rewrite in another technology is not possible most times.
+\subsubsection{Monolithic Systems are not Legacy Systems}
 
-\subsubsection{Legacy}
-
-The term legacy should not be a synonym for legacy systems. The advantages of 
+Writing a monolithic application should not be synonymous with writing a legacy application. The term legacy should not be used with monolithic systems. \cite{book:2020:newman:background:monolith:monolith-to-microservices} The monolithic architecture is a good starting point for a new applications. If some domains of the applications are not well understood and when drastic changes can happen to already implemented features. It is easier to understand the complete application and to make changes to the code. \cite{book:2020:newman:background:monolith:monolith-to-microservices} 

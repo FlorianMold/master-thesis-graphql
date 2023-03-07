@@ -12,7 +12,7 @@ This section describes how the caching mechanism of the Apollo Client works. The
 
 \textbf{Apollo Client} includes a caching mechanism called Apollo Cache and the proprietary implementation called InMemoryCache. There are several Open-Source alternatives, that implement the ApolloCache interface, but Apollo's own implementation is the most mature implementation.
 
-Figure \ref{figure:background:graphql:user-query-first-time} shows an exemplary query to fetch a user with it's id. First the Apollo Client checks whether the user with the given id is already stored inside the cache. If the query with that id has not been executed before, a network query to fetch the user has to be made. The result from the GraphQL Server is stored inside the cache and returned to the application. To see data on the screen, four steps have to be made. \cite{misc:-:background:graphql:apollo-client-cache-overview}
+Figure~\ref{figure:background:graphql:user-query-first-time} shows an exemplary query to fetch a user with it's id. First the Apollo Client checks whether the user with the given id is already stored inside the cache. If the query with that id has not been executed before, a network query to fetch the user has to be made. The result from the GraphQL Server is stored inside the cache and returned to the application. To see data on the screen, four steps have to be made. \cite{misc:-:background:graphql:apollo-client-cache-overview}
 
 \ifshowImages
   \begin{figure}[H]
