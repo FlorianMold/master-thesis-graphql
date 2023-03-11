@@ -103,9 +103,33 @@
 
 \input{chapters/results.tex}
 
+\input{chapters/discussion.tex}
+
 \input{chapters/conclusion.tex}
 
-\chapter{Future work}
+\input{chapters/future-work.tex}
+
+%
+% Hier beginnen die Verzeichnisse.
+%
+\clearpage
+\printbibliography
+\clearpage
+
+% Das Abbildungsverzeichnis
+\listoffigures
+\clearpage
+
+% Das Tabellenverzeichnis
+\listoftables
+\clearpage
+
+% Das Quellcodeverzeichnis
+\listoflistings
+\clearpage
+
+\phantomsection
+\addcontentsline{toc}{chapter}{\listacroname}
 
 \chapter*{\listacroname}
 \begin{acronym}[XXXXX]

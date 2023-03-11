@@ -1,33 +1,11 @@
 \chapter{Conclusion}\label{chapter:conclusion}
 
-To validate the first hypothesis, which states that using GraphQL with a common caching layer can prevent over-fetching and over-requesting, a micro-frontend architecture with 12 different applications was designed and implemented. In the future, it is planned to integrate the prototype with AGnet's micro-frontend architecture. Therefore, the GraphQL queries used will be used later in the real application and the results of the evaluations are very expressive.\\
+To validate the first hypothesis, which states that using GraphQL with a common caching layer can prevent over-fetching and over-requesting, a micro-frontend architecture with 12 different applications was designed and implemented. In the future, it is planned to integrate the prototype with AGnet's micro-frontend architecture. Therefore, the GraphQL queries used will be used later in the real application and the results of the evaluations are very expressive.
 
-First, the shared caching layer was implemented, and to further improve performance, a mechanism was written to reduce queries with content already in the cache.\\
+First, the shared caching layer was implemented, and to further improve performance, a mechanism was written to reduce queries with content already in the cache.
 
-Based on the groundwork three different approaches were identified, how the prototype could be evaluated. Just sharing the cache between the micro-frontends resulted in a total save 22\% of response-size in comparison to a separated cache.\\
+Based on the groundwork three different approaches were identified, how the prototype could be evaluated. Just sharing the cache between the micro-frontends resulted in a total save 22\% of response-size in comparison to a separated cache.
 
-But the reduction in queries doesn't make that much difference with the queries in this prototype. The difference in request-size is only a few kilobytes, and the difference in response-size is not large enough to make a real difference.\\
+But the reduction in queries doesn't make that much difference with the queries in this prototype. The difference in request-size is only a few kilobytes, and the difference in response-size is not large enough to make a real difference.
 
-To validate the second hypothesis, which states that the prototype should provide enough freedom in the choice of technology, a micro frontend was written using React and embedded in the shell application. The application was able to integrate with the existing architecture and use both the shared caching layer and the query reduction mechanism. The architecture is thus open to the free choice of technology.\\
-
-%
-% Hier beginnen die Verzeichnisse.
-%
-\clearpage
-\printbibliography
-\clearpage
-
-% Das Abbildungsverzeichnis
-\listoffigures
-\clearpage
-
-% Das Tabellenverzeichnis
-\listoftables
-\clearpage
-
-% Das Quellcodeverzeichnis
-\listoflistings
-\clearpage
-
-\phantomsection
-\addcontentsline{toc}{chapter}{\listacroname}
+To validate the second hypothesis, which states that the prototype should provide enough freedom in the choice of technology, a micro frontend was written using React and embedded in the shell application. The application was able to integrate with the existing architecture and use both the shared caching layer and the query reduction mechanism. The architecture is thus open to the free choice of technology.
