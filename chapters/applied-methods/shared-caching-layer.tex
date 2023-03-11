@@ -1,0 +1,88 @@
+\section{Shared caching layer between the micro-frontends}
+
+With the knowledge from the previous section \ref{section:methods:communication-shell-remote} a shared caching layer was implemented. Apollo GraphQL was chosen as GraphQL client for this prototype. It offers the most support for various frameworks and has a large community. The shell application can provide the instance of the GraphQL cache, which the micro-frontends can inject and use, when setting up their client, as seen in figure \ref{code:methods:graphql-client-cache-provider}. When running the micro-frontend in standalone mode, this provider has to be used inside the native application of the micro-frontend.
+
+For example the contact-application provides this object seen in listing \ref{code:methods:graphql-client-cache-provider} in its providers-array inside the core.module.ts. The host-application has the exactly same configuration inside its core.module.ts.
+
+\ifshowListings
+\begin{listing}[H]
+\begin{minted}{typescript}
+@NgModule({
+  providers: [
+    {
+      provide: UI_GRAPHQL_CLIENT_CACHE,
+      useValue: new InMemoryCache(),
+    },
+  ],
+})
+export class UiContactCoreModule {}
+\end{minted}
+\caption{Provide the instance of the cache to dependency injection.}\label{code:methods:graphql-client-cache-provider}
+\end{listing}
+\fi
+
+UI\_GRAPHQL\_CLIENT\_CACHE is an Angular Injection-token that can be used to provide injectable objects that can be used with dependency injection. (TODO: Injection token link)
+
+These provider must only be set inside the providers of the core.module.ts that the native application provides. Otherwise the remote-module would have their own instances of the GraphQL cache and the shared caching-layer would not work.
+
+Every micro-frontend can have their own instance of a GraphQL client. Only the GraphQL cache is shared between the different applications. Therefore, in theory, it is also possible that every micro-frontend consumes a different GraphQL API.
+
+\ifshowListings
+\begin{listing}[H]
+\begin{minted}{typescript}
+ @NgModule({
+   providers: [
+     {
+       provide: UI_GRAPHQL_CLIENT_OPTIONS_CONFIG,
+       useValue: {
+         shareCache: true,
+         persistCache: false,
+         useTypePolicies: true,
+         typePolicies: UI_CONTACT_APP_TYPE_POLICIES,
+       } as UiGraphQLClientOptionsConfig,
+     },
+   ],
+ })
+ export class UiContactRemoteCoreModule {}
+\end{minted}
+\caption{Extra configuration TODO}\label{code:methods:graphql-client-extra-configuration-options}
+\end{listing}
+\fi
+
+To make it simple for the micro-frontends to use GraphQL, a function was written that creates the GraphQL client, seen in listing \ref{code:methods:graphql-client-creation}.
+
+\ifshowListings
+\begin{listing}[H]
+\begin{minted}{typescript}
+UiGraphQLClientOptionsModule.withConfig('contact-remote-app', {
+  provideGraphQLClientOptions: true,
+}),
+\end{minted}
+\caption{Provide the instance of the cache as injectable.}\label{code:methods:graphql-client-creation}
+\end{listing}
+\fi
+
+The first parameter of the function is a unique name for the GraphQL client instance. The unique name is mostly used for logging purposes. The second parameter is a configuration object whose options can be configured that no client is created.
+
+For example the GraphQL client could be already provided inside the core-module of the shell-application and the remote-application injects that instance of the GraphQL client. These configuration options were largely added to test the shared caching layer with different options.
+
+The final architecture follows the approach that each micro-frontend has a separate GraphQL client and a shared cache. This allows for the most flexibility as the GraphQL client can be configured individually by each micro frontend.
+
+
+My prototype creates 12 GraphQL clients, if every remote-application is loaded.
+
+\begin{enumerate}
+  \item host-native-app-graphql-client
+  \item contact-remote-app-graphql-client
+  \item sales-remote-app-graphql-client
+  \item user-remote-app-graphql-client
+  \item address-remote-widget-graphql-client
+  \item contact-list-remote-widget-graphql-client
+  \item contact-remote-widget-graphql-client
+  \item contract-remote-widget-graphql-client
+  \item invoice-remote-widget-graphql-client
+  \item person-remote-widget-graphql-client
+  \item sales-remote-widget-graphql-client
+  \item user-remote-widget-graphql-client
+\end{enumerate}
+
