@@ -1,16 +1,24 @@
 \subsection{Integration strategies}
 
-To bring multiple micro-frontends into a shape that 
+Micro-frontends can be integrated in different ways. The integration strategy depends on the requirements of the system. They can be composed using a client-side integration strategy, a server-side strategy or a combination of both strategies.
 
 \subsubsection{Server-Side Integration}
 
+Server-side composition is usually done by a service that sits between the client and the backend. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action} The server responds with the references to micro-frontends that should be included, as well as their required assets. The service in the middle intercepts that response and replaces the references to the micro-frontends with the real content, before the response is sent to the browser. The micro-frontends are included in their position, where they later appear in the HTML. An example include can be seen in listing (TODO). Mostly the other micro-frontends are included with URLS.
 
+% TODO: Add image.
 
+One advantage of server-side integration is the fast first load performance, which the principle of progressive enhancement. \cite{book:2010:parker:background:micro-frontends:designing-with-progressive-enhancement} The browser just fetches the HTML and renders it. It does not have to assemble parts of a page, like with client-side integration. The computation is only done on the server, which reduces the strain on the users device. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action} The browser just has to download assets like styles and images. 
+
+% TODO: But the browser still has to load assets like styles and images. 
+
+Server Side Integration is useful, if the main concern of the application is to present static content to the end user. Instant reaction to the inputs of the users is not needed. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
 
 \subsubsection{Client-Side Integration}
 
-...
+When the application should react promptly to user input, a client-side integration strategy is preferred. For example, when developing an online marketplace, the user should be able to add items to the cart without making a complete roundtrip to the server. The application should provide a seamless user experience, as the end user just uses one application. Modern Frameworks like Angular, React offer the development of Single Page Applications, which provide reactive, client-side rendered applications. The HTML Markup is produced on the client, instead of the server. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
 
-Client-side integration can be achieved through different approaches. The simplest approach is to combine the micro-frontends by linking the different applications with anchors together. Each micro-frontend is deployed and accessible to a different URL. The different micro-frontend applications are then linked together with anchors. As the approach implies the switch to another micro-frontend requires a complete page reload. 
+Client-side integration can be achieved through different approaches. The simplest approach is to combine the micro-frontends by linking the different applications with Hyperlinks together. Each micro-frontend is deployed and accessible via a different URL. The different micro-frontend applications are then linked together with Hyperlinks. As the approach implies the switch to another micro-frontend requires a complete page reload and a roundtrip to the server. But the integration with Hyperlinks breaks the SPA approach. This strategy makes it necessary that every micro-frontend is accessible via it's own URL and that it can be served as a standalone application.
 
-Another approach is to combine micro-frontend with Web Components.
+Another client-side approach is to combine micro-frontend with iFrames or Web-Components. Integrating micro-frontends with this approach enables the page to still be a SPA. The client can navigate multiple different micro-frontends without even noticing and no page-reload is needed. iFrames are an isolated are if the website with their own browser context \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}, Web Components are self-created HTML elements that are embedded into the DOM of the browser \cite{book:2019:farrell:background:micro-frontends:web-components-in-action}. The integration strategies are discussed in more detail in the following sections. 
+% TODO: add cite
