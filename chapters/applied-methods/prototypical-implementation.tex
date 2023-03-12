@@ -1,9 +1,8 @@
+\section{Implementing of a prototypical micro-frontend architecture}
 
-\section{Implementation of a prototypical micro-frontend architecture}
+For the evaluation of the hypothesis, a prototypical micro-frontend architecture was implemented. The architecture was implemented in a way that it can be used in a production environment later. The micro-frontends should be integrated using client-side integration more precisely run-time integration. The integration was implemented with Webpack's Module Federation. The main part of the implementation is written in Angular, but to showcase the technology agnosticism of the architecture, one micro-frontend was implemented in React.
 
-The first step was to implement a prototypical micro-frontend architecture that fits my companies needs. Runtime integration was chosen to take the most advantages of micro front-ends. To implement the runtime
-
-The micro-frontend architecture that powers the prototype was developed using Webpack's Module Federation. The prototype contains a shell-application that loads all other micro-frontends. The architecture is divided into 9 widgets that display only simple data and 3 complex single-page applications.
+The prototype contains a single shell-application that loads all other micro-frontends. The architecture is divided into 9 widgets that display only simple data and 3 complex single-page applications. 
 
 The main part of the implementation is written in Angular. One micro-frontend was implemented with the frontend-framework React to show that the findings of this project are technology agnostic.
 
@@ -77,7 +76,6 @@ const routes: Routes = [
 \fi
 
 
-\subsection{Module Federation}
 
 \subsection{Integrating react micro-frontend}
 
