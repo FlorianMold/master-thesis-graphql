@@ -1,8 +1,10 @@
 \section{GraphQL}
 
-GraphQL was developed by Facebook and refers to itself as the query language for an API. It provides the client with the opportunity to ask exactly for the data is needed. GraphQL offers the advantage that all data can be loaded from only one URL. With the help of the types within the GraphQL schema, the technology offers an understandable description of the API for clients. \cite{misc:-:background:graphql:graphql-org} The functionality of GraphQL on the frontend can be compared to SQL on the database level. The client writes its queries with the desired fields from a type.
+GraphQL was developed by Facebook and refers to itself as the query language for API's. It provides the client with the opportunity to ask exactly for the data is needed. GraphQL offers the advantage that all data can be loaded from only one URL. With the help of the types within the GraphQL schema, the technology offers an understandable description of the API for clients. \cite{misc:-:background:graphql:graphql-org} The functionality of GraphQL on the frontend can be compared to SQL for databases. The client writes its queries with the desired fields from a type.
 
-The official documentation states that GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data. GraphQL provides a complete and understandable description of the data in your API, gives clients the power to ask for exactly what they need and nothing more, makes it easier to evolve APIs over time, and enables powerful developer tools. GraphQL is implemented in many languages and frameworks. It has a large ecosystem of libraries and tools.
+\bigskip
+
+\noindent The official documentation states that GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data. GraphQL provides a complete and understandable description of the data in your API, gives clients the power to ask for exactly what they need and nothing more, makes it easier to evolve APIs over time, and enables powerful developer tools. GraphQL is implemented in many languages and frameworks. It has a large ecosystem of libraries and tools.
 
 \subsection{Origins and history}
 
@@ -30,21 +32,29 @@ GraphQL is based on several design principles: \cite{misc:-:background:graphql:g
 
 GraphQL helps reducing the network traffic between the clients and the backend they query. Research indicates that the dynamic approach to fetching data can reduce the number of fields to be fetched and therefore the bytes that are sent back and forth to the GraphQL server. \cite{inprocessdings:2019:background:graphql:migration-to-graphql}
 
-Because the client specifies the required fields that should be fetched, the complexity on the backend can be reduced. The backend does not need to implement a lot of endpoints that are only used by a small subset of clients. The backend can implement a single endpoint that can be queried by the clients.
+\bigskip
 
-% TODO: cite
+\noindent Because the client specifies the required fields that should be fetched, the complexity on the backend can be reduced. The backend does not need to implement a lot of endpoints that are only used by a small subset of clients. The backend can implement a single endpoint that can be queried by all clients. \cite{book:2018:richardson:background:bff:microservices-patterns}
 
-The characteristic that GraphQL can query its own schema allows several service discovery potential. With the help of introspection GraphQL provides tools like GraphQL Voyager, which can be used to visualize the schema in a class-diagram style. Other tools like GraphiQL can be used to analyses the schema. The functionality of such tools is explained in chapter TODO in more detail. The alternative REST provides such functionality to some degree, but additional tooling is needed.
+\bigskip
+
+\noindent The characteristic that GraphQL can query its own schema allows service discovery potential. With the help of introspection GraphQL provides tools like GraphQL Voyager, which can be used to visualize the schema in a UML class-diagram style. Other tools like GraphiQL can be used to analyses the schema. The functionality of such tools is explained in chapter Apollo Client and Server in more detail. The alternative REST provides such functionality to some degree, but additional tooling is needed, because REST can't generate specification files.
 
 % TODO: Link to GraphQL Voyager
 
 \subsubsection{Disadvantages}
 
-The advantage that GraphQL reduces complexity on the backend is a disadvantage for the client-side application. It leads to a higher complexity, when consuming GraphQL services compared to REST. With REST only an endpoint has to be queried, whereas with GraphQL the requested data has to be specified to the field level. % TODO: cite
+\noindent The advantage that GraphQL reduces complexity on the backend is a disadvantage for the client-side application. It leads to a higher complexity, when consuming GraphQL services compared to REST. With REST only an endpoint has to be queried, whereas with GraphQL the requested data has to be specified to the field level. But the introspection abilities of GraphQL allow the consumers to better understand the structure of the query and data, which mitigates the disadvantage. A study \cite{inproceedings:2020:brito:background:graphql:rest-vs-graphql} showed that the participants of the study found it easier to to consume a GraphQL Service than consuming a REST Service.
 
-GraphQL shifts more responsibilities from the backend to the client, which is normally done with a gateway. API composition can shift from the server to the client. Depenending on the actual use-capabilities
+% TODO: cite
 
-By giving the client the opportunity to specify the query, it might make the potential complexity of the query transparent to the client. With this approach it might be possible that the client specifies a query, that is not completable or takes up a lot of resources. GraphQL makes it somewhat difficult that clients remain good citizens in a distributed architecture. \cite{book:2018:richardson:background:bff:microservices-patterns}
+\bigskip
+
+\noindent GraphQL shifts more responsibilities from the backend to the client, which is normally done with a gateway. API composition can shift from the server to the client. Depending on the actual use-capabilities
+
+\bigskip
+
+\noindent By giving the client the opportunity to specify the query, it might make the potential complexity of the query transparent to the client. With this approach it might be possible that the client specifies a query, that is not completable or takes up a lot of resources. GraphQL makes it somewhat difficult that clients remain good citizens in a distributed architecture. \cite{book:2018:richardson:background:bff:microservices-patterns}
 
 
 % Section about apollo-client

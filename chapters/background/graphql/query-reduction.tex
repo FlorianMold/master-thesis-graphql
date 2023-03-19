@@ -28,7 +28,7 @@ query {
 \end{listing}
 \fi
 
-The first time this query is executed, a request is sent to the server. Each subsequent execution of the query with the same selection set is served from the cache and a round trip to the server is saved. Afterwards the same query is executed with a different selection set. The query is sent to the server again, even though the selection set is only slightly different. The selection set of the query is extended by the email field and is shown in listing \ref{code:background:graphql:query-reduction:example-query-extended}
+\noindent The first time this query is executed, a request is sent to the server. Each subsequent execution of the query with the same selection set is served from the cache and a round trip to the server is saved. Afterwards the same query is executed with a different selection set. The query is sent to the server again, even though the selection set is only slightly different. The selection set of the query is extended by the email field and is shown in listing \ref{code:background:graphql:query-reduction:example-query-extended}
 
 \ifshowListings
 \begin{listing}[H]
@@ -53,7 +53,7 @@ query {
 \end{listing}
 \fi
 
-The queries are almost identical, but there is an additional field, this will result in a cache miss. The entire query will be requested from the server. This is quite unnecessary because the most part of the data is already in the cache. A better approach would be to fetch only the field which is missing inside the cache like shown in \ref{code:background:graphql:query-reduction:example-query-reduced}.
+\noindent The queries are almost identical, but there is an additional field, this will result in a cache miss. The entire query will be requested from the server. This is quite unnecessary because the most part of the data is already in the cache. A better approach would be to fetch only the field which is missing inside the cache like shown in \ref{code:background:graphql:query-reduction:example-query-reduced}.
 
 \ifshowListings
 \begin{listing}[H]
@@ -69,4 +69,4 @@ query {
 \end{listing}
 \fi
 
-The id can't be removed from the query as it needed to merge the existing and incoming data together afterwards. Depending how many shared selections exist inside the application's queries, a lot of server resources can be saved by reducing the queries.
+\noindent The id can't be removed from the query as it needed to merge the existing and incoming data together afterwards. Depending how many shared selections exist inside the application's queries, a lot of server resources can be saved by reducing the queries.
