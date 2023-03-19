@@ -8,7 +8,7 @@ In large applications, it is likely that the same query is executed with differe
 
 \ifshowListings
 \begin{listing}[H]
-\begin{minted}{typescript}
+    \begin{minted}{typescript}
 query {
   allUsers {
     id
@@ -23,8 +23,8 @@ query {
     name
   }
 }
-\end{minted}
-\caption{An exemplary GraphQL query that fetches all users}\label{code:background:graphql:query-reduction:example-query-simple}
+    \end{minted}
+    \caption{An exemplary GraphQL query that fetches all users}\label{code:background:graphql:query-reduction:example-query-simple}
 \end{listing}
 \fi
 
@@ -32,7 +32,7 @@ The first time this query is executed, a request is sent to the server. Each sub
 
 \ifshowListings
 \begin{listing}[H]
-\begin{minted}{typescript}
+    \begin{minted}{typescript}
 query {
   allUsers {
     id
@@ -48,8 +48,8 @@ query {
     name
   }
 }
-\end{minted}
-\caption{An exemplary GraphQL query that fetches all users with an additional field}\label{code:background:graphql:query-reduction:example-query-extended}
+    \end{minted}
+    \caption{An exemplary GraphQL query that fetches all users with an additional field}\label{code:background:graphql:query-reduction:example-query-extended}
 \end{listing}
 \fi
 
@@ -57,16 +57,16 @@ The queries are almost identical, but there is an additional field, this will re
 
 \ifshowListings
 \begin{listing}[H]
-\begin{minted}{typescript}
+    \begin{minted}{typescript}
 query {
   allUsers {
     id
     email
   }
 }
-\end{minted}
-\caption{The part of the exemplary query that is necessary}\label{code:background:graphql:query-reduction:example-query-reduced}
+    \end{minted}
+    \caption{The part of the exemplary query that is necessary}\label{code:background:graphql:query-reduction:example-query-reduced}
 \end{listing}
 \fi
 
-The id can't be removed from the query as it needed to merge the existing and incoming data together afterwards. Depending how many shared selections exist inside the application's queries, a lot of server resources can be saved by reducing the queries. 
+The id can't be removed from the query as it needed to merge the existing and incoming data together afterwards. Depending how many shared selections exist inside the application's queries, a lot of server resources can be saved by reducing the queries.

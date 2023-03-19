@@ -12,7 +12,7 @@ For example, a contact service provides a contact-model that includes customer-n
 
 \ifshowListings
 \begin{listing}[H]
-\begin{minted}{typescript}
+    \begin{minted}{typescript}
 interface ContactModel {
   id: string;
   customerNumber: string;
@@ -27,8 +27,8 @@ interface ContactModel {
     Country: string;
   }
 }
-\end{minted}
-\caption{Contact-Model that contains too much fields for the requirement.}\label{code:state-art:over-fetching}
+    \end{minted}
+    \caption{Contact-Model that contains too much fields for the requirement.}\label{code:state-art:over-fetching}
 \end{listing}
 \fi
 
@@ -38,7 +38,7 @@ Attempting to solve the problem of over-fetching by reducing the amount of data 
 
 \ifshowListings
 \begin{listing}[H]
-\begin{minted}{typescript}
+    \begin{minted}{typescript}
 interface ContactModel {
   id: string;
   customerNumber: string;
@@ -48,8 +48,8 @@ interface ContactModel {
 
   address_id: string;
 }
-\end{minted}
-\caption{Contact-Model model that links the address-model with an id.}\label{code:state-art:over-requesting}
+    \end{minted}
+    \caption{Contact-Model model that links the address-model with an id.}\label{code:state-art:over-requesting}
 \end{listing}
 \fi
 
@@ -62,9 +62,9 @@ To solve these problems, the backend-for-frontend pattern is often used. This pa
 
 \ifshowImages
 \begin{figure}[H]
-\centering
-\includegraphics[width=0.8\linewidth]{images/ui-bff-architecture.jpeg}
-\caption{Frontend architecture with the backend-for-frontend pattern.}\label{figure:state-of-the-art:ui-bff-architecture}
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/ui-bff-architecture.jpeg}
+    \caption{Frontend architecture with the backend-for-frontend pattern.}\label{figure:state-of-the-art:ui-bff-architecture}
 \end{figure}
 \fi
 
