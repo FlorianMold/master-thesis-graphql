@@ -1,4 +1,4 @@
-\subsection{Communication between Micro-frontends}
+\subsection{Communication between Micro-frontends}\label{subsection:background:micro-frontend:communication-patterns}
 
 Micro-frontends should not depend on each other. But it is necessary to have communication between them. For example if a user adds an item to a shopping-cart in an e-commerce application, the product micro-frontend has to inform the shopping-cart micro-frontend, which item was added. To reduce the coupling between applications and development teams it is recommended to keep the communication between micro-frontends at a minimum. Before choosing a communication pattern it is important to know the type of communication. If communication between two micro-frontends or between the app shell and a micro-frontend is required, the communication can take place via the user interface. Other communication mechanisms, like the Broadcast Channel API provided by the browser, are useful for state sharing or for passing on information to multiple micro-frontends. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
 

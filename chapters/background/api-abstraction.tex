@@ -1,4 +1,4 @@
-\section{API Abstraction}
+\section{API Abstraction}\label{section:background:api-abstraction}
 
 Every microservice provides its functionality to consumers with APIs. But it is not advisable that clients directly communicate with microservice APIs. Microservice offer fine-grained interfaces which were made especially for the communication between microservices. Therefore, the client usually has to make multiple requests to fetch the data and aggregate them to display a view inside the application. \cite[69]{book:2021:newman:background:bff:micro-services} This leads to many requests, which is also known as over-requesting, which has a negative impact on the user experience. \cite[254, 257]{book:2018:richardson:background:bff:microservices-patterns} Both over-requesting and over-fetching are explained in more detail in a following section.
 

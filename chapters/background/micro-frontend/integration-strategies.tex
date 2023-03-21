@@ -1,8 +1,8 @@
-\subsection{Integration strategies}
+\subsection{Integration strategies}\label{subsection:background:micro-frontend-architecture:integration-strategies}
 
 Micro-frontends can be integrated in different ways. The integration strategy depends on the requirements of the system. They can be composed using a client-side integration strategy, a server-side strategy or a combination of both strategies.
 
-\subsubsection{Server-Side Integration}
+\subsubsection{Server-Side Integration}\label{subsubsection:background:micro-frontend-architecture:integration-strategies:server-side-integration}
 
 Server-side composition is usually done by a service that sits between the client and the backend. \cite[60]{book:2020:geers:background:micro-frontends:micro-frontends-in-action} The server responds with the references to micro-frontends that should be included, as well as their required assets. The service in the middle intercepts that response and replaces the references to the micro-frontends with the real content, before the response is sent to the browser. The micro-frontends are included in their position, where they later appear in the HTML. An example include can be seen in listing \ref{listing:background:micro-frontends:server-side-include}. The other micro-frontends are referenced with URL's. \cite[61-63]{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
 
@@ -23,7 +23,7 @@ Server-side composition is usually done by a service that sits between the clien
 
 \noindent One advantage of server-side integration is the fast first load performance, which the principle of progressive enhancement. \cite{book:2010:parker:background:micro-frontends:designing-with-progressive-enhancement} The browser just fetches the HTML and renders it. It does not have to assemble parts of a page, like with client-side integration. The computation is only done on the server, which reduces the strain on the users device. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action} But assets like stylesheets and images still have to be fetched from the server. Server Side Integration is useful, if the main concern of the application is to present static content to the end user. Instant reaction to the inputs of the users is not needed. \cite[83]{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
 
-\subsubsection{Client-Side Integration}
+\subsubsection{Client-Side Integration}\label{subsubsection:background:micro-frontend-architecture:integration-strategies:client-side-integration}
 
 When the application should react promptly to user input, a client-side integration strategy is preferred. For example, when developing an online marketplace, the user should be able to add items to the cart without making a complete roundtrip to the server to see the updated value. The application should provide a seamless user experience, as the end user just uses one application. Modern Frameworks like Angular, React offer the development of Single Page Applications, which provide reactive, client-side rendered applications. The HTML Markup is produced on the client, instead of the server. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
 
