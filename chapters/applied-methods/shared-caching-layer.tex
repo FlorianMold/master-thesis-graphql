@@ -1,4 +1,4 @@
-\section{Shared caching layer between the micro-frontends}
+\section{Shared caching layer between the micro-frontends}\label{section:applied-methods:shared-caching-layer}
 
 With the knowledge from the previous section \ref{section:methods:communication-shell-remote} a shared caching layer was implemented. Apollo GraphQL was chosen as GraphQL client for this prototype. It offers the most support for various frameworks and has a large community. The shell application can provide the instance of the GraphQL cache, which the micro-frontends can inject and use, when setting up their client, as seen in figure \ref{code:methods:graphql-client-cache-provider}. When running the micro-frontend in standalone mode, this provider has to be used inside the native application of the micro-frontend.
 

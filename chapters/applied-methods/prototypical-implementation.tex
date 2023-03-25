@@ -1,4 +1,4 @@
-\section{Implementing a prototypical micro-frontend architecture}
+\section{Implementing a prototypical micro-frontend architecture}\label{section:applied-methods:prototypical-implementation}
 
 For the evaluation of the research questions, a prototypical micro-frontend architecture was implemented. The architecture was developed in a way that it lays the ground work for being used in a production environment later. The micro-frontends are integrated using client-side integration more precisely run-time integration. The integration strategy was implemented with Webpack's Module Federation, which was described in great detail section \ref{subsection:background:micro-frontend:module-federation}. The main part of the implementation is written in Angular, but to showcase the technology agnosticism of the architecture, one micro-frontend was implemented in React. The prototype contains a single shell-application that loads all other micro-frontends. The architecture is divided into nine widgets that display only simple data and four complex single-page applications. The four SPA's are Dashboard, Contact, Sales and User.
 
@@ -175,3 +175,4 @@ return (
 
 \subsection{Backend for frontend architecture}
 
+The backend-for-frontend pattern was implemented using a GraphQL API. Apollo Server was chosen to implement the API for the micro-frontends. All micro-frontends use the same GraphQL endpoint to fetch their data. But it would also be possible that multiple endpoints could be used. The GraphQL API communicates with the cluster of microservices and aggregates the results to be used for the micro-frontends. At the time of creating the GraphQL API, the microservice were still under development, but the data structures for the databases were already finalized. A lot of mock-data was generated for the schemas and used for implementing the GraphQL API. The queries and mutations were implemented by reading and writing the mock-data directly. The API will be changed in the future that it directly communicates with the microservices inside the companies cluster.
