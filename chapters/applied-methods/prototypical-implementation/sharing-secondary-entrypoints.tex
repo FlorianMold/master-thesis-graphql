@@ -1,0 +1,56 @@
+\subsection{Sharing secondary entry points}
+
+By default, all dependencies of the micro-frontends are shared through Module Federation. The configuration options for every dependency are \texttt{singleton}-, \texttt{strictVersion}-, and \texttt{requiredVersion}-property. These properties are explained in more detail in section \ref{subsection:background:micro-frontend:module-federation}. The versions of these dependencies are determined automatically from the \texttt{package.json}. However, not all packages support being shared with these default settings. The npm package \texttt{@apollo/client} has a problem because it has secondary entry points. When trying to share \texttt{@apollo/client/core}, \texttt{@apollo/client/link/batch} and \texttt{@apollo/client/link/error} the error message in listing \ref{code:applied-methods:sharing-secondary-entrypoints-error} is shown.
+
+\ifshowListings
+\begin{listing}[H]
+    \begin{verbatim}
+shared module @apollo/client/link/error -> /Users/f/pro/frontend-service/
+node_modules/@apollo/client/link/error/index.js - Warning: No version 
+specified and unable to automatically determine one. No version in 
+description file (usually package.json).
+Add version to description file /Users/f/pro/frontend-service/
+node_modules/@apollo/client/link/error/package.json, or manually 
+specify version in shared config.
+    \end{verbatim}
+    \caption{The warning, when the dependency \texttt{@apollo/client} is shared.}\label{code:applied-methods:sharing-secondary-entrypoints-error}
+\end{listing}
+\fi
+
+
+\noindent The problems are secondary entry points like \texttt{@apollo/client/core}, which are a bit like an npm package in another npm package. The \texttt{package.json} of \texttt{@apollo/client/core} is shown in listing \ref{code:applied-methods:package-json-apollo-client-core}. Webpack tries to resolve the version of the secondary entry point from the \texttt{package.json} and not from \texttt{@apollo/client}. Therefore, it cannot determine the version and prints the warning shown in listing \ref{code:applied-methods:sharing-secondary-entrypoints-error}. The warning does not lead to an error, but these dependencies cannot be shared and must be included in every micro-frontend bundle.
+
+\ifshowListings
+\begin{listing}[H]
+  \begin{minted}{json}
+{
+  "name": "@apollo/client/core",
+  "type": "module",
+  "main": "error.cjs",
+  "module": "index.js",
+  "types": "index.d.ts",
+  "sideEffects": false
+}
+    \end{minted}
+    \caption{The \texttt{package.json} of \texttt{@apollo/client/core}}\label{code:applied-methods:package-json-apollo-client-core}
+\end{listing}
+\fi
+
+\noindent The Module Federation was fixed by specifying the version for these packages manually. The version is the same as that of \texttt{@apollo/client}. The configuration for the sharing of these packages is shown in the listing \ref{code:applied-methods:sharing-secondary-entrypoints-config}. 
+
+\ifshowListings
+\begin{listing}[H]
+  \begin{minted}{typescript}
+shared: (libraryName, defaultConfig) => {
+  if (libraryName.includes(`@apollo/client/`))
+    return { ...defaultConfig, version: '^3.6.9', };
+
+  return defaultConfig;
+}
+    \end{minted}
+    \caption{Specifying the version for the secondary entry points for the \texttt{@apollo/client} package.}\label{code:applied-methods:sharing-secondary-entrypoints-config}
+\end{listing}
+\fi
+
+% https://www.angulararchitects.io/en/aktuelles/pitfalls-with-module-federation-and-angular/
+% https://github.com/webpack/webpack/issues/15864

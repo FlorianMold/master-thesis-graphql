@@ -1,15 +1,15 @@
 \subsection{Generic APIs vs Consumer Driven APIs}\label{subsection:background:micro-frontend:generic-vs-consumer-driven-apis}
 
-The big decision in micro-frontend API development is to use either generic or consumer-oriented APIs. The difference is that generic APIs place great emphasis on reusability, while consumer-oriented APIs tailor the APIs to the customer.
+The big decision in micro-frontend API development is to use either generic or consumer-oriented APIs. The difference is that generic APIs emphasize reusability, while consumer-oriented APIs tailor the APIs to the customer.
 
 \subsubsection{Generic APIs}\label{subsubsection:background:micro-frontend:generic-vs-consumer-driven-apis:generic-apis}
 
-Generic APIs refer to APIs that are very general and can be used by different clients. However, this type of API has two major drawbacks. Over-fetching describes the problem of getting more data than is needed. Over-requesting describes the problem of needing multiple requests to get the data for a use case. Both problems are discussed in more detail in the next paragraphs. \cite{misc:2019:leitner:background:micro-frontends:backend-for-frontends}
+Generic APIs refer to APIs that are very general and can be used by different clients. However, this type of API has two significant drawbacks. Over-fetching describes the problem of getting more data than is needed, and Over-requesting describes the problem of needing multiple requests to get the data for a use case. Both problems are discussed in more detail in the following paragraphs. \cite{misc:2019:leitner:background:micro-frontends:backend-for-frontends}
 
 \paragraph{Over-Fetching}\label{paragraph:background:micro-frontend:generic-vs-consumer-driven-apis:generic-apis:over-fetching}
 
 
-For example, a contact service provides a contact-model that includes customer-number, first-name, second-name, uid-number and the address of the user, as seen in listing \ref{code:state-art:over-fetching}. However, one requirement of the application is to display only a contact's first and last name inside the header. Only two fields of the model are used, and the rest are unnecessarily queried. \cite{misc:2019:leitner:background:micro-frontends:backend-for-frontends}
+For example, a contact service provides a contact model that includes \texttt{customer-number}, \texttt{first-name}, \texttt{second-name}, \texttt{uid-number}, and the user's address, as seen in the listing \ref{code:background:micro-frontends:over-fetching}. However, one application requirement is to display only a contact's first and last name inside the header. Only two fields of the model are used, and the rest are unnecessarily queried. \cite{misc:2019:leitner:background:micro-frontends:backend-for-frontends}
 
 \ifshowListings
 \begin{listing}[H]
@@ -29,13 +29,13 @@ interface ContactModel {
   }
 }
     \end{minted}
-    \caption{Contact-Model that contains too much fields for the requirement.}\label{code:state-art:over-fetching}
+    \caption{Contact-Model that contains too many fields for the requirement.}\label{code:background:micro-frontends:over-fetching}
 \end{listing}
 \fi
 
 \paragraph{Over-Requesting}\label{paragraph:background:micro-frontend:generic-vs-consumer-driven-apis:generic-apis:over-requesting}
 
-Attempting to solve the problem of over-fetching by reducing the amount of data set that is returned leads directly to this problem. Listing \ref{code:state-art:over-requesting} shows the problem of over-requesting. If another requirement inside the application should display the address alongside the contact, two requests have to be performed every time. Afterwards, the two data sets have to be merged, which leads to high complexity on the client side. \cite{misc:2019:leitner:background:micro-frontends:backend-for-frontends}
+Attempting to solve the problem of over-fetching by reducing the amount of data set that is returned leads directly to this problem. Listing \ref{code:background:micro-frontends:over-requesting} shows the problem of over-requesting. If another requirement inside the application should display the address alongside the contact, two requests have to be performed every time. Afterwards, the two data sets have to be merged, leading to high client complexity. \cite{misc:2019:leitner:background:micro-frontends:backend-for-frontends}
 
 \ifshowListings
 \begin{listing}[H]
@@ -50,28 +50,24 @@ interface ContactModel {
   address_id: string;
 }
     \end{minted}
-    \caption{Contact-Model model that links the address-model with an id.}\label{code:state-art:over-requesting}
+    \caption{Contact-Model model that links the address-model with an id.}\label{code:background:micro-frontends:over-requesting}
 \end{listing}
 \fi
 
 \subsubsection{Consumer Driven APIs}\label{subsubection:background:micro-frontend:generic-vs-consumer-driven-apis:consumer-driven-apis}
 
-Consumer-driven APIs are the opposite of generic APIs. They follow the idea of providing the client with exactly the data it needs. Following the example above, the contact service would have an endpoint that returns only the first and last name as required for the request. These endpoints make communication with a client very simple and there is not the problem of over-fetching and over-requesting. However, creating an endpoint for each request creates an unmanageable set of endpoints. \cite{misc:2019:leitner:background:micro-frontends:backend-for-frontends}
-
-\bigskip
-
-\noindent To solve these problems, the backend-for-frontend pattern is often used. This pattern provides each client with its own API, which specialized for the needs of the client. \cite{book:2018:richardson:background:bff:microservices-patterns}
+Consumer-driven APIs are the opposite of generic APIs. They follow the idea of providing the client with exactly the data it needs. Following the example above, the contact service would have an endpoint that returns only the first and last name as required for the request. These endpoints make communication with a client straightforward, and there is no problem of over-fetching and over-requesting. However, creating an endpoint for each request creates an unmanageable set of endpoints.  \cite{misc:2019:leitner:background:micro-frontends:backend-for-frontends} To solve the problems of Over-fetching and Over-requesting, the backend-for-frontend pattern is often used. This pattern provides each client with its API, which is adapted to their needs. \cite{book:2018:richardson:background:bff:microservices-patterns}
 
 \ifshowImages
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{images/ui-bff-architecture.jpeg}
-    \caption{Frontend architecture with the backend-for-frontend pattern.}\label{figure:state-of-the-art:ui-bff-architecture}
+    \includegraphics[width=1\linewidth]{images/background/micro-frontends/bff-architecture.png}
+    \caption{Frontend architecture with the backend-for-frontend pattern.}\label{fig:background:micro-frontend:bff-architecture}
 \end{figure}
 \fi
 
-\noindent Figure \ref{figure:state-of-the-art:ui-bff-architecture} shows an exemplary micro-frontend architecture using the backend-for-frontend pattern. Each frontend has a service that retrieves data only for that specific client. Because the backend-for-frontends function as gateway to the domain services, the domain services can stay very generic and be reused by different clients. Backend-for-frontends should implement only the presentation logic that puts the data into the form that the client needs. It should avoid storing state. \cite{misc:2019:leitner:background:micro-frontends:backend-for-frontends}
+\noindent Figure \ref{fig:background:micro-frontend:bff-architecture} shows an exemplary micro-frontend architecture using the backend-for-frontend pattern. Each frontend has a service that retrieves data only for that specific client. Because the backend-for-frontends function as a gateway to the domain services, the domain services can stay very generic and be reused by different clients. Backend-for-frontends should implement only the presentation logic that puts the data into the form that the client needs, and it should avoid storing state. \cite{misc:2019:leitner:background:micro-frontends:backend-for-frontends}
 
 \bigskip
 
-\noindent With this architectural approach the backend-for-frontend and the frontend form a single deployment unit. If one application is changed, the other needs needs to adapt the changes. GraphQL is a perfect technology for implementing a backend-for-frontend, because it is specifically designed for implementing the presentation-layer.
+\noindent With this architectural approach, the backend-for-frontend and the frontend form a single deployment unit. If one application changes, the other must adapt to the changes. GraphQL is a perfect technology for implementing a backend-for-frontend because it is specifically designed for implementing the presentation layer.

@@ -38,7 +38,7 @@ The following steps show the first path through the application.
 
 For the path through the application \textbf{59} GraphQL queries would have to be executed against the backend, if no caching mechanism were in place. The next sections highlight the results in more detail.
 
-To make the testing process easier, I wrote a provider that allows me to easily change the settings to match one of the three approaches. As shown in listing \ref{listing:results:graphql-client-configuration} the UI\_GRAPHQL\_CLIENT\_OPTIONS\_CONFIG injection-token can be used to set if the cache should be should be shared (shareCache) or if a new instance of the cache should be provided. The settings of UI\_REDUCE\_QUERY\_OPTIONS (reduceQueries) can be used, whether the queries should be reduced with the data already inside the cache or not.
+To make the testing process easier, I wrote a provider that allows me to easily change the settings to match one of the three approaches. As shown in listing \ref{code:results:graphql-client-configuration} the UI\_GRAPHQL\_CLIENT\_OPTIONS\_CONFIG injection-token can be used to set if the cache should be should be shared (shareCache) or if a new instance of the cache should be provided. The settings of UI\_REDUCE\_QUERY\_OPTIONS (reduceQueries) can be used, whether the queries should be reduced with the data already inside the cache or not.
 
 \ifshowListings
 \begin{listing}[H]
@@ -46,25 +46,25 @@ To make the testing process easier, I wrote a provider that allows me to easily 
 @NgModule({
   provide: [
     {
-      provide: UI_GRAPHQL_CLIENT_OPTIONS_CONFIG,  
+      provide: GRAPHQL_CLIENT_OPTIONS_CONFIG,  
       useValue: {  
         shareCache: false,  
         persistCache: false,  
         useTypePolicies: true,  
-        typePolicies: UI_DASHBOARD_APP_TYPE_POLICIES,  
-      } as UiGraphQLClientOptionsConfig,  
+        typePolicies: DASHBOARD_APP_TYPE_POLICIES,  
+      } as GraphQLClientOptionsConfig,  
     },  
     {  
-      provide: UI_REDUCE_QUERY_OPTIONS,  
+      provide: REDUCE_QUERY_OPTIONS,  
       useValue: {  
         reduceQueries: false,  
-      } as UiReduceQueryOptions,  
+      } as ReduceQueryOptions,  
     }
    ],
 })
-export class UiContactRemoteCoreModule {}
+class ContactRemoteCoreModule {}
 \end{minted}
-\caption{Providers to configure the behavior of the cache and query-reduction}\label{listing:results:graphql-client-configuration}
+\caption{Providers to configure the behavior of the cache and query-reduction}\label{code:results:graphql-client-configuration}
 \end{listing}
 \fi
 
@@ -116,13 +116,13 @@ After completing the path through the applications, the Chrome Developer Tools p
     \item reduceQueries: false
 \end{itemize}
 
-47 requests have to be made to the GraphQL backend which can be seen in figure \ref{figure:results:no-shared-cache-no-reduction-chrome-dev-tools}. 6 of the 53 requests have to be removed, because these requests are done to load the other micro-frontends from their remote location. These requests are only needed for the functionality of the micro-service architecture.
+47 requests have to be made to the GraphQL backend which can be seen in figure \ref{fig:results:no-shared-cache-no-reduction-chrome-dev-tools}. 6 of the 53 requests have to be removed, because these requests are done to load the other micro-frontends from their remote location. These requests are only needed for the functionality of the micro-service architecture.
 
 \ifshowImages
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.6\linewidth]{images/1-attempt/no-shared-cache-no-reduction.png}
-\caption{All requests made during the measurement of the first approach}\label{figure:results:no-shared-cache-no-reduction-chrome-dev-tools}
+\caption{All requests made during the measurement of the first approach}\label{fig:results:no-shared-cache-no-reduction-chrome-dev-tools}
 \end{figure}
 \fi
 
@@ -146,13 +146,13 @@ After completing the path, the Chrome Developer Tools provide the following metr
     \item reduceQueries: false
 \end{itemize}
 
-36 requests have to be made to the GraphQL backend which can be seen in figure \ref{figure:results:no-shared-cache-no-reduction-chrome-dev-tools}. 6 requests have to be subtracted (settings.json, module-federation.manifest.json) like previously.
+36 requests have to be made to the GraphQL backend which can be seen in figure \ref{fig:results:no-shared-cache-no-reduction-chrome-dev-tools}. 6 requests have to be subtracted (settings.json, module-federation.manifest.json) like previously.
 
 \ifshowImages
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.6\linewidth]{images/1-attempt/shared-not-reduced-cache.png}
-\caption{All requests made during the measurement of the second approach}\label{figure:results:shared-cache-no-reduction-chrome-dev-tools}
+\caption{All requests made during the measurement of the second approach}\label{fig:results:shared-cache-no-reduction-chrome-dev-tools}
 \end{figure}
 \fi
 
@@ -176,13 +176,13 @@ After completing the path, the Chrome Developer Tools provide the following metr
     \item reduceQueries: false
 \end{itemize}
 
-36 requests have to be made to the GraphQL backend which can be seen in figure \ref{figure:results:no-shared-cache-no-reduction-chrome-dev-tools}. 6 requests have to be subtracted (settings.json, module-federation.manifest.json).
+36 requests have to be made to the GraphQL backend which can be seen in figure \ref{fig:results:no-shared-cache-no-reduction-chrome-dev-tools}. 6 requests have to be subtracted (settings.json, module-federation.manifest.json).
 
 \ifshowImages
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.6\linewidth]{images/1-attempt/shared-reduced-cache.png}
-\caption{All requests made during the measurement of the third approach}\label{figure:results:shared-cache-reduction-chrome-dev-tools}
+\caption{All requests made during the measurement of the third approach}\label{fig:results:shared-cache-reduction-chrome-dev-tools}
 \end{figure}
 \fi
 

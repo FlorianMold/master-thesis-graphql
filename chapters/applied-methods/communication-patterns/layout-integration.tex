@@ -1,0 +1,52 @@
+\subsection{Layout integration}
+
+At first, it was troublesome to integrate the remote module into the layout. Therefore the layout service was created with the \texttt{forRoot} and \texttt{forChild} pattern. This pattern typically provides different configuration options for a feature module.
+
+\bigskip
+
+\noindent Here's how it works:
+
+\begin{itemize}
+  \item The \texttt{forRoot} function is typically called in the application root module to provide configuration options for a global feature module to the entire application. This method usually returns a module with all providers available globally.
+  \item The \texttt{forChild} function is called in a child module that imports the feature module to provide configuration options that are specific to that module. This method usually returns a module with providers only available to components and services within that child module.
+\end{itemize}
+
+\noindent The listing \ref{code:applied-methods:communication-patterns:layout-module} shows the implementation of the \texttt{forRoot} and \texttt{forChild} pattern inside the layout-module.
+
+\ifshowListings
+  \begin{listing}[H]
+  \begin{minted}{typescript}
+class LayoutModule {
+  static forRoot(): ModuleWithProviders<LayoutModule> {
+    return {
+      ngModule: LayoutModule,
+      providers: [LayoutNavigationService, LayoutTemplateService],
+    };
+  }
+
+  static forChild(): ModuleWithProviders<LayoutModule> {
+    return {
+      ngModule: LayoutModule,
+    };
+  }
+}
+  \end{minted}
+  \caption{The implementation of forRoot and forChild inside the layout module.}\label{code:applied-methods:communication-patterns:layout-module}
+  \end{listing}
+\fi
+
+\noindent This approach allows the \texttt{LayoutNavigationService}- and \texttt{LayoutTemplateService}-services available in the root injector. These services can be used to register navigation nodes and templates inside the header. The \texttt{LayoutModule.forChild()} can be used where the components and directives of the layout are needed.
+
+\ifshowListings
+  \begin{listing}[H]
+  \begin{minted}{typescript}
+@NgModule({
+  imports: [
+    LayoutModule.forRoot(),
+  ],
+})
+class ContactCoreModule {}
+  \end{minted}
+  \caption{The implementation of forRoot and forChild inside the layout module.}\label{code:applied-methods:communication-patterns:importing-the-root-layout-module}
+  \end{listing}
+\fi

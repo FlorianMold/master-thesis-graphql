@@ -1,0 +1,34 @@
+\subsection{Nginx problems}
+
+Docker containers are used to serve the micro-frontends. To serve the application Nginx is used. The application is built, and the files are copied into the docker image. The dockerfile is shown in listing \ref{code:applied-methods:prototype-implementation-dockerfile}.
+
+\ifshowListings
+  \begin{listing}[H]
+  \begin{minted}{dockerfile}
+FROM nginx:alpine
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+COPY dist/apps/contact/ /usr/share/nginx/html/
+    
+CMD [
+  "/bin/sh", 
+  "-c", 
+  "envsubst < /usr/share/nginx/html/assets/settings.template.json >" 
+  "/usr/share/nginx/html/assets/settings.json && exec nginx -g daemon off;"
+]
+  \end{minted}
+  \caption{The dockerfile for containerizing a micro-frontend.}\label{code:applied-methods:prototype-implementation-dockerfile}
+  \end{listing}
+\fi
+
+\noindent Module Federation applications expose a file called \texttt{remoteEntry.mjs}, which is consumed by the application shell. However, Nginx currently cannot interpret the \texttt{\*.mjs} mime-type a JavaScript. Therefore, it falls back to the default mime-type \texttt{text/plain}, where JavaScript is not executed. As a workaround for this problem, a custom \texttt{nginx.conf} has been created that sets the default mime-type to \texttt{text/javascript}. A part of the configuration is shown in listing \ref{code:applied-methods:prototype-implementation-custom-nginx-conf}.
+
+\ifshowListings
+  \begin{listing}[H]
+  \begin{minted}{bash}
+default_type text/javascript;
+  \end{minted}
+  \caption{The custom configuration to set the default mime type for all files.}\label{code:applied-methods:prototype-implementation-custom-nginx-conf}
+  \end{listing}
+\fi
+
+\noindent The custom configuration allows Nginx to correctly load and interpret the remote module files, which it interprets as JavaScript files. Setting another default mime type will not break the web server because an Angular application works just with JavaScript files.

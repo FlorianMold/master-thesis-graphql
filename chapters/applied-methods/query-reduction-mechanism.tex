@@ -1,30 +1,34 @@
-\section{Built a mechanism that reduces the size of queries}
+\section{Built a mechanism that reduces the size of queries}\label{section:applied-methods:query-reduction-mechanism}
 
-Apart from sharing a cache instance, performance can be improved even further when using GraphQL in a shared architecture by removing fields from a query that are already in the cache.
-However, the Apollo GraphQL client and no other GraphQL client with a caching layer provides this feature out of the box. Caching in Apollo works at the query level. So when a query is executed against the GraphQL backend, the results of the query are cached. If the same query is executed again, the cache is queried first to determine whether the query is already contained. If all queried fields of the new and old query are identical, the query results in a cache hit. However, if the new query queries fields that have not yet been queried by the old query and are therefore not yet in the cache, the query will result in a cache miss and fetched from the server. Consequently, identical queries that fetch different fields are always fetched from the server.
+This section describes how queries can be reduced.
 
-Consider the listing \ref{code:methods:query-all-users-reduction}. The left query fetches all users, and the right query fetches a user by id. Both queries fetch the same data, but two requests to the backend are made. The second query could completely be omitted, if the caching layer would be taken advantage of.
+Apart from sharing a single cache instance, performance can be improved even further when using GraphQL within a shared caching architecture by removing fields from a query that are already in the cache. No GraphQL client for the frontend provides such a functionality out of the box. Caching in Apollo Client works with the name of the query and the parameters of the query. For example, if a query is executed against the GraphQL API, the results of the query are cached. If the same query is executed again with the same parameters, the results are fetched from the cache, if the two queries are fetching the same fields. If one query wants to fetch a field, that is not already inside the cache, the complete query is sent to the backend. Only if all fields are identical, does the query result in fetching the data only from the cache Consequently, identical queries that fetch different fields are always fetched from the server.
 
-For this case Apollo offers cache redirects, but the redirect works only if the list- and detail-view query the exact same fields. For example if the user micro-frontend query a list of users seen in listing \ref{code:methods:query-all-users-reduction} and when a user is selected, the detail-view might display the individual user like in listing \ref{code:methods:query-single-user}.
+\bigskip
+
+\noindent Consider listing \ref{code:applied-methods:query-all-users-reduction}, where the left query fetches all users, and the right query fetches a user by id. Both queries fetch the same data with the same fields. Both queries are sent to the GraphQL API. The second query could be omitted if the user with the given id is fetched from the cache. 
 
 \ifshowListings
 \begin{listing}[H]
 \begin{minted}{typescript}
-query {                                query User(id: ID!) {
+query allUsers {                        query User(id: ID!) {
   allUsers {                              User(id: id) {
     id                                      id
     username                                username
     email                                   email
-    firstName                               firstname
+    firstName                               firstName
     secondName                              secondName
   }                                       }
 }                                      }
 \end{minted}
-\caption{Query all users for the list-view.}\label{code:methods:query-all-users-reduction}
+\caption{Query all users for the list-view.}\label{code:applied-methods:query-all-users-reduction}
 \end{listing}
 \fi
 
-In this case it is known that the user-data is already inside the cache, but fetched by a different query. The Apollo client doesn't know that and therefore tries to fetch the User from the server. But with Type-Policies we can tell the Apollo client where to look for the cached User. How to write such a redirect is shown in listing \ref{code:methods:user-cache-redirect}.
+
+For this case the Apollo Client offers cache redirects, but the redirect works only if the list- and detail-view try to fetch the exact same fields. For example if the user micro-frontend query a list of users seen in listing \ref{code:applied-methods:query-all-users-reduction} and when a user is selected, the detail-view might display the individual user like in listing \ref{code:applied-methods:query-single-user}.
+
+In this case it is known that the user-data is already inside the cache, but fetched by a different query. The Apollo client doesn't know that and therefore tries to fetch the User from the server. But with Type-Policies can be used to tell the Apollo client where to look for the cached User. How to write such a redirect is shown in listing \ref{code:applied-methods:user-cache-redirect}.
 
 \ifshowListings
 \begin{listing}[H]
@@ -46,7 +50,7 @@ const client = new ApolloClient({
    })
  });
 \end{minted}
-\caption{Writing a cache-redirect for the User-type}\label{code:methods:user-cache-redirect}
+\caption{Writing a cache-redirect for the User-type}\label{code:applied-methods:user-cache-redirect}
 \end{listing}
 \fi
 
@@ -62,7 +66,7 @@ In contrast to the original implementation, the new implementation is technology
 
 \subsection{Example reduction}
 
-This section contains an example of how query reduction works. The user navigates to the list view of all users, which executes the GraphQL query shown in listing \ref{code:methods:query-all-users}. After the query is fetched from the GraphQL backend, the fields in the query are cached
+This section contains an example of how query reduction works. The user navigates to the list view of all users, which executes the GraphQL query shown in listing \ref{code:applied-methods:query-all-users}. After the query is fetched from the GraphQL backend, the fields in the query are cached
 
 \ifshowListings
 \begin{listing}[H]
@@ -85,17 +89,17 @@ query allUsers {
   }
 }
 \end{minted}
-\caption{GraphQL query that queries all users.}\label{code:methods:query-all-users}
+\caption{GraphQL query that queries all users.}\label{code:applied-methods:query-all-users}
 \end{listing}
 \fi
 
-The user then navigates to the detail view of a particular user. The left GraphQL query shown in the figure \ref{figure:code:comparison-user-reduced-user} is the original query that would normally be fetched from the backend. But with the help of reducing of the query with already existing data the right query is sent instead to the backend. Exactly the fields which were queried with the GraphQL query shown in listing \ref{code:methods:query-all-users} are removed. Therefore, 8 of the 16 fields were removed, reducing the size of the query by 50\. In the next section, comparisons are made between the original queries and their reduced counterparts.
+The user then navigates to the detail view of a particular user. The left GraphQL query shown in the figure \ref{fig:applied-methods:comparison-user-reduced-user} is the original query that would normally be fetched from the backend. But with the help of reducing of the query with already existing data the right query is sent instead to the backend. Exactly the fields which were queried with the GraphQL query shown in listing \ref{code:applied-methods:query-all-users} are removed. Therefore, 8 of the 16 fields were removed, reducing the size of the query by 50\. In the next section, comparisons are made between the original queries and their reduced counterparts.
 
 \ifshowImages
   \begin{figure}[H]
   \centering
   \includegraphics[width=0.6\linewidth]{images/reduction-graphql-examples/compare-user-reduced-user.png}
-  \caption{Comparison of the original user- and reduced user-query.}\label{figure:code:comparison-user-reduced-user}
+  \caption{Comparison of the original user- and reduced user-query.}\label{fig:applied-methods:comparison-user-reduced-user}
   \end{figure}
 \fi
 

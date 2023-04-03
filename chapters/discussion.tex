@@ -4,24 +4,24 @@ This project report investigated whether GraphQL can bring performance improveme
 
 \section{Request Size}
 
-Figure \ref{figure:discussion:request-size} displays the results already shown in the previous chapter as a bar chart. In terms of request-size the three approaches are not very far apart from each other. The reduction of queries only makes 1.64 KB difference, in contrast to only sharing the cache.
+Figure \ref{fig:discussion:request-size} displays the results already shown in the previous chapter as a bar chart. In terms of request-size the three approaches are not very far apart from each other. The reduction of queries only makes 1.64 KB difference, in contrast to only sharing the cache.
 
 \ifshowImages
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\linewidth]{images/discussion/request-size.png}
-\caption{Request size comparison of the three approaches.}\label{figure:discussion:request-size}
+\caption{Request size comparison of the three approaches.}\label{fig:discussion:request-size}
 \end{figure}
 \fi
 
 \section{Response Size}
 
-Figure \ref{figure:discussion:response-size} displays the results already shown in the previous chapter as a bar chart. In contrast to the request-size, the response sizes are very far apart. When comparing the naive approach with the two improved approaches, there is a difference of about 2.40 MB. However, when comparing the two improved approaches, the difference is not very large. For the records that the application fetches, the reduction does not make such a big difference, in terms of responses.
+Figure \ref{fig:discussion:response-size} displays the results already shown in the previous chapter as a bar chart. In contrast to the request-size, the response sizes are very far apart. When comparing the naive approach with the two improved approaches, there is a difference of about 2.40 MB. However, when comparing the two improved approaches, the difference is not very large. For the records that the application fetches, the reduction does not make such a big difference, in terms of responses.
 
 \ifshowImages
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\linewidth]{images/discussion/response-size.png}
-\caption{Response size comparison of the three approaches.}\label{figure:discussion:response-size}
+\caption{Response size comparison of the three approaches.}\label{fig:discussion:response-size}
 \end{figure}
 \fi
