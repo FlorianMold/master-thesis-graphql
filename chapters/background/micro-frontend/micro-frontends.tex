@@ -5,7 +5,7 @@ Micro-frontends should bring the same advantages of microservices from the backe
 \ifshowImages
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{images/background/micro-frontends/monolith-micro-frontends-comparison.png}
+    \includegraphics[width=1\linewidth]{images/background/micro-frontends/monolith-micro-frontends-comparison.jpg}
     \caption{A comparison between frontend-monoliths and micro-frontends.}\label{fig:background:micro-frontend:monolith-micro-frontend-comparison}
 \end{figure}
 \fi
@@ -24,38 +24,38 @@ Micro-frontends should bring the same advantages of microservices from the backe
 
 \noindent Building micro-frontends with the web allows different strategies for integrating the applications. Three strategies exist to combine multiple micro-frontends into an application shell: client-side integration, server-side integration, and the combination of these two strategies. \cite[10-12]{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
 
-\subsection{Characteristics}
+\subsection{Characteristics}\label{subsection:background:micro-frontend-characteristics}
 
 Micro-frontends follow the same characteristics as microservices, described in more detail in this chapter.
 
-\subsubsection{Autonomous}
+\subsubsection{Autonomous}\label{subsubsection:background:micro-frontend-autonomous}
 
 Technically a micro-frontend is an entirely independent and runnable application. The integration of the micro-frontends happens only through the frontend. The different micro-frontends are composed within an application shell. The application shell is a separate application that is usually the entry point for the user to interact with all micro-frontends. The application shell also provides the page layout and defines where the micro-frontends are displayed. Autonomy should not go in the direction of complete isolation. Nevertheless, no dependencies should emerge, which could harm autonomy. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
 
-\subsubsection{Technology Agnostic}
+\subsubsection{Technology Agnostic}\label{subsubsection:background:micro-frontend-technology-agnostic}
 
-Just as microservices architectures, micro-frontend architectures can be technology agnostic. The current frontend development landscape offers a lot of JavaScript frameworks, which offer different advantages and disadvantages. The advantage of an application with small independent building blocks is that parts can be rewritten with another technology more efficiently. \cite[14-16]{book:2020:geers:background:micro-frontends:micro-frontends-in-action} However, using different technologies for different micro-frontends can lead to problems with the chosen form of integration and communication. The communication should also be technology agnostic and use browser-native tools like Broadcast Channel API.
+Just as microservice architectures, micro-frontend architectures can be technology agnostic. The current frontend development landscape offers a lot of \ac{JS} frameworks, which offer different advantages and disadvantages. The advantage of an application with small independent building blocks is that parts can be rewritten with another technology more efficiently. \cite[14-16]{book:2020:geers:background:micro-frontends:micro-frontends-in-action} However, using different technologies for different micro-frontends can lead to problems with the chosen form of integration and communication. The communication should also be technology agnostic and use browser-native tools like \textbf{Broadcast Channel \ac{API}}.
 
 \bigskip
 
-\noindent Another problem that could arise is the bundle size of modern JavaScript frameworks. If two frameworks like React and Angular need to be fetched, the total bundle size can be enormous and a strain on (mobile) network connections. Loading and running multiple micro-frontends is also resource intensive. Micro-frontends can be developed using a standardized API like Web Components. With this approach, no specific framework is needed for developing the application. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
+\noindent Another problem that could arise is the bundle size of modern \ac{JS} frameworks. If two frameworks like React and Angular need to be fetched, the total bundle size can be enormous and a strain on (mobile) network connections. Loading and running multiple micro-frontends is also resource intensive. Micro-frontends can be developed using a standardized \ac{API} like Web Components. With this approach, no specific framework is needed for developing the application. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
 
-\subsubsection{Independently Depoyable}
+\subsubsection{Independently Deployable}\label{subsubsection:background:micro-frontend-independent-deployable}
 
 The autonomy of micro-frontends offers the possibility for independent deployments. A sizeable monolithic frontend application is more complex to deploy, and there is no need for communication and coordination over multiple teams to deploy the application. Organizational dependencies negatively impact the time-to-market because development teams would have to wait for another team's release. \cite[12]{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
 
-\subsubsection{Small and Easy to Maintain}
+\subsubsection{Small and Easy to Maintain}\label{subsubsection:background:micro-frontend-small-and-easy-to-maintain}
 
 Because micro-frontends only cover a small domain of an application, the source code is smaller and easier to understand. A smaller codebase is especially helpful for understanding the inner workings of the software. Onboarding new team members is also more accessible because the codebase is smaller than monoliths.
 Due to the easier understanding of the domain, the application can be easier rewritten with state-of-the-art technology if the old one becomes deprecated. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
 
-\subsubsection{Resilience}
+\subsubsection{Resilience}\label{subsubsection:background:micro-frontend-resilience}
 
 Micro-frontends offer the possibility of building an application by composing multiple independent small applications into fully-fledged ones. Depending on the integration strategy, micro-frontends are usually combined at runtime. However, the network, especially for mobile devices, sometimes fails. A micro-frontend architecture provides better failure isolation. One micro-frontend crashing does not affect the other micro-frontends inside the application. Some parts of the application might not work, but other parts of the application are still usable. The application shell can react to a failure and tell users that the application is not working as expected and will be available soon. \cite[10-11]{article:2021:perltonen:background:micro-frontends:motivations-benefits-and-issues}
 
-\subsection{Downsides of Micro-frontend architecture}
+\subsection{Downsides of Micro-frontend architecture}\label{subsection:background:micro-frontend-downsides}
 
-Due to the many advantages of micro-frontends, there are also downsides to using this architectural approach. Independent development comes with the disadvantage of having redundancies. Each micro-frontend needs a separate build process and also a continuous integration pipeline. Moreover, if the backend-for-frontend approach is used, every micro-frontend needs its backend-for-frontend service. When implementing this architecture, much code might be duplicated. If multiple teams use the same code and a bug is found, the wrong behavior cannot be fixed in a central place. Therefore, it is essential to share knowledge between the teams to avoid running into the same bad situations over and over again. However, this should not lead to inter-team dependencies between the different teams. \cite[17-18]{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
+Due to the many advantages of micro-frontends, there are also downsides to using this architectural approach. Independent development comes with the disadvantage of having redundancies. Each micro-frontend needs a separate build process and also a continuous integration pipeline. Moreover, if the \ac{BFF} approach is used, every micro-frontend needs its \ac{BFF} service. When implementing this architecture, much code might be duplicated. If multiple teams use the same code and a bug is found, the wrong behavior cannot be fixed in a central place. Therefore, it is essential to share knowledge between the teams to avoid running into the same bad situations over and over again. However, this should not lead to inter-team dependencies between the different teams. \cite[17-18]{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
 
 
 \input{chapters/background/micro-frontend/integration-strategies.tex}

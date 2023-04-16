@@ -1,8 +1,8 @@
-\subsection{Query Reduction}
+\subsection{Query Reduction}\label{subsection:background:graphql:query-reduction}
 
 This section describes the theory behind reducing queries with existing data inside the cache. Apollo Client does not offer this behavior by default. The GitHub repository features many feature requests that want such a feature implemented for queries. Unfortunately, this did not happen. The following section describes how the theory behind reduction works.
 
-\subsubsection{Theoretical Concept}
+\subsubsection{Theoretical Concept}\label{subsubsection:background:graphql:theoretical-concept}
 
 In large applications, the same query is likely executed with different selection sets over and over again. Unless the selection set of the query is perfectly identical, Apollo Client will fetch the query from the server. Ignoring the fact that many of the fields of the query are already inside the cache. An example query is shown in listing  \ref{code:background:graphql:query-reduction:example-query-simple}.
 
@@ -24,11 +24,11 @@ query {
   }
 }
     \end{minted}
-    \caption{An exemplary GraphQL query that fetches all users}\label{code:background:graphql:query-reduction:example-query-simple}
+    \caption{An exemplary GraphQL query that fetches all users.}\label{code:background:graphql:query-reduction:example-query-simple}
 \end{listing}
 \fi
 
-\noindent The first time this query is executed, a request is sent to the server. Each subsequent execution of the query with the same selection set is served from the cache, and a round trip to the server is saved. Afterwards, the same query is executed with a different selection set. The query is sent to the server again, even though the selection set is slightly different. The selection set of the query is extended by the email field and is shown in listing \ref{code:background:graphql:query-reduction:example-query-extended}
+\noindent The first time this query is executed, a request is sent to the server. Each subsequent execution of the query with the same selection set is served from the cache, and a round trip to the server is saved. Afterwards, the same query is executed with a different selection set. The query is sent to the server again, even though the selection set is slightly different. The selection set of the query is extended by the \texttt{email}-field and is shown in listing \ref{code:background:graphql:query-reduction:example-query-extended}.
 
 \ifshowListings
 \begin{listing}[H]
@@ -49,11 +49,11 @@ query {
   }
 }
     \end{minted}
-    \caption{An exemplary GraphQL query that fetches all users with an additional field}\label{code:background:graphql:query-reduction:example-query-extended}
+    \caption{An exemplary GraphQL query that fetches all users with an additional field.}\label{code:background:graphql:query-reduction:example-query-extended}
 \end{listing}
 \fi
 
-\noindent The queries are almost identical, but an additional field will result in a cache miss. The entire query will be requested again from the server. This default behavior is unnecessary because most data is already in the cache. A better approach would be to fetch only the field which is missing inside the cache, as shown in \ref{code:background:graphql:query-reduction:example-query-reduced}.
+\noindent The queries are almost identical, but an additional field will result in a cache miss. The entire query will be requested again from the server. This default behavior is unnecessary because most data is already in the cache. A better approach would be to fetch only the field which is missing inside the cache, as shown in listing \ref{code:background:graphql:query-reduction:example-query-reduced}.
 
 \ifshowListings
 \begin{listing}[H]
@@ -65,8 +65,8 @@ query {
   }
 }
     \end{minted}
-    \caption{The part of the exemplary query that is necessary}\label{code:background:graphql:query-reduction:example-query-reduced}
+    \caption{The part of the query from listing \ref{code:background:graphql:query-reduction:example-query-extended} that is necessary.}\label{code:background:graphql:query-reduction:example-query-reduced}
 \end{listing}
 \fi
 
-\noindent The id cannot be removed from the query as it needed to merge the existing and incoming data afterwards. Depending on how many shared selections exist inside the application's queries, many server resources can be saved by reducing the queries.
+\noindent The \texttt{id} cannot be removed from the query as it needed to merge the existing and incoming data afterwards. Depending on how many shared selections exist inside the application's queries, many server resources can be saved by reducing the queries.
