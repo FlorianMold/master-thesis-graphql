@@ -1,6 +1,6 @@
 \section{Implementing a prototypical micro-frontend architecture}\label{section:applied-methods:prototypical-implementation}
 
-A prototypical micro-frontend architecture was implemented to evaluate the research questions. The architecture was developed to lay the groundwork for later use in a production environment. The micro-frontends are integrated using client-side integration, more precisely, run-time integration. The integration strategy was implemented with Webpack's Module Federation, which was described in the excellent detail section \ref{subsection:background:micro-frontend:module-federation}. The central part of the implementation is written in Angular. One micro-frontend was implemented in React to showcase the technology agnosticism of the architecture. The prototype contains a single application shell that loads all other micro-frontends. The architecture is divided into nine widgets that display only simple data and four complex single-page applications. The four SPA's are Dashboard, Contact, Sales, and User.
+A prototypical micro-frontend architecture was implemented to evaluate the research questions. The architecture was developed to lay the groundwork for later use in a production environment. The micro-frontends are integrated using client-side integration, more precisely, run-time integration. The integration strategy was implemented with Webpack's Module Federation, which was described in the excellent detail section \ref{subsection:background:micro-frontend:module-federation}. The central part of the implementation is written in Angular. One micro-frontend was implemented in React to showcase the technology agnosticism of the architecture. The prototype contains a single application shell that loads all other micro-frontends. The architecture is divided into nine widgets that display only simple data and four complex single-page applications. The four \acp{SPA} are Dashboard, Contact, Sales, and User.
 
 \bigskip
 
@@ -8,18 +8,17 @@ A prototypical micro-frontend architecture was implemented to evaluate the resea
 
 \bigskip
 
-\noindent A rough overview of the architecture is shown in figure \ref{fig:applied-methods:prototype-micro-frontend-architecture}. It also shows a wireframe of how the structure of the application should look. The icons inside the squares represent the JavaScript Framework used. Each widget is a separate application that exposes a module through Module Federation, consumed by the Dashboard micro-frontend.
+\noindent A rough overview of the architecture is shown in figure \ref{fig:applied-methods:prototype-micro-frontend-architecture}. It also shows a wireframe of how the structure of the application should look. The icons inside the squares represent the \ac{JS} Framework used. Each widget is a separate application that exposes a module through Module Federation, consumed by the Dashboard micro-frontend.
 
 \ifshowImages
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{images/applied-methods/prototypical-implementation/host-architecture.png}
+    \includegraphics[width=1\linewidth]{images/applied-methods/prototypical-implementation/host-architecture.jpg}
     \caption{Architecture of the micro-frontend prototype.}\label{fig:applied-methods:prototype-micro-frontend-architecture}
 \end{figure}
 \fi
 
-\noindent Each micro-frontend is deployed separately and is accessible by a unique URL. The application shell is the entry point for the end user, and it consumes the Dashboard, Contact, Sales, and User application. The main functionality of the micro-frontends is implemented in modules. The remote modules of the applications can be easily exposed through Module Federation and consumed by the application shell and the standalone applications.
-
+\noindent Each micro-frontend is deployed separately and is accessible by a unique \ac{URL}. The application shell is the entry point for the end user, and it consumes the Dashboard, Contact, Sales, and User application. The main functionality of the micro-frontends is implemented in modules. The remote modules of the applications can be easily exposed through Module Federation and consumed by the application shell and the standalone applications.
 
 \bigskip
 
@@ -45,7 +44,7 @@ module.exports = {
   ]
 };
     \end{minted}
-    \caption{Module Federation config to expose the contact micro-frontend}\label{code:applied-methods:module-federation-config-expose}
+    \caption{Module Federation config to expose the contact \texttt{entry.module}.}\label{code:applied-methods:module-federation-config-expose}
 \end{listing}
 \fi
 
@@ -63,7 +62,6 @@ module.exports = {
     sales: 'sales@http://localhost:4202/remoteEntry.js'
     dashboard: 'dashboard@http://localhost:4203/remoteEntry.js'
     user: 'user@http://localhost:4204/remoteEntry.js'
-    'react-widget': 'dashboard-react@http://localhost:4299/remoteEntry.js'
   },
   shared: {
     '@angular/core': {
@@ -89,11 +87,8 @@ module.exports = {
 const routes: Routes = [
   {
     path: 'contact',
-    loadChildren: () =>
-    loadRemoteModule(
-      'contact',
-      './Module'
-    ).then((m) => m.ContactRemoteEntryModule),
+    loadChildren: () => loadRemoteModule('contact', './Module')
+      .then((m) => m.ContactRemoteEntryModule),
   },
   ...
 ]
@@ -102,7 +97,7 @@ const routes: Routes = [
 \end{listing}
 \fi
 
-\ifshowCustomNginxConfSection
+\ifshowAppliedMethodsCustomNginxConfSection
   \input{chapters/applied-methods/prototypical-implementation/nginx-problems}
 \fi
 
@@ -110,6 +105,10 @@ const routes: Routes = [
 
 \input{chapters/applied-methods/prototypical-implementation/backend-for-frontend-pattern}
 
-\input{chapters/applied-methods/prototypical-implementation/load-remote-settings}
+\ifshowAppliedMethodsLoadRemoteSettingsSection
+  \input{chapters/applied-methods/prototypical-implementation/load-remote-settings}
+\fi
 
-\input{chapters/applied-methods/prototypical-implementation/sharing-secondary-entrypoints}
+\ifshowAppliedMethodsSecondaryEntrypoints
+  \input{chapters/applied-methods/prototypical-implementation/sharing-secondary-entrypoints}
+\fi

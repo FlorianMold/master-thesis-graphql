@@ -1,4 +1,4 @@
-\subsection{Layout integration}
+\subsection{Layout integration}\label{subsection:applied-methods:communication-patterns:layout-integration}
 
 At first, it was troublesome to integrate the remote module into the layout. Therefore the layout service was created with the \texttt{forRoot} and \texttt{forChild} pattern. This pattern typically provides different configuration options for a feature module.
 
@@ -25,9 +25,7 @@ class LayoutModule {
   }
 
   static forChild(): ModuleWithProviders<LayoutModule> {
-    return {
-      ngModule: LayoutModule,
-    };
+    return { ngModule: LayoutModule };
   }
 }
   \end{minted}
@@ -35,18 +33,16 @@ class LayoutModule {
   \end{listing}
 \fi
 
-\noindent This approach allows the \texttt{LayoutNavigationService}- and \texttt{LayoutTemplateService}-services available in the root injector. These services can be used to register navigation nodes and templates inside the header. The \texttt{LayoutModule.forChild()} can be used where the components and directives of the layout are needed.
+\noindent This approach allows the \texttt{LayoutNavigationService}- and \texttt{LayoutTemplateService}-services available in the root injector. These services can be used to register navigation nodes and templates inside the header. The \texttt{LayoutModule.forChild()} can be used where the components and directives of the layout are needed. Providing the \texttt{LayoutModule} in the root module is shown in the listing \ref{code:applied-methods:communication-patterns:importing-the-root-layout-module}
 
 \ifshowListings
   \begin{listing}[H]
   \begin{minted}{typescript}
 @NgModule({
-  imports: [
-    LayoutModule.forRoot(),
-  ],
+  imports: [ LayoutModule.forRoot() ],
 })
 class ContactCoreModule {}
   \end{minted}
-  \caption{The implementation of forRoot and forChild inside the layout module.}\label{code:applied-methods:communication-patterns:importing-the-root-layout-module}
+  \caption{Provide the layout services to the root injector.}\label{code:applied-methods:communication-patterns:importing-the-root-layout-module}
   \end{listing}
 \fi

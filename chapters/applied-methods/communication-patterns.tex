@@ -1,6 +1,6 @@
-\section{Communication between the shell- and the remote-application}\label{section:applied-methods:communication-shell-remote}
+\section{Communication between the application-shell and the remote-modules}\label{section:applied-methods:communication-shell-remote}
 
-The next step was to implement communication between the application shell and the micro-frontends. Apollo Client's cache should be used to increase the performance of the micro-frontend architecture. Therefore, the application shell and the micro-frontends must share the same instance of the in-memory cache. How the in-memory cache works is described in chapter  \ref{subsubsection:background:graphql:apollo-server-client:in-memory-cache-working}. The application shell must provide the cache instance to the micro-frontends to create a shared caching layer. The implementation details will be explained in section \ref{section:applied-methods:shared-caching-layer} in more detail. This section focuses on communication between the application shell and the micro-frontends.
+The next step was to implement communication between the application shell and the micro-frontends. Apollo Client's cache should be used to increase the performance of the micro-frontend architecture. Therefore, the application shell and the micro-frontends must share the same instance of the in-memory cache. How the in-memory cache works is described in section  \ref{subsubsection:background:graphql:apollo-server-client:in-memory-cache-working}. The application shell must provide the cache instance to the micro-frontends to create a shared caching layer. The implementation details will be explained in section \ref{section:applied-methods:shared-caching-layer} in more detail. This section focuses on communication between the application shell and the micro-frontends.
 
 \bigskip
 
@@ -8,9 +8,9 @@ The next step was to implement communication between the application shell and t
 
 \bigskip
 
-\noindent As explained in chapter \ref{subsection:background:micro-frontend:communication-patterns} three distinct types of communication exist between micro-frontends and the application shell. Angular provides an excellent feature for implementing unidirectional communication between micro-frontends, namely dependency injection. The application shell can provide services that remote applications can inject. An Angular injection token was created to implement specific behavior if an application runs in standalone mode or is consumed by an application shell.
+\noindent As explained in section \ref{subsection:background:micro-frontend:communication-patterns} three distinct types of communication exist between micro-frontends and the application shell. Angular provides an excellent feature for implementing unidirectional communication between micro-frontends, namely \ac{DI}. The application shell can provide services that remote applications can inject. An Angular injection token was created to implement specific behavior if an application runs in standalone mode or is consumed by an application shell.
 
-\noindent An injection Token can be used to define a dependency that should be injectable into a class. An injection token can be of any value, but the injected type is usually not reified, which means that it is not available at runtime.\cite{misc:-:applied-methods:communication:angular-injection-token}
+\noindent An injection Token can be used to define a dependency that should be injectable into a class. The can be of any value, but the injected type is usually not reified, which means that it is not available at runtime. \cite{misc:-:applied-methods:communication:angular-injection-token}
 
 % TODO: explain injection-token in more detail
 
@@ -23,19 +23,15 @@ The next step was to implement communication between the application shell and t
   \begin{minted}{typescript}
 
 const CONTACT_NATIVE_ENVIRONMENT = 
-new InjectionToken<boolean>('CONTACT_NATIVE_ENVIRONMENT');
+  new InjectionToken<boolean>('CONTACT_NATIVE_ENVIRONMENT');
 
 @NgModule({
-  imports: [
-    ...
-  ],
-  providers: [
-    { provide: CONTACT_NATIVE_ENVIRONMENT, useValue: true },
-  ]
+  imports: [ ... ],
+  providers: [{ provide: CONTACT_NATIVE_ENVIRONMENT, useValue: true }]
 })
 class ContactCoreModule {}
   \end{minted}
-  \caption{Providing the application with the native token.}\label{code:applied-methods:communication-patterns:providing-native-configuration}
+  \caption{Providing the application with the \texttt{CONTACT\_NATIVE\_ENVIRONMENT} injection token.}\label{code:applied-methods:communication-patterns:providing-native-configuration}
   \end{listing}
 \fi
 
@@ -44,8 +40,8 @@ class ContactCoreModule {}
 \ifshowImages
   \begin{figure}[H]
   \centering
-  \includegraphics[width=1\linewidth]{images/applied-methods/communication-patterns/layout-comparison.png}
-  \caption{Comparison between the navigation inside the contact-application and the application-shell}\label{fig:applied-methods:communication-patterns:comparison-between-host-and-contact-layout}
+  \includegraphics[width=1\linewidth]{images/applied-methods/communication-patterns/layout-comparison.jpg}
+  \caption{Comparison between the navigation inside the contact-application and the application-shell.}\label{fig:applied-methods:communication-patterns:comparison-between-host-and-contact-layout}
   \end{figure}
 \fi
 
@@ -72,9 +68,7 @@ class ContactCoreModule {}
 \ifshowListings
   \begin{listing}[H]
   \begin{minted}{typescript}
-private isNative = inject(
-  CONTACT_NATIVE_ENVIRONMENT, { optional: true }
-)
+private isNative = inject(CONTACT_NATIVE_ENVIRONMENT, { optional: true })
 
 init() {
   const { topNodes } = CONTACT_NAVIGATION;
@@ -87,7 +81,7 @@ ngOnDestroy() {
     this.layoutService.unregisterSecondToolbarRow();
 }
   \end{minted}
-  \caption{Parts of the initialization logic of a micro-frontend}\label{code:applied-methods:communication-patterns:initialization-logic-micro-frontend}
+  \caption{An excerpt from the initialization logic of a micro-frontend.}\label{code:applied-methods:communication-patterns:initialization-logic-micro-frontend}
   \end{listing}
 \fi
 

@@ -1,18 +1,16 @@
-\section{Built a mechanism that reduces the size of queries}\label{section:applied-methods:query-reduction-mechanism}
+\section{Built a mechanism that reduces the size of queries}\label{section:applied-methods:query-reduction}
 
-This section describes how queries can be reduced.
-
-Apart from sharing a single cache instance, performance can be improved even further when using GraphQL within a shared caching architecture by removing fields from a query that are already in the cache. No GraphQL client for the frontend provides such a functionality out of the box. Caching in Apollo Client works with the name of the query and the parameters of the query. For example, if a query is executed against the GraphQL API, the results of the query are cached. If the same query is executed again with the same parameters, the results are fetched from the cache, if the two queries are fetching the same fields. If one query wants to fetch a field, that is not already inside the cache, the complete query is sent to the backend. Only if all fields are identical, does the query result in fetching the data only from the cache Consequently, identical queries that fetch different fields are always fetched from the server.
+After implementing the shared caching layer, the next step was to improve the performance of the micro-frontends by optimizing the use of the cache. The size of the network requests can be reduced by removing parts of a query that are already inside the cache. The theory behind removing fields from the query was already explained in section \ref{subsection:background:graphql:query-reduction}. The Apollo Client does not provide such a functionality out of the box, but the feature is requested in Apollo's Github Repository by many users. The section \ref{subsubsection:background:graphql:apollo-server-client:in-memory-cache-working} explains how the \texttt{InMemoryCache} cache of Apollo Client works in more detail. Briefly summarized the caching works with the name and the parameters of a GraphQL query. For example, if a query is executed against the GraphQL \ac{API}, the results of the query are cached. If the same query with the same fields is executed again with the same parameters, the results are fetched from the Apollo Client cache. If the query fetches an additional field, which is not inside the cache, the complete query is sent to the GraphQL \ac{API}. Only if the queried fields are completely identical, the data from the cache is used. Consequently, identical queries that fetch different fields are always fetched from the server.
 
 \bigskip
 
-\noindent Consider listing \ref{code:applied-methods:query-all-users-reduction}, where the left query fetches all users, and the right query fetches a user by id. Both queries fetch the same data with the same fields. Both queries are sent to the GraphQL API. The second query could be omitted if the user with the given id is fetched from the cache. 
+\noindent Consider listing \ref{code:applied-methods:compare-allusers-user-query}, where the left query fetches all users, and the right query fetches a user by its id. Both queries fetch the same data type and the same fields, but they are fundamentally different queries. They have different names and different parameters. Both queries are sent to the GraphQL \ac{API}. The right query could be omitted if the user with the given id is fetched from the cache. If the left query is executed before the right query, the data to resolve the right query could be completely taken from the cache.
 
 \ifshowListings
 \begin{listing}[H]
 \begin{minted}{typescript}
-query allUsers {                        query User(id: ID!) {
-  allUsers {                              User(id: id) {
+query allUsers {                        query user(id: ID!) {
+  allUsers {                              user(id: id) {
     id                                      id
     username                                username
     email                                   email
@@ -21,164 +19,68 @@ query allUsers {                        query User(id: ID!) {
   }                                       }
 }                                      }
 \end{minted}
-\caption{Query all users for the list-view.}\label{code:applied-methods:query-all-users-reduction}
+\caption{Comparison between the \texttt{allUsers} and \texttt{User} query.}\label{code:applied-methods:compare-allusers-user-query}
 \end{listing}
 \fi
 
+\noindent Apollo offers a solution to tackle this problem. The application might have a detail view and a list view that both query the same data like in listing \ref{code:applied-methods:compare-allusers-user-query}. The data for the \texttt{user} query might be already in the cache, but the Apollo Client does not know that. Therefore, the lookup of the cache can be configured, so that the Apollo Client knows where to look for the data. To better understand the cache redirection, a basic understanding of type policies is needed, which were described in more detail in section \ref{subsubsection:background:graphql:apollo-server-client:type-policies}.
 
-For this case the Apollo Client offers cache redirects, but the redirect works only if the list- and detail-view try to fetch the exact same fields. For example if the user micro-frontend query a list of users seen in listing \ref{code:applied-methods:query-all-users-reduction} and when a user is selected, the detail-view might display the individual user like in listing \ref{code:applied-methods:query-single-user}.
+\bigskip
 
-In this case it is known that the user-data is already inside the cache, but fetched by a different query. The Apollo client doesn't know that and therefore tries to fetch the User from the server. But with Type-Policies can be used to tell the Apollo client where to look for the cached User. How to write such a redirect is shown in listing \ref{code:applied-methods:user-cache-redirect}.
+\noindent To inform the Apollo Client where to look for the cached \texttt{User} object, a field policy \texttt{read} function must be written for the \texttt{user} query. Just like the \texttt{firstName} being a field of the \texttt{User} type is the \texttt{user}-query a field of the root query. This hierarchy resembles the structure of the GraphQL Schema, where the queries have to be defined inside the \texttt{Query} type. Listing \ref{code:applied-methods:query-reduction:graphql-schema} shows an excerpt from the GraphQL schema. All queries that can be executed by a client, are listed inside the \texttt{Query} type.
 
 \ifshowListings
 \begin{listing}[H]
 \begin{minted}{typescript}
-const client = new ApolloClient({
-   cache: new InMemoryCache({
-     typePolicies: {
-       Query: {
-         fields: {
-           User(_, { args, toReference }) {
-             return toReference({
-               __typename: 'User',
-               id: args.id,
-             });
-           }
-         }
-       }
-     }
-   })
- });
-\end{minted}
-\caption{Writing a cache-redirect for the User-type}\label{code:applied-methods:user-cache-redirect}
-\end{listing}
-\fi
+type Query {
+  user(id: ID!): User
+  allUsers(page: Int, perPage: Int): [User]
+  ...
+}
 
-That a detail-view and a list-view are identical is very rare in applications. Therefore this approach can't be used to reduce the size of network-requests effectively. And the approach is very verbose, because this redirect has to be written for every object type.
-
-Many feature requests in the Apollo repository call for such a feature. While browsing GitHub, I found a project that provides drop-in replacements for Apollo's GraphQL query methods. And it provides the functionality to remove fields from a query that are already in the cache. However, the big problem was that the project was developed specifically for React and the dependencies were outdated. As a result, I couldn't install it and use it within the micro frontend written in React.
-
-The next step was to rewrite the library in TypeScript and update the dependencies. While rewriting the library, some new features were added to still be able to exploit the cache-layer.
-
-But the library lacked the feature of cache-redirects. Therefore, the fields which were already queried by a list-view, couldn't be reduced when the detail-view was queries. I enhanced the implementation by adding a parameter, where a reference to an existing cache-object can be specified. If no reference is found in the cache, these reference to a cache-object is used to reduce the query.
-
-In contrast to the original implementation, the new implementation is technology agnostic and can be used with every frontend framework that supports the Apollo client. For ease of use, I wrote adapters for React and Angular that have the same API as Apollo's original methods. The next section shows an example of the library in action.
-
-\subsection{Example reduction}
-
-This section contains an example of how query reduction works. The user navigates to the list view of all users, which executes the GraphQL query shown in listing \ref{code:applied-methods:query-all-users}. After the query is fetched from the GraphQL backend, the fields in the query are cached
-
-\ifshowListings
-\begin{listing}[H]
-\begin{minted}{typescript}
-query allUsers {
-  allUsers {
-    id
-    username
-    email
-    password
-    firstName
-    secondName
-    gender
-    Title {
-      id
-    }
-    Salutation {
-      id
-    }
-  }
+type User {
+  id: ID!
+  firstName: String!
+  secondName: String!
+  ...
 }
 \end{minted}
-\caption{GraphQL query that queries all users.}\label{code:applied-methods:query-all-users}
+\caption{An excerpt from the GraphQL schema.}\label{code:applied-methods:query-reduction:graphql-schema}
 \end{listing}
 \fi
 
-The user then navigates to the detail view of a particular user. The left GraphQL query shown in the figure \ref{fig:applied-methods:comparison-user-reduced-user} is the original query that would normally be fetched from the backend. But with the help of reducing of the query with already existing data the right query is sent instead to the backend. Exactly the fields which were queried with the GraphQL query shown in listing \ref{code:applied-methods:query-all-users} are removed. Therefore, 8 of the 16 fields were removed, reducing the size of the query by 50\. In the next section, comparisons are made between the original queries and their reduced counterparts.
 
-\ifshowImages
-  \begin{figure}[H]
-  \centering
-  \includegraphics[width=0.6\linewidth]{images/reduction-graphql-examples/compare-user-reduced-user.png}
-  \caption{Comparison of the original user- and reduced user-query.}\label{fig:applied-methods:comparison-user-reduced-user}
-  \end{figure}
+\noindent Listing \ref{code:applied-methods:query-reduction:user-cache-redirect} shows the \texttt{read} field policy for the \texttt{User}. Like in the GraphQL schema from listing \ref{code:applied-methods:query-reduction:graphql-schema}, the \texttt{user} query is a field of the root query. Therefore, every time the client queries the \texttt{user} query, the read function is executed. The \texttt{toReference} function is used to a cache reference for a \texttt{User} type. The reference is generated based on its \texttt{\_\_typename} and \texttt{id}, as explained in section \ref{subsubsection:background:graphql:apollo-server-client:data-normalization}. Apollo uses the result of \texttt{toReference} to look up the object in its cache and return it if it is present. If the object is not present in the cache, the query is sent to the GraphQL \ac{API}.
+
+\ifshowListings
+\begin{listing}[H]
+\begin{minted}{typescript}
+new ApolloClient({
+  cache: new InMemoryCache({ typePolicies: { Query: { fields: {
+    User: {
+      read(_, { args, toReference }): {
+        return toReference({ __typename: 'User', id: args.id });
+      }
+    }
+  }}}})
+});
+\end{minted}
+\caption{Writing a cache-redirect for the User-type.}\label{code:applied-methods:query-reduction:user-cache-redirect}
+\end{listing}
 \fi
 
-\subsection{Comparison between queries and reduced queries}
+\noindent Using cache redirects to reduce the amount of network requests works, but all of the query's requested fields must be already present in the cache. If the \texttt{user} query fetches any field that the \texttt{allUsers} query did not, Apollo Client considers the cache hit to be incomplete and the query is executed over the network. That a detail view and a list view are perfectly identical is very rare in applications. Therefore this approach can't be used to reduce the size of network requests effectively. And the approach is very verbose because a redirect has to be written for every data type. The approach does not scale, as the same type-policies would have to be written and registered for every micro-frontend.
 
-This section shows the difference in request- and response-size of different queries. The table \ref{table:code:comparison-user-reduction} shows the difference in size of the user-detail query, with the query reduction that was explained in the previous section. By removing 8 fields from the request, the size of the requests were reduced by 30\ or by 161 bytes. When querying 10 users a total of 1.61 KB can be saved. The response-size is reduced by 42\ on average. 2.55 KB in response-size is saved if 10 users are queried.
+\bigskip
 
-\ifshowTables
-\begin{table}[H]
-  \begin{tabular}{|l|l|l|l|l|}
-  \hline
-  Query & Request Diff (\%) & Request Diff (B) & Response Diff (\%) & Response Diff (B) \\
-  \hline
-  User & 30\ & 161 & 42\ & 257 \\
-  \hline
-  User & 30\ & 161 & 42\ & 257 \\
-  \hline
-  User & 30\ & 161 & 41\ & 257 \\
-  \hline
-  User & 30\ & 161 & 42\ & 244 \\
-  \hline
-  User & 30\ & 161 & 43\ & 251 \\
-  \hline
-  User & 30\ & 161 & 42\ & 271 \\
-  \hline
-  User & 30\ & 161 & 42\ & 249 \\
-  \hline
-  User & 30\ & 161 & 41\ & 263 \\
-  \hline
-  User & 30\ & 161 & 41\ & 248 \\
-  \hline
-  User & 30\ & 161 & 41\ & 252 \\
-  \hline
-  \hline
-  \textbf{AVG} & \textbf{30\%} & - & \textbf{42\%} & -  \\
-  \hline
-  \textbf{SUM} & - & \textbf{1610 (1.61 KB)} & - & \textbf{2549 (2.55 KB)} \\
-  \hline
-  \multicolumn{5}{l}{16 fields, 8 Fields Removed, 8 remaining}
-  \end{tabular}
-  \caption{Comparison of the user-detail query in request- and response-sizes.}\label{table:code:comparison-user-reduction}
-\end{table}
+\noindent The open source project \href{https://github.com/appmotion/apollo-augmented-hooks}{apollo-augmented-hooks} on GitHub provides drop-in replacements for Apollo's GraphQL query methods. It provides the functionality to remove fields from a query that are already in the cache. However, the big problem is that the project was developed specifically for React's Apollo Client. The dependencies were outdated and the latest release of the library was in 2021. To test the library an older version of Apollo Client was used. The dependency offered the functionality to remove fields that already exist in the cache from a previous GraphQL query. To use the functionality of the library inside the prototypical micro-frontend architecture, the Apollo-augmented-hooks dependency was forked. The first step was to update the dependencies to make it work with the latest version of Apollo Client. The problem with the old implementation is that it just supports React's Apollo Client with its hooks. The core functionality of the library was extracted and an adapter for React and Angular was written utilizing the functionality. The functions have the same \ac{API} as Apollo's original methods, therefore the migration is very easy. The functionality of the library was rewritten with \ac{TS} and some additional features were added, that utilize the cache even more. The implementation is detailed even further in the section \ref{subsection:applied-methods:query-reduction:how-does-the-library-work}.
+
+% But the library lacked the feature of cache-redirects. Therefore, the fields which were already queried by a list-view, couldn't be reduced when the detail view was queried. The implementation was enhanced by adding a parameter, where a reference to an existing cache object could be specified. If no reference is found in the cache, these references to a cache object are used to reduce the query.
+
+\ifshowAppliedMethodsTestingQueryReduction
+  \input{chapters/applied-methods/query-reduction/testing-query-reduction.tex}
 \fi
 
-The table \ref{table:code:comparison-contract-reduction} shows the difference for the contract-detail query. By running the list-query for all contracts 10 fields from the 17 can be removed from the query. Therefore only 7 from the 17 fields are remaining inside the query. The requests can be reduced by an average of 38\ or by 207 bytes. When using the application and querying 10 detail-views of the contract 2.07 KB can be saved. The size of the response from the GraphQL backend can be reduced by about 58\. 3.96 KB in response-size is saved if 10 contracts are queried.
+\input{chapters/applied-methods/query-reduction/augmented-hooks.tex}
 
- \ifshowTables
- \begin{table}[H]
-   \begin{tabular}{|l|l|l|l|l|}
-   \hline
-   Query  & Request Diff (\%)  & Request Diff (B) & Response Diff (\%) & Response Diff (B)  \\
-   \hline
-   Contract & 38\ & 207 & 58\ & 394 \\
-   \hline
-   Contract & 38\ & 207 & 58\ & 378 \\
-   \hline
-   Contract & 38\ & 207 & 59\ & 403 \\
-   \hline
-   Contract & 38\ & 207 & 60\ & 408 \\
-   \hline
-   Contract & 38\ & 207 & 60\ & 409 \\
-   \hline
-   Contract & 38\ & 207 & 57\ & 370 \\
-   \hline
-   Contract & 38\ & 207 & 58\ & 393 \\
-   \hline
-   Contract & 38\ & 207 & 58\ & 407 \\
-   \hline
-   Contract & 38\ & 207 & 59\ & 400 \\
-   \hline
-   Contract & 38\ & 207 & 58\ & 389 \\
-   \hline
-   \hline
-   \textbf{AVG} & \textbf{38\%} & - & \textbf{58\%} & - \\
-   \hline
-   \textbf{SUM} & - & \textbf{2070 (2.07 KB)} & - & \textbf{3951 (3.95 KB)} \\
-   \hline
-   \multicolumn{5}{l}{17 fields, 10 Fields Removed, 7 remaining}
-   \end{tabular}
-   \caption{Comparison of the contract-detail query in request- and response-sizes}\label{table:code:comparison-contract-reduction}
- \end{table}
- \fi
+\input{chapters/applied-methods/query-reduction/example-reduction.tex}

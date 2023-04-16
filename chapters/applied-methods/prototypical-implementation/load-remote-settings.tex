@@ -1,10 +1,11 @@
-\subsection{Setting up the application configuration}
+\subsection{Setting up the application configuration}\label{subsection:applied-methods:prototypical-implementation
+:load-remote-settings}
 
-The application shell is set up to use dynamic Module Federation. The location of the remote applications is determined at runtime. The problem with the so-called static Module Federation is that the URL of the remote application must be known at build time. However, this is troublesome if the application should be built once and deployed to multiple stages. It is very cumbersome to build an artifact for every environment.
+The application shell is set up to use dynamic Module Federation. The location of the remote applications is determined at runtime. The problem with the so-called static Module Federation is that the \ac{URL} of the remote application must be known at build time. However, this is troublesome if the application should be built once and deployed to multiple stages. It is very cumbersome to build an artifact for every environment.
 
 \bigskip
 
-\noindent One possibility to fetch the remote definitions at runtime is to store them in a simple JSON file, which can easily be configured for every environment. The host makes a simple GET request to get the definitions inside the JSON file. The content of the file has to be a simple mapping between the name of the remote and their location, as shown in listing \ref{code:applied-methods:define-module-federation-manifest}.
+\noindent One possibility to fetch the remote definitions at runtime is to store them in a simple \ac{JSON} file, which can easily be configured for every environment. The host makes a simple GET request to get the definitions inside the \ac{JSON} file. The content of the file has to be a simple mapping between the name of the remote and their location, as shown in listing \ref{code:applied-methods:define-module-federation-manifest}.
 
 \ifshowListings
 \begin{listing}[H]
@@ -16,7 +17,7 @@ The application shell is set up to use dynamic Module Federation. The location o
   "user": "http://localhost:4204"
 }
 \end{minted}
-\caption{Loading micro-frontend URLs during startup.}\label{code:applied-methods:define-module-federation-manifest}
+\caption{Loading micro-frontend \acp{URL} during startup.}\label{code:applied-methods:define-module-federation-manifest}
 \end{listing}
 \fi
 
@@ -30,15 +31,15 @@ fetch('/assets/module-federation.manifest.json')
   .then((definitions) => setRemoteDefinitions(definitions))
   .then(() => import('./bootstrap').catch((err) => console.error(err)));
 \end{minted}
-\caption{Loading micro-frontend URL's during initialization.}\label{code:applied-methods:load-module-federation-settings}
+\caption{Loading micro-frontend \acp{URL} during initialization.}\label{code:applied-methods:load-module-federation-settings}
 \end{listing}
 \fi
 
-\noindent Another use case for dynamic content is the configuration of an application. This configuration includes the endpoint of the GraphQL API, which can be different in staging and production. Therefore, the configuration should also be fetched dynamically. The settings are fetched during the first load of the application and stored for later use. The configuration is stored inside a file called \texttt{settings.json}, served alongside the application. Angular provides a handy mechanism to run code when the application is loaded.
+\noindent Another use case for dynamic content is the configuration of an application. This configuration includes the endpoint of the GraphQL \ac{API}, which can be different in staging and production. Therefore, the configuration should also be fetched dynamically. The settings are fetched during the first load of the application and stored for later use. The configuration is stored inside a file called \texttt{settings.json}, served alongside the application. Angular provides a handy mechanism to run code when the application is loaded.
 
 \bigskip
 
-\noindent With the help of the \texttt{APP\_INITIALIZER} injection token, asynchronous code can be executed when the application starts up. Such tasks include fetching data from a remote API and setting up configuration or initializing third-party libraries. When an Angular app starts, it will execute all the functions registered with \texttt{APP\_INITIALIZER} in the order they were defined. If one of the initialization tasks fails, the application will not load. \cite{misc:-:applied-methods:prototype-implementation:angular-app-initializer}
+\noindent With the help of the \texttt{APP\_INITIALIZER} injection token, asynchronous code can be executed when the application starts up. Such tasks include fetching data from a remote \ac{API} and setting up configuration or initializing third-party libraries. When an Angular app starts, it will execute all the functions registered with \texttt{APP\_INITIALIZER} in the order they were defined. If one of the initialization tasks fails, the application will not load. \cite{misc:-:applied-methods:prototype-implementation:angular-app-initializer}
 
 \bigskip
 
@@ -62,11 +63,12 @@ fetch('/assets/module-federation.manifest.json')
 })
 class CoreModule {}
 \end{minted}
-\caption{Loading micro-frontend URLs during startup.}\label{code:applied-methods:fetch-and-store-settings}
+\caption{Fetch \& store the settings of the application shell.}\label{code:applied-methods:fetch-and-store-settings}
 \end{listing}
 \fi
 
-\subsubsection{Loading the configuration of the remote applications}
+\subsubsection{Loading the configuration of the remote applications}\label{subsubsection:applied-methods:prototypical-implementation
+:load-the-configuration}
 
 Each application of the prototypical micro-frontend architecture follows this approach. When the application is initialized, the application configuration is fetched with a GET request from the \texttt{settings.json}. As mentioned in the previous section, each micro-frontend stores its settings with the application's name as the key. However, the configuration does not get fetched when the application shell consumes the functionality of a micro-frontend. Therefore, the application throws errors because they cannot access their settings from the storage. To solve the problem of missing settings for the application, the configuration of a remote application is fetched and stored inside a store when the user navigates to it. This procedure is explained visually in figure \ref{fig:applied-methods:load-remote-settings}.
 
@@ -86,12 +88,11 @@ Each application of the prototypical micro-frontend architecture follows this ap
 const routes: Routes = [{
     path: 'contact',
     loadChildren: () => loadRemoteModule('contact', './Module')
-    .then((m) => m.ContactRemoteEntryModule),
+      .then((m) => m.ContactRemoteEntryModule),
     resolve: {
       settings: () => {
-        const urls = inject(StorageClient).get('host-manifest');
-        return inject(HttpClient)
-        .get(urls['contact'] + '/assets/settings.json');
+        const contact = inject(StorageClient).get('manifest')['contact'];
+        return inject(HttpClient).get(`\${contact}/assets/settings.json`);
       }
     },
   },

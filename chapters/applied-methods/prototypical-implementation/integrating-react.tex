@@ -1,4 +1,4 @@
-\subsection{Implement and integrate the React micro-frontend}
+\subsection{Implement and integrate the React micro-frontend}\label{subsection:applied-methods:prototypical-implementation:react-micro-frontend}
 
 One widget for the dashboard micro-frontend was implemented using the popular frontend framework React. Implementing one micro-frontend in another technology was done to show that the concept of sharing a single cache instance between multiple micro-frontends is technology agnostic. The React widget exposes its functionality like the Angular counterparts through Module Federation. In comparison to Angular, React does not have the concept of modules. Therefore, the functionality of the widget is exported as a simple, functional React component, as shown in listing  \ref{code:applied-methods:module-federation-react-config-expose}.
 
@@ -7,9 +7,7 @@ One widget for the dashboard micro-frontend was implemented using the popular fr
     \begin{minted}{typescript}
 module.exports = {
   name: 'react-dashboard',
-  exposes: {
-    './Module': './src/remote-entry.ts',
-  },
+  exposes: { './Module': './src/remote-entry.ts' },
   shared: [
     react: {
       singleton: true, strictVersion: true, requiredVersion: '^18.2.0' 
@@ -18,7 +16,7 @@ module.exports = {
   ]
 };
     \end{minted}
-    \caption{Module Federation config for the React micro-frontend}\label{code:applied-methods:module-federation-react-config-expose}
+    \caption{Module Federation config for exposing the \texttt{remote.entry} of the React micro-frontend.}\label{code:applied-methods:module-federation-react-config-expose}
 \end{listing}
 \fi
 
@@ -26,7 +24,7 @@ module.exports = {
 
 \bigskip
 
-\noindent Angular modules consumed through Module Federation can access the dependency injection tree from the application shell. However, React does not offer a dependency injection system like Angular and cannot access the necessary dependencies. React uses contexts to pass down data through the component tree without manually passing properties down level by level. It enables data sharing between components not directly connected in the component tree. The make the shared caching layer inside the React application work, the React widget needs the \texttt{InMemoryCache} instance from the application shell. The shared caching layer is explained in section \ref{section:applied-methods:shared-caching-layer} in more detail, but the general concept is needed to understand the need to incorporate the instance into the React context. Therefore, the Angular wrapper creates the exposed widget inside a React context provider with the necessary dependencies. The function in listing \ref{code:applied-methods:prototypical-implementation:render-react-component-with-context} shows the React context provider's creation and the React component's rendering. 
+\noindent Angular modules consumed through Module Federation can access the \ac{DI} tree from the application shell. However, React does not offer a \ac{DI} system like Angular and cannot access the necessary dependencies. React uses contexts to pass down data through the component tree without manually passing properties down level by level. It enables data sharing between components not directly connected in the component tree. The make the shared caching layer inside the React application work, the React widget needs the \texttt{InMemoryCache} instance from the application shell. The shared caching layer is explained in section \ref{section:applied-methods:shared-caching-layer} in more detail, but the general concept is needed to understand the need to incorporate the instance into the React context. Therefore, the Angular wrapper creates the exposed widget inside a React context provider with the necessary dependencies. The function in listing \ref{code:applied-methods:prototypical-implementation:render-react-component-with-context} shows the React context provider's creation and the React component's rendering. 
 
 \ifshowListings
 \begin{listing}[H]
@@ -49,7 +47,7 @@ render<Comp extends ElementType>(rootEl: Root, Comp: Comp) {
 \end{listing}
 \fi
 
-\noindent With the help of the function, the widget can access the instance of the InMemoryCache from the application shell and use it to share the cache between the Angular and the React micro-frontend. How the InMemoryCache from the application shell is injected and consumed is shown in listing \ref{code:applied-methods:prototypical-implementation:consume-react-context}. The cache is used to create a new instance of the ApolloClient, and afterwards the client is provided to the application using another context.
+\noindent With the help of the function, the widget can access the instance of the \texttt{InMemoryCache} from the application shell and use it to share the cache between the Angular and the React micro-frontend. How the \texttt{InMemoryCache} from the application shell is injected and consumed is shown in listing \ref{code:applied-methods:prototypical-implementation:consume-react-context}. The cache is used to create a new instance of the ApolloClient, and afterwards the client is provided to the application using another context.
 
 \ifshowListings
 \begin{listing}[H]
@@ -69,6 +67,6 @@ return (
 );
 
     \end{minted}
-    \caption{Use the InMemoryCache instance from the context.}\label{code:applied-methods:prototypical-implementation:consume-react-context}
+    \caption{Use the \texttt{InMemoryCache} instance from the React context.}\label{code:applied-methods:prototypical-implementation:consume-react-context}
 \end{listing}
 \fi

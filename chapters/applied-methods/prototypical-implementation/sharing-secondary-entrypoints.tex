@@ -1,4 +1,5 @@
-\subsection{Sharing secondary entry points}
+\subsection{Sharing secondary entry points}\label{subsection:applied-methods:prototypical-implementation:sharing
+-secondary-entrypoints}
 
 By default, all dependencies of the micro-frontends are shared through Module Federation. The configuration options for every dependency are \texttt{singleton}-, \texttt{strictVersion}-, and \texttt{requiredVersion}-property. These properties are explained in more detail in section \ref{subsection:background:micro-frontend:module-federation}. The versions of these dependencies are determined automatically from the \texttt{package.json}. However, not all packages support being shared with these default settings. The npm package \texttt{@apollo/client} has a problem because it has secondary entry points. When trying to share \texttt{@apollo/client/core}, \texttt{@apollo/client/link/batch} and \texttt{@apollo/client/link/error} the error message in listing \ref{code:applied-methods:sharing-secondary-entrypoints-error} is shown.
 
@@ -32,7 +33,7 @@ specify version in shared config.
   "sideEffects": false
 }
     \end{minted}
-    \caption{The \texttt{package.json} of \texttt{@apollo/client/core}}\label{code:applied-methods:package-json-apollo-client-core}
+    \caption{The \texttt{package.json} of \texttt{@apollo/client/core}.}\label{code:applied-methods:package-json-apollo-client-core}
 \end{listing}
 \fi
 
@@ -43,7 +44,7 @@ specify version in shared config.
   \begin{minted}{typescript}
 shared: (libraryName, defaultConfig) => {
   if (libraryName.includes(`@apollo/client/`))
-    return { ...defaultConfig, version: '^3.6.9', };
+    return { ...defaultConfig, version: '^3.6.9'§ };
 
   return defaultConfig;
 }
@@ -51,6 +52,3 @@ shared: (libraryName, defaultConfig) => {
     \caption{Specifying the version for the secondary entry points for the \texttt{@apollo/client} package.}\label{code:applied-methods:sharing-secondary-entrypoints-config}
 \end{listing}
 \fi
-
-% https://www.angulararchitects.io/en/aktuelles/pitfalls-with-module-federation-and-angular/
-% https://github.com/webpack/webpack/issues/15864
