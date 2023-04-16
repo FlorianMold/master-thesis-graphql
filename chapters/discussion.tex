@@ -1,10 +1,10 @@
 \chapter{Discussion}\label{chapter:discussion}
 
-This project report investigated whether GraphQL can bring performance improvement in micro-frontend architectures. The results of the evaluation of the prototype implementation of the micro-frontend architecture are discussed in this chapter. The results from Chapter \ref{chapter:results} are used to make a statement about the hypothesis from Chapter \ref{chapter:introduction}.
+This master thesis investigated whether GraphQL can bring performance improvement in micro-frontend architectures. The results of the evaluation of the prototype implementation of the micro-frontend architecture are discussed in this chapter. The results from Chapter \ref{chapter:results} are used to make a statement about the hypothesis from Chapter \ref{chapter:introduction}.
 
 \section{Request Size}
 
-Figure \ref{fig:discussion:request-size} displays the results already shown in the previous chapter as a bar chart. In terms of request-size the three approaches are not very far apart from each other. The reduction of queries only makes 1.64 KB difference, in contrast to only sharing the cache.
+Figure \ref{fig:discussion:request-size} displays the results already shown in the previous chapter as a bar chart. In terms of request size, the three approaches are not very far apart from each other. The reduction of queries only makes 1.64 KB difference, in contrast to only sharing the cache.
 
 \ifshowImages
 \begin{figure}[H]
@@ -16,7 +16,7 @@ Figure \ref{fig:discussion:request-size} displays the results already shown in t
 
 \section{Response Size}
 
-Figure \ref{fig:discussion:response-size} displays the results already shown in the previous chapter as a bar chart. In contrast to the request-size, the response sizes are very far apart. When comparing the naive approach with the two improved approaches, there is a difference of about 2.40 MB. However, when comparing the two improved approaches, the difference is not very large. For the records that the application fetches, the reduction does not make such a big difference, in terms of responses.
+Figure \ref{fig:discussion:response-size} displays the results already shown in the previous chapter as a bar chart. In contrast to the request size, the response sizes are very far apart. When comparing the naive approach with the two improved approaches, there is a difference of about 2.40 MB. However, when comparing the two improved approaches, the difference is not very large. For the records that the application fetches, the reduction does not make such a big difference, in terms of responses.
 
 \ifshowImages
 \begin{figure}[H]
