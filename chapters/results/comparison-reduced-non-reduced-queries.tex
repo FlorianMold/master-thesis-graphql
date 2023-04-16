@@ -1,7 +1,7 @@
+\section{Comparison between queries and reduced queries}
 
-\subsection{Comparison between queries and reduced queries}
-
-This section shows the difference in request- and response size of different queries. The table \ref{table:code:comparison-user-reduction} shows the difference in the size of the user-detail query, with the query reduction that was explained in the previous section. By removing 8 fields from the request, the size of the requests were reduced by 30\% or by 161 bytes. When querying 10 users a total of 1.61 KB can be saved. The response size is reduced by 42\% on average. 2.55 KB in response size is saved if 10 users are queried.
+This section takes a closer look at the difference between the request- and response-sizes of the original and reduced queries. The table \ref{table:code:comparison-user-reduction} shows the difference in the size of the user-detail query between the original and reduced queries. The user-detail query and which fields are removed are explained in more detail in section \ref{subsection:background:graphql:example-reduction}.
+The size of the GraphQL queries was reduced by half. By removing 8 fields from the original GraphQL query, the size of the network requests to the GraphQL \ac{API} were reduced by about 30\% or by 161 bytes. When retrieving 10 users a total of 1.61 KB can be saved. The response size was reduced by 42\% on average. A total of 2.55 KB in response size is saved if 10 users are fetched from the GraphQL \ac{API}.
 
 \ifshowTables
 \begin{table}[H]
@@ -32,6 +32,7 @@ This section shows the difference in request- and response size of different que
   \hline
   \textbf{AVG} & \textbf{30\%} & - & \textbf{42\%} & -  \\
   \hline
+  \hline
   \textbf{SUM} & - & \textbf{1610 (1.61 KB)} & - & \textbf{2549 (2.55 KB)} \\
   \hline
   \multicolumn{5}{l}{16 fields, 8 Fields Removed, 8 remaining}
@@ -40,41 +41,42 @@ This section shows the difference in request- and response size of different que
 \end{table}
 \fi
 
-\noindent Table \ref{table:code:comparison-contract-reduction} shows the difference for the contract-detail query. By running the list query for all contracts 10 fields from the 17 can be removed from the query. Therefore only 7 of the 17 fields are remaining inside the query. The requests can be reduced by an average of 38\% or by 207 bytes. When using the application and querying 10 detailed views of the contract 2.07 KB can be saved. The size of the response from the GraphQL backend can be reduced by about 58\%. 3.96 KB in response size is saved if 10 contracts are queried.
+\noindent The table \ref{table:code:comparison-contract-reduction} shows the difference between original and reduced queries for the contract-detail query. The query fetches the data to display a list of all contracts. By running the query for all contracts 10 fields from the 17 fields are removed from the query. Therefore only 7 of the 17 fields are remaining inside the query, because 58\% were removed. The network requests to the GraphQL \ac{API} can be reduced by an average of 38\% or by 207 bytes. By using the application and querying 10 detail views a contract 2.07 KB of request size can be saved. The response size from the GraphQL \ac{APIw} can be reduced by about 58\% or 3.96 KB.
 
- \ifshowTables
- \begin{table}[H]
-   \begin{tabular}{|l|l|l|l|l|}
-   \hline
-   Query  & Request Diff (\%)  & Request Diff (B) & Response Diff (\%) & Response Diff (B)  \\
-   \hline
-   Contract & 38\% & 207 & 58\% & 394 \\
-   \hline
-   Contract & 38\% & 207 & 58\% & 378 \\
-   \hline
-   Contract & 38\% & 207 & 59\% & 403 \\
-   \hline
-   Contract & 38\% & 207 & 60\% & 408 \\
-   \hline
-   Contract & 38\% & 207 & 60\% & 409 \\
-   \hline
-   Contract & 38\% & 207 & 57\% & 370 \\
-   \hline
-   Contract & 38\% & 207 & 58\% & 393 \\
-   \hline
-   Contract & 38\% & 207 & 58\% & 407 \\
-   \hline
-   Contract & 38\% & 207 & 59\% & 400 \\
-   \hline
-   Contract & 38\% & 207 & 58\% & 389 \\
-   \hline
-   \hline
-   \textbf{AVG} & \textbf{38\%} & - & \textbf{58\%} & - \\
-   \hline
-   \textbf{SUM} & - & \textbf{2070 (2.07 KB)} & - & \textbf{3951 (3.95 KB)} \\
-   \hline
-   \multicolumn{5}{l}{17 fields, 10 Fields Removed, 7 remaining}
-   \end{tabular}
-   \caption{Comparison of the contract-detail query in request- and response-sizes.}\label{table:code:comparison-contract-reduction}
- \end{table}
- \fi
+\ifshowTables
+\begin{table}[H]
+  \begin{tabular}{|l|l|l|l|l|}
+  \hline
+  Query  & Request Diff (\%)  & Request Diff (B) & Response Diff (\%) & Response Diff (B)  \\
+  \hline
+  Contract & 38\% & 207 & 58\% & 394 \\
+  \hline
+  Contract & 38\% & 207 & 58\% & 378 \\
+  \hline
+  Contract & 38\% & 207 & 59\% & 403 \\
+  \hline
+  Contract & 38\% & 207 & 60\% & 408 \\
+  \hline
+  Contract & 38\% & 207 & 60\% & 409 \\
+  \hline
+  Contract & 38\% & 207 & 57\% & 370 \\
+  \hline
+  Contract & 38\% & 207 & 58\% & 393 \\
+  \hline
+  Contract & 38\% & 207 & 58\% & 407 \\
+  \hline
+  Contract & 38\% & 207 & 59\% & 400 \\
+  \hline
+  Contract & 38\% & 207 & 58\% & 389 \\
+  \hline
+  \hline
+  \textbf{AVG} & \textbf{38\%} & - & \textbf{58\%} & - \\
+  \hline
+  \hline
+  \textbf{SUM} & - & \textbf{2070 (2.07 KB)} & - & \textbf{3951 (3.95 KB)} \\
+  \hline
+  \multicolumn{5}{l}{17 fields, 10 Fields Removed, 7 remaining}
+  \end{tabular}
+  \caption{Comparison of the contract-detail query in request- and response-sizes.}\label{table:code:comparison-contract-reduction}
+\end{table}
+\fi
