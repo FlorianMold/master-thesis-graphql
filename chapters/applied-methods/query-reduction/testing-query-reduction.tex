@@ -1,4 +1,4 @@
-\subsection{Implementing a testing layer for the query reduction}\label{subsection:applied-methods:query-reduction:testing-query-reduction}
+\subsection{Implementing a testing layer}\label{subsection:applied-methods:query-reduction:testing-query-reduction}
 
 To compare the Apollo Client and the reduction of the queries, the following abstraction, seen in listing \ref{code:applied-methods:query-reduction:graphql-client} for the GraphQL client was created. The \texttt{watchQuery} and \texttt{mutate} have the same \ac{API} as Apollo Client's original methods. Two implementations (\texttt{ReduceGraphQLClientImpl}, \texttt{GraphQLClientImpl}) were created for the base class \texttt{GraphQLClient}. The \texttt{ReduceGraphQLClientImpl} implements the query reduction, while \texttt{GraphQLClientImpl} implements the original Apollo Client methods. A switch is used to determine which implementation is created at runtime.
 

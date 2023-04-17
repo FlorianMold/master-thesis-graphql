@@ -1,4 +1,4 @@
-\subsection{Functionality of the query reduction mechanism}\label{subsection:applied-methods:query-reduction:how-does-the-library-work}
+\subsection{Query reduction mechanism}\label{subsection:applied-methods:query-reduction:how-does-the-library-work}
 
 This section briefly describes how the dependency removes fields from the query by utilizing the \texttt{InMemoryCache}. Apollo Client allows specifying multiple options when fetching a query from the GraphQL \ac{API}. Three important options are \texttt{variables}, \texttt{query}, and \texttt{fetchPolicy}. The \texttt{query} specifies a GraphQL query and the \texttt{variables} are the variables for the query. The fetch policy allows the client to specify how data is stored and retrieved from the cache. The typical structure of a GraphQL query inside the micro-frontend architecture is shown in listing \ref{code:applied-methods:query-reduction:executing-graphql-query}. The query fetches the details of the user with the given \texttt{id}. The default fetch policy of a query is \texttt{cache-first}.
 

@@ -48,6 +48,8 @@ class HostCoreModule {}
 \end{listing}
 \fi
 
+\subsection{Abstracted GraphQL Client creation}
+
 \noindent The prototypical micro-frontend architecture implements abstractions to create the necessary configuration for the Apollo Client more easily and identically for all micro-frontends. Listing \ref{code:applied-methods:graphql-client-creation} shows the abstraction to create a GraphQL client for a micro-frontend. The function provides the module, which imports the \texttt{GraphQLClientOptionsModule}, with an instance of the Apollo Client. The function takes one required parameter that specifies a unique name for the GraphQL client. The client's name is used to identify active Apollo Clients inside the architecture. The \texttt{GraphQLClientOptionsModule} encapsulates the steps to create an Apollo Client, as shown in the listing \ref{code:applied-methods:creating-the-apollo-client-with-a-shared-cache}. The module should be used in every module exposed through Module Federation, that uses GraphQL. If the remote module is then used inside the application shell, it has its separate Apollo Client. That makes the independent development of the micro-frontends easier because the Apollo Client's settings will be the same, regardless if it is running in standalone mode or is consumed by the application shell. For example, a problem would be if the application shell provides the Apollo Client and the contact micro-frontend injects that instance with \ac{DI}. The contact development team might configure the Apollo Client differently inside the contact application, and the functionality might not work as expected inside the application because the configuration may be different.
 
 \ifshowListings
