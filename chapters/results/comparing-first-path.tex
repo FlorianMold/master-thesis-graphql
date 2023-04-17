@@ -1,0 +1,94 @@
+
+\section{Comparing the results of the first journey}\label{section:results:comparison}
+
+This section takes the results from the previous section \ref{subsection:results:performance-measurement:evaluation} and compares the different approaches in terms of request-sizes and response-sizes, the number of requests, and the total records fetched.
+
+\subsection{Comparing the first- and second-approach}\label{subsection:results:comparison-first-second-approach}
+
+When comparing the first- with the second approach there is a significant difference in the number of network requests made to the GraphQL backend and the size of the requests and responses, as seen in table \ref{table:results:size-comparison-first-path-no-cache-no-reduction-cache-no-reduction}. The shared cache approach requires eleven fewer network requests than the separate cache approach. Since the queries are not reduced in this comparison, the additional network queries account for the overall difference in request- and response size. The 11 additional requests from the first approach send an additional 2.29 KB to the backend and return about an additional 2.34 MB from the backend. Therefore, 22\% of the total response size can be saved by using only one shared cache for all micro-frontends. Another interesting observation is that the shared cache approach retrieves 30191 fewer records than the naive approach, which is about 16\% of the total records returned.
+
+\ifshowTables
+\begin{table}[H]
+    \begin{tabular}{|l|l|l|l|l|}
+    \hline
+      & Request Size (B) & Response Size (B) & Requests & Records \\
+    \hline
+     No Reduction, Separate Cache & 17462 & 10780656 & 47 & 81510 \\
+     \hline
+     No Reduction, Shared Cache & 15176 & 8437211 & 36 & 51319 \\
+     \hline
+     \hline
+     \textbf{Diff} & \textbf{2286} & \textbf{2343445} & \textbf{11} & \textbf{30191} \\
+     \hline
+     \textbf{Reduction (\%)} & \textbf{13\%} & \textbf{22\%} & \textbf{23\%} & \textbf{37\%} \\
+     \hline
+    \end{tabular}
+    \caption{Comparing the requests and responses of the first- and second-approach.}
+    \label{table:results:size-comparison-first-path-no-cache-no-reduction-cache-no-reduction}
+\end{table}
+\fi
+
+\noindent The following enumeration shows which and how often GraphQL queries were dropped when using a shared caching layer between the micro front-ends compared to a separate cache:
+
+\begin{itemize}
+  \item allCountries: 2
+  \item allSalutations: 2
+  \item allTitles: 2
+  \item allArticleUnits: 1
+  \item allCurrencies: 1
+  \item allVats: 1
+  \item allSalesCountries: 1
+  \item allInvoiceTypes: 1
+\end{itemize}
+
+\noindent The data of the requests that were omitted is usually used for filling selection controls inside detail views and has to be fetched over and over again in every micro-frontend. The first three queries are used for widgets on the dashboard, the contact application, and the user application. The last five queries are used for widgets on the dashboard and the sales application.
+
+\subsection{Comparing the first- and third-approach}\label{subsection:results:comparison-first-third-approach}
+
+Like in the previous comparison, there is the same difference in the number of network requests made to the GraphQL \ac{API}. The size of the responses and the requests have a massive difference, just like before. The results are shown in table \ref{table:results:size-comparison-first-path-no-cache-no-reduction-cache-reduction}. Just like before, there is a difference of eleven GraphQL queries that are sent to the GraphQL \ac{API}. However, due to the reduction in queries, the difference in the size of the queries and responses is greater than in section \ref{subsection:results:comparison-first-second-approach}. All queries of the first approach send 3.92 KB more and return about 2.41 MB more from the GraphQL \ac{API} compared to the third approach. A shared cache and query reduction can save about 22\% response sizes. As before, 37\% fewer records need to be fetched from the backend.
+
+\ifshowTables
+\begin{table}[H]
+    \begin{tabular}{|l|l|l|l|l|}
+    \hline
+       & Request Size (B) & Response Size (B) & Requests & Records  \\
+    \hline
+     No Reduction, Separate Cache & 17462 & 10780656 & 47 & 81510 \\
+     \hline
+     Reduction, Shared Cache & 13533 & 8374763 & 36 & 51319 \\
+     \hline
+     \hline
+     \textbf{Diff} & \textbf{3929} & \textbf{2405893} & \textbf{11} & \textbf{30191} \\
+     \hline
+    \textbf{Reduction (\%)} & \textbf{23\%} & \textbf{22\%} & \textbf{23\%} & \textbf{37\%} \\
+     \hline
+    \end{tabular}
+    \caption{Comparing the requests and responses of the first- and third-approach.}
+    \label{table:results:size-comparison-first-path-no-cache-no-reduction-cache-reduction}
+\end{table}
+\fi
+
+\subsection{Comparing the second- and third-approach}
+
+Between the first- and the second approach, there is almost no difference in terms of request- and response size compared to the comparisons from section \ref{subsection:results:comparison-first-second-approach} and \ref{subsection:results:comparison-first-third-approach}, as seen in table \ref{table:results:size-comparison-first-path-no-cache-no-reduction-cache-reduction}. Both approaches have the same number of queries sent to the GraphQL \ac{API} since the cache is shared by all micro-frontends. Reducing queries does not lead to fewer network requests. The difference in request and response size between the two approaches comes solely from the use of query reduction. By using the third approach, the difference in request size is about 1.64 KB (11\%), which is not significant. The difference between the response sizes (62.45 KB) is almost zero in relation to the amount of data that was returned.
+
+\ifshowTables
+\begin{table}[H]
+    \begin{tabular}{|l|l|l|l|l|}
+    \hline
+      & Request Size (B) & Response Size (B) & Requests & Records \\
+    \hline
+     No Reduction, Shared Cache & 15176 &  8437211 & 36 & 51319 \\
+     \hline
+     Reduction, Shared Cache &  13533 &  8374763 & 36 & 51319 \\
+     \hline
+     \hline
+     \textbf{Diff} & \textbf{1643} & \textbf{62448} & \textbf{0} & \textbf{0} \\
+     \hline
+     \textbf{Reduction (\%)} & \textbf{11\%} & \textbf{0\%} & \textbf{-} & \textbf{-} \\
+     \hline
+    \end{tabular}
+    \caption{Comparing the requests and responses of the second- and third-approach.}
+    \label{table:results:size-comparison-first-path-cache-no-reduction-cache-reduction}
+\end{table}
+\fi
