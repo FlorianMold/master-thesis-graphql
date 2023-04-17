@@ -1,6 +1,6 @@
 \chapter{Applied Methods}\label{chapter:applied-methods}
 
-This chapter documents how the prototype micro-frontend architecture was built step by step. It starts with building the foundation of the application and continues with building the communication between the shell and the remote application. Then, with the common caching layer and the reduction of queries, the basis for the evaluation of the hypothesis of the work was established. The final section is a comparison between the original and reduced queries.
+This chapter documents how the prototypical micro-frontend architecture was built step by step. The first section centers around identifying bounded contexts and deriving the micro-frontends from them. The following section is about the prototypical implementation of the micro-frontend architecture. After implementing the architecture, the communication patterns between the micro-frontends were analyzed and implemented. The next section is about developing the shared caching layer. The last section centers around the mechanism to remove fields from a GraphQL query by utilizing the Apollo Client's in-memory cache. This chapter ends by showing an example of how the query reduction works in practice.
 
 \input{chapters/applied-methods/identification.tex}
 %\input{chapters/applied-methods/comparing-graphql-clients.tex}
