@@ -1,6 +1,6 @@
 \section{Comparing the results of the second journey}
 
-This section makes another comparison between the three approaches. The path through the application is shown in figure \ref{fig:results:evaluation-second-path}.
+This section makes another comparison between the three approaches. The journey of the client through the application is shown in figure \ref{fig:results:evaluation-second-path}.
 
 
 \ifshowImages
@@ -14,59 +14,62 @@ This section makes another comparison between the three approaches. The path thr
 \noindent For this path through the application 59 queries in total have to be executed against the
 GraphQL \ac{API}, when no caching mechanism are implemented.
 
+\ifshowTables
 \begin{table}[H]
-    \begin{tabular}{|l|l|l|l|}
-    \hline
-                                    & Request Size (B) & Response Size (B) & Request Amount  \\
-    \hline
-     No Reduction, Shared Cache     &  16884       &  8364416   & 37 \\
-     \hline
-     Reduction, Shared Cache        &  14718       &  8361306   & 37 \\
-     \hline
-     \hline
-    \textbf{Diff}                   & \textbf{2166} & \textbf{3110} & \textbf{11} \\
-    \hline
-    \textbf{Reduction (\%)} & \textbf{11\%} & \textbf{0\%} & \textbf{-} \\
-     \hline
-    \end{tabular}
-    \caption{Comparing the requests and responses of the first- and second-approach.}
-    \label{table:results:size-comparison-second-path-no-cache-no-reduction-cache-no-reduction}
+\begin{tabular}{|l|l|l|l|l|}
+  \hline
+  & Request Size (B) & Response Size (B) & Requests & Records \\
+  \hline
+  No Reduction, Shared Cache & 16884 & 8364416 & 37 & 50924 \\
+  \hline
+  Reduction, Shared Cache & 14718 & 8361306 & 37 & 50924 \\
+  \hline
+  \hline
+  \textbf{Diff} & \textbf{2166} & \textbf{3110} & \textbf{0} & \textbf{0} \\
+  \hline
+  \textbf{Reduction (\%)} & \textbf{11\%} & \textbf{0\%} & \textbf{-} & \textbf{-} \\
+  \hline
+  \end{tabular}
+  \caption{Second Journey: Comparing the requests and responses of the first- and second-approach.}\label{table:results:size-comparison-second-path-no-cache-no-reduction-cache-no-reduction}
 \end{table}
+\fi
 
+\ifshowTables
 \begin{table}[H]
-    \begin{tabular}{|l|l|l|l|}
-    \hline
-                                    & Request Size (B) & Response Size (B) & Request Amount  \\
-    \hline
-     No Reduction, No Shared Cache     &  22955        &  10713304   & 62 \\
-     \hline
-     Reduction, Shared Cache        &  14718        &  8361306   & 37 \\
-     \hline
-     \hline
-    \textbf{Diff}                   & \textbf{8237} & \textbf{2351998} & \textbf{25} \\
-    \hline
-    \textbf{Reduction (\%)} & \textbf{11\%} & \textbf{0\%} & \textbf{-} \\
-     \hline
-    \end{tabular}
-    \caption{Comparing the requests and responses of the first- and third-approach.}
-    \label{table:results:size-comparison-first-path-no-cache-no-reduction-cache-reduction}
+  \begin{tabular}{|l|l|l|l|l|}
+  \hline
+  & Request Size (B) & Response Size (B) & Requests & Records \\
+  \hline
+  No Reduction, No Shared Cache & 22955 & 10713304 & 62 & 81325 \\
+  \hline
+  Reduction, Shared Cache & 14718 & 8361306 & 37 & 50924 \\
+  \hline
+  \hline
+  \textbf{Diff} & \textbf{8237} & \textbf{2351998} & \textbf{25} & \textbf{30401} \\
+  \hline
+  \textbf{Reduction (\%)} & \textbf{11\%} & \textbf{0\%} & \textbf{40\%} & \textbf{37\%} \\
+  \hline
+  \end{tabular}
+  \caption{Second Journey: Comparing the requests and responses of the first- and third-approach.}\label{table:results:size-comparison-second-path-no-cache-no-reduction-cache-reduction}
 \end{table}
+\fi
 
+\ifshowTables
 \begin{table}[H]
-    \begin{tabular}{|l|l|l|l|}
-    \hline
-                                    & Request Size (B) & Response Size (B) & Request Amount  \\
-    \hline
-     No Reduction, No Shared Cache     &  22955        &  10713304   & 62 \\
-     \hline
-     No Reduction, Shared Cache        &  16884        &  8364416   & 37 \\
-     \hline
-     \hline
-    \textbf{Diff}                   & \textbf{6071} & \textbf{2348888} & \textbf{25} \\
-    \hline
-    \textbf{Reduction (\%)} & \textbf{11\%} & \textbf{0\%} & \textbf{-} \\
-     \hline
-    \end{tabular}
-    \caption{Comparing the requests and responses of the second- and third-approach.}
-    \label{table:results:size-comparison-first-path-cache-no-reduction-cache-reduction}
+  \begin{tabular}{|l|l|l|l|l|}
+  \hline
+  & Request Size (B) & Response Size (B) & Requests & Records \\
+  \hline
+  No Reduction, No Shared Cache & 22955 & 10713304 & 62 & 81325 \\
+  \hline
+  No Reduction, Shared Cache & 16884 & 8364416 & 37 & 50924 \\
+  \hline
+  \hline
+  \textbf{Diff} & \textbf{6071} & \textbf{2348888} & \textbf{25} & \textbf{30401} \\
+  \hline
+  \textbf{Reduction (\%)} & \textbf{11\%} & \textbf{0\%} & \textbf{40\%} & \textbf{37\%} \\
+  \hline
+  \end{tabular}
+  \caption{Second Journey: Comparing the requests and responses of the second- and third-approach.}\label{table:results:size-comparison-second-path-cache-no-reduction-cache-reduction}
 \end{table}
+\fi
