@@ -45,7 +45,7 @@ In this approach, each micro frontend has a separate instance of the GraphQL cli
   \item 10.78MB transferred
 \end{itemize}
 
-\noindent To configure this behavior the following settings have to be set for the \texttt{GRAPHQL\_CLIENT\_OPTIONS\_CONFIG} and \texttt{REDUCE\_QUERY\_OPTIONS} injection tokens of the micro-frontends. A more detailed description of the configuration options can be found in section \ref{section:applied-methods:shared-caching-layer} and in section \ref{subsection:applied-methods:query-reduction:testing-query-reduction}.
+\noindent The \texttt{GRAPHQL\_CLIENT\_OPTIONS\_CONFIG} and \texttt{REDUCE\_QUERY\_OPTIONS} injection tokens have to be configured the following way A more detailed description of the configuration options can be found in section \ref{section:applied-methods:shared-caching-layer} and in section \ref{subsection:applied-methods:query-reduction:testing-query-reduction}:
 
 \begin{itemize}
   \item \texttt{shareCache: false}
@@ -66,14 +66,14 @@ In this approach, each micro frontend has a separate instance of the GraphQL cli
 
 \subsubsection{Shared Cache and no reduced queries}\label{subsubsection:results:performance-measurement:shared-cache-no-reduction}
 
-In this approach, an instance of the cache is shared by all micro-frontends, but the GraphQL queries are not reduced with data already present in the \texttt{InMemoryCache}. After the client completes the journey through the application, the following metrics were collected.
+In this approach, an instance of the cache is shared by all micro-frontends, but the GraphQL queries are not reduced with data already present in the \texttt{InMemoryCache}. After the client completes the journey through the application, the following metrics were collected:
 
 \begin{itemize}
   \item 36 network requests to the GraphQL \ac{API}
   \item 8.5 MB transferred
 \end{itemize}
 
-\noindent To configure this behavior the following settings have to be set for the \texttt{GRAPHQL\_CLIENT\_OPTIONS\_CONFIG} and \texttt{REDUCE\_QUERY\_OPTIONS} injection tokens of the micro-frontends.
+\noindent The \texttt{GRAPHQL\_CLIENT\_OPTIONS\_CONFIG} and \texttt{REDUCE\_QUERY\_OPTIONS} injection tokens have to be configured the following way:
 
 \begin{itemize}
   \item \texttt{shareCache: true}
@@ -101,7 +101,7 @@ With this approach, the same instance of the cache is shared between all of the 
   \item 8.4 MB transferred
 \end{itemize}
 
-\noindent To configure this behavior the following settings have to be set for the \texttt{GRAPHQL\_CLIENT\_OPTIONS\_CONFIG} and \texttt{REDUCE\_QUERY\_OPTIONS} injection tokens of the micro-frontends.
+\noindent The \texttt{GRAPHQL\_CLIENT\_OPTIONS\_CONFIG} and \texttt{REDUCE\_QUERY\_OPTIONS} injection tokens have to be configured the following way:
 
 \begin{itemize}
   \item \texttt{shareCache: true}
