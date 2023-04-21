@@ -1,4 +1,4 @@
-\section{Comparing the results of the first journey}\label{section:results:comparison}
+\section{Comparing the results of the first journey}\label{section:results:comparison-first-journey}
 
 This section takes the measurements from the previous section \ref{subsection:results:performance-measurement:evaluation} and compares the different approaches in terms of request-sizes and response-sizes, the number of requests, and the total records fetched.
 
@@ -22,7 +22,7 @@ When comparing the first- with the second approach there is a significant differ
     \textbf{Reduction (\%)} & \textbf{13\%} & \textbf{22\%} & \textbf{23\%} & \textbf{37\%} \\
     \hline
   \end{tabular}
-  \caption{Comparing the requests and responses of the first- and second-approach.}\label{table:results:size-comparison-first-path-no-cache-no-reduction-cache-no-reduction}
+  \caption{First Journey: Comparing the requests and responses of the first- and second-approach.}\label{table:results:size-comparison-first-path-no-cache-no-reduction-cache-no-reduction}
 \end{table}
 \fi
 
@@ -61,11 +61,11 @@ Like in the previous comparison, there is the same difference in the number of n
   \textbf{Reduction (\%)} & \textbf{23\%} & \textbf{22\%} & \textbf{23\%} & \textbf{37\%} \\
   \hline
   \end{tabular}
-  \caption{Comparing the requests and responses of the first- and third-approach.}\label{table:results:size-comparison-first-path-no-cache-no-reduction-cache-reduction}
+  \caption{First Journey: Comparing the requests and responses of the first- and third-approach.}\label{table:results:size-comparison-first-path-no-cache-no-reduction-cache-reduction}
 \end{table}
 \fi
 
-\subsection{Comparing the second- and third-approach}
+\subsection{Comparing the second- and third-approach}\label{subsection:results:comparison-second-third-approach}
 
 Between the first- and the second approach, there is almost no difference in terms of request- and response size compared to the comparisons from section \ref{subsection:results:comparison-first-second-approach} and \ref{subsection:results:comparison-first-third-approach}, as seen in table \ref{table:results:size-comparison-first-path-no-cache-no-reduction-cache-reduction}. Both approaches have the same number of queries sent to the GraphQL \ac{API} since the cache is shared by all micro-frontends. Reducing queries does not lead to fewer network requests. The difference in request and response size between the two approaches comes solely from the use of query reduction. By using the third approach, the difference in request size is about 1.64 KB (11\%), which is not significant. The difference between the response sizes (62.45 KB) is almost zero in relation to the amount of data that was returned.
 
@@ -85,6 +85,6 @@ Between the first- and the second approach, there is almost no difference in ter
   \textbf{Reduction (\%)} & \textbf{11\%} & \textbf{0\%} & \textbf{-} & \textbf{-} \\
   \hline
   \end{tabular}
-  \caption{Comparing the requests and responses of the second- and third-approach.}\label{table:results:size-comparison-first-path-cache-no-reduction-cache-reduction}
+  \caption{First Journey: Comparing the requests and responses of the second- and third-approach.}\label{table:results:size-comparison-first-path-cache-no-reduction-cache-reduction}
 \end{table}
 \fi

@@ -44,7 +44,7 @@ specify version in shared config.
   \begin{minted}{typescript}
 shared: (libraryName, defaultConfig) => {
   if (libraryName.includes(`@apollo/client/`))
-    return { ...defaultConfig, version: '^3.6.9'§ };
+    return { ...defaultConfig, version: '^3.6.9' };
 
   return defaultConfig;
 }

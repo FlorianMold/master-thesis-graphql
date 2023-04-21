@@ -1,11 +1,13 @@
 \chapter{Discussion}\label{chapter:discussion}
 
-This master thesis investigated whether GraphQL can bring performance improvement in micro-frontend architectures. The results of the evaluation of the prototype implementation of the micro-frontend architecture are discussed in this chapter. The results from Chapter \ref{chapter:results} are used to make a statement about the hypothesis from Chapter \ref{chapter:introduction}.
-
+One aim of the master thesis was to investigate whether GraphQL can bring performance improvement in micro-frontend architectures. The improvement should be accomplished by using a single caching layer for all micro-frontends and a mechanism to reduce queries by utilizing the cache. The technology agnosticism prototypical implementation is also discussed in this chapter. The results of evaluating the caching improvements of the prototypical micro-frontend implementation architecture are also discussed in this chapter. The results from Chapter \ref{chapter:results} are used to make a statement about the hypothesis from Chapter \ref{chapter:introduction}. The next sections focus on discussing the results in terms of request size and response size. 
 
 \section{Request Size}
 
-Figure \ref{fig:discussion:request-size} displays the results already shown in the previous chapter as a bar chart. In terms of request size, the three approaches are not very far apart from each other. The reduction of queries only makes 1.64 KB difference, in contrast to only sharing the cache.
+This section compares the different measurements of the request sizes. Figure \ref{fig:discussion:request-size} displays the results from the previous chapter \ref{section:results:comparison-first-journey} and \ref{section:results:comparison-second-journey} as a bar chart for better comparison. As shown in the figure the difference in request size is not very significant. The two approaches with the shared cache do not save network request resources. The difference between the first 
+
+11 requests omitted
+The reduction of queries only makes 1.64 KB difference, in contrast to only sharing the cache.
 
 \begin{figure}[H]
   \centering
@@ -26,6 +28,7 @@ Figure \ref{fig:discussion:request-size} displays the results already shown in t
       },
     ]
     \addplot coordinates {(Reduction and shared cache, 13.53) (No reduction and shared cache, 15.18) (No reduction and no shared cache, 17.46)};
+    \addplot coordinates {(Reduction and shared cache, 14.71) (No reduction and shared cache, 16.88) (No reduction and no shared cache, 22.95)};
     \end{axis}
   \end{tikzpicture}
   \caption{Request size comparison of the three approaches.}\label{fig:discussion:request-size}
@@ -54,6 +57,7 @@ Figure \ref{fig:discussion:response-size} displays the results already shown in 
       },
     ]
     \addplot coordinates {(Reduction and shared cache, 8.37) (No reduction and shared cache, 8.44) (No reduction and no shared cache, 10.78)};
+    \addplot coordinates {(Reduction and shared cache, 8.361) (No reduction and shared cache, 8.364) (No reduction and no shared cache, 10.71)};
     \end{axis}
   \end{tikzpicture}
   \caption{Response size comparison of the three approaches.}\label{fig:discussion:response-size}
