@@ -88,11 +88,11 @@ plugins: [
 
 \bigskip
 
-\noindent For example, the contact micro-frontend has the ID \texttt{Contact} and a local \ac{URL} like \texttt{http:\slash \slash localhost:4201\slash remoteEntry.js}. If the host loads the catalog micro-frontend, Module Federation will fetch the \texttt{remoteEntry.js} file to understand which \ac{JS} chunks should be loaded and which dependencies should be shared between all micro-frontends. \cite[125]{book:2021:mezzalira:applied-methods:building-micro-frontends}
+\noindent For example, the contact micro-frontend has the ID \texttt{Contact} and a local \ac{URL} like \texttt{http:\slash \slash localhost:4201\slash remoteEntry.js}. If the host loads the contact micro-frontend, Module Federation will fetch the \texttt{remoteEntry.js} file to understand which \ac{JS} chunks should be loaded and which dependencies should be shared between all micro-frontends. \cite[125]{book:2021:mezzalira:applied-methods:building-micro-frontends}
 
 \bigskip
 
-\noindent The \texttt{shared} array contains the libraries, which should be shared across all micro-frontends. With Module Federation, though, the dependencies that should be shared in the remote and application shell must be specified. That can be all dependencies of the micro-frontend and the application shell. Then Webpack and Module Federation will create multiple \ac{JS} files, downloading them only once for every user's session across all micro-frontends. \cite[125]{book:2021:mezzalira:applied-methods:building-micro-frontends}
+\noindent The \texttt{expose} option can be used to define the functionality that should be consumable by other applications using Module Federation. The \texttt{shared} array contains the libraries, which should be shared across all micro-frontends. With Module Federation, though, the dependencies that should be shared in the remote and application shell must be specified. That can be all dependencies of the micro-frontend and the application shell. Then Webpack and Module Federation will create multiple \ac{JS} files, downloading them only once for every user's session across all micro-frontends. \cite[125]{book:2021:mezzalira:applied-methods:building-micro-frontends}
 
 \bigskip
 

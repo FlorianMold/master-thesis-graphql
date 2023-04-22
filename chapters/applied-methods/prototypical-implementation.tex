@@ -48,8 +48,6 @@ module.exports = {
 \end{listing}
 \fi
 
-% TODO: explain the expose part of module federation in the module-federation section and the properties
-
 \noindent The application shell can be configured to consume the remote modules listed inside the remotes-object. The configuration to consume the four micro-frontends of the architecture can be seen in the listing \ref{code:applied-methods:module-federation-config-consume}. With this configuration, the application-shell consumes the \texttt{entry.module} of the remote applications, which were exposed with the configuration from listing \ref{code:applied-methods:module-federation-config-expose}. Like in the configuration of the remote modules, the application shell must also share all dependencies. Sharing the dependencies is needed so that the micro-frontends can load their runtime dependencies from the application shell and use the same dependency version.
 
 \ifshowListings
