@@ -18,9 +18,9 @@
 
 \noindent Query reduction does not work well with the structure of fetching data inside the micro-frontend architecture, as explained before. But other applications might greatly benefit from such a mechanism. A great inconvenience of Apollo Client's cache is that when the same query is fetched two times and the second query contains one field that was not already in the first query, the query will be always executed against the GraphQL \ac{API}. The other way around works well. If a query contains only fields or a subset of the fields that are already inside the cache, the data for the query is populated just from the cache. Another inconvenience is that caching works on the query level. 
 
-Applications often fetch part of the data inside a list view and fetch the complete data inside the detail view. With the default behavior, the query is always executed against the cache, because the query is different. The \texttt{InMemoryCache}  does not that part of the data is already in the cache, because it was fetched by another query. It is very circumstantial to define a cache redirect for every type.
+The prototype mostly fetches part of the data inside a list view and fetches the complete data inside a detail view. With the default behavior of Apollo Client, the query is always executed against the cache, because the query is different. The \texttt{InMemoryCache} does not that part of the data is already in the cache, because it was fetched by another query. It is very circumstantial to define a cache redirect for every type.
 
-The dashboard functionality of the approach is not well suited for the query reduction approach. But a use case, where the query reduction shines might be an e-commerce application like Amazon
+The dashboard functionality of the approach is not well suited for the query reduction approach. But a use case, where the query reduction shines might be an e-commerce application like Amazon.
 
 \bigskip
 
