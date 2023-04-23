@@ -1,6 +1,6 @@
 \chapter{Results}\label{chapter:results}
 
-This chapter measures whether a micro-frontend architecture with GraphQL and a shared caching layer can provide a performance improvement over a separated cache. In total, the micro-frontend architecture implements four \acp{SPA} and nine widgets. The major part of the implementation was done using Angular, but one single widget was implemented in React. This was done to showcase whether the shared caching layer could be used with every technology. Furthermore, a \ac{BFF} service was developed in GraphQL that is tailored to the needs of the micro-frontends. The \ac{BFF} service is used to aggregate the data from the microservices and to provide it to the micro-frontends. An overview of the prototypical architectures communicates with the GraphQL \ac{API} is shown in listing \ref{fig:results:micro-frontend-prototype}.
+This chapter explains whether a micro-frontend architecture with GraphQL and a shared caching layer can improve performance over a separated cache. The micro-frontend architecture implements four \acp{SPA} and nine widgets. Most of the implementation was done using Angular, but one single widget was implemented in React. Using a framework showcased whether another technology could access the shared caching layer. Furthermore, a \ac{BFF} service was developed using GraphQL which is explicitly tailored to the needs of the micro-frontends. The \ac{BFF} aggregates the data from the microservices and provides it to the micro-frontends. An overview of the prototypical architectures communicates with the GraphQL \ac{API} is shown in listing \ref{fig:results:micro-frontend-prototype}.
 
 \ifshowImages
 \begin{figure}[H]
@@ -12,19 +12,19 @@ This chapter measures whether a micro-frontend architecture with GraphQL and a s
 
 \section{Performance measurement}\label{section:results:performance-measurement}
 
-This section explains how the micro-frontend architecture was evaluated in terms of the hypothesis. Three distinct approaches were identified to measure the performance of the shared GraphQL caching layer. The architecture allows switching easily between these three approaches.
+This section explains how the micro-frontend architecture was evaluated regarding the hypotheses. Three distinct approaches were identified to measure the performance of the shared GraphQL caching layer, and the architecture allows switching quickly between these three approaches.
 
 \begin{enumerate}
-  \item \textbf{Separate Cache and no reduced queries}: All remote modules use a separate cache and no queries are reduced with the help of the cache.
-  \item \textbf{Shared Cache and no reduced queries}: The remote modules share the same cache instance and no queries are reduced with the help of the cache.
-  \item \textbf{Shared Cache and reduced queries}: ALL remote modules share the same instance of the cache and queries are reduced by utilizing the cache.
+  \item \textbf{Separate Cache and no reduced queries}: All remote modules use a separate cache, and no queries are reduced with the help of the cache.
+  \item \textbf{Shared Cache and no reduced queries}: The remote modules share the same cache instance, and no queries are reduced with the help of the cache.
+  \item \textbf{Shared Cache and reduced queries}: All remote modules share the same instance of the cache, and queries are reduced by using the functionality from apollo-augmented-hooks.
 \end{enumerate}
 
-\noindent To measure and compare the performance of these three approaches, two exemplary paths through the application were planned. These paths were intended to show how many network requests were made to the GraphQL \ac{API} and how much network traffic was generated in the process. To make the measurement as close as possible to a real application, a large amount of mock data was generated for the GraphQL \ac{API}. With this large amount of data, it is easier to measure the differences in response size. Smaller datasets only make a big difference, if the application is used for longer periods. The next section details the results of the first path through the application.
+\noindent Two exemplary paths through the application were planned to measure and compare the performance of these three approaches. These user journeys were intended to show how many network requests were made to the GraphQL \ac{API} and how much network traffic was generated during the process. A large amount of mock data was generated and used by the GraphQL \ac{API} to make the measurements as close as possible to real conditions. With this large amount of data, measuring the differences in response size is more expressive. Fetching smaller datasets makes only a difference when the application is used over a more extended period of time. The following section details the results of the first path through the application.
 
 \subsection{Evaluation}\label{subsection:results:performance-measurement:evaluation}
 
-This section describes how the shared caching layer and the reduction of queries were tested for the prototypical micro-frontend architecture. It explains the user journey through the application and shows the results for the three different approaches. The figure \ref{fig:results:evaluation-first-path} shows the steps through the micro-frontend architecture that were used to measure the possible performance improvements of the shared caching layer and the reduction of queries. The client has to perform 13 steps throughout the application, which involves almost every available GraphQL query. The dashoard yields some problems, when starting the evaluation there. All widgets are created and start to fetch their data at the same time. Therefore, it can easily happen that multiple widgets fetch the same queries from the GraphQL \ac{API} because the data is not already in the cache. This is a problem that is difficult to circumvent and leads to a lot of theoretically unnecessary network requests. The evaluation is performed with an unauthenticated user.
+This section describes how the shared caching layer and the reduction of queries were tested for the prototypical micro-frontend architecture. It explains the user journey through the application and shows the three approaches' results. Figure \ref{fig:results:evaluation-first-path} shows the steps through the micro-frontend prototype used to measure the possible performance improvements of the shared caching layer and the reduction of queries. The client has to perform 13 steps throughout the application, which involves almost every available GraphQL query. The dashboard micro-frontend yields some problems if the evaluation is started there. All widgets are created and start to fetch their data simultaneously. Therefore, it can easily happen that multiple widgets fetch the same queries from the GraphQL \ac{API} because the data is not already in the cache. This problem leads to a lot of theoretically unnecessary network requests and is difficult to circumvent. The evaluation shown in the figure is performed with an unauthenticated user.
 
 \ifshowImages
 \begin{figure}[H]
@@ -34,25 +34,25 @@ This section describes how the shared caching layer and the reduction of queries
 \end{figure}
 \fi
 
-\noindent Without the use of a caching system, the GraphQL \ac{API} would have to run 59 queries to provide the data for the path through the application. How the prototypical micro-frontend architecture can be configured to use one of the three approaches is already explained in section \ref{section:applied-methods:shared-caching-layer} and section \ref{subsection:applied-methods:query-reduction:testing-query-reduction}. The following sections describe and compare the results of the approaches in more detail.
+\noindent Without a caching system, the GraphQL \ac{API} would have to run 59 queries to provide the data for the journey through the application. How the prototypical micro-frontend architecture can be configured to use one of the three approaches is already explained in section \ref{section:applied-methods:shared-caching-layer} and section \ref{subsection:applied-methods:query-reduction:testing-query-reduction}. The following sections describe and compare the results of the approaches in more detail.
 
 \subsubsection{Separate Cache and no reduced queries}\label{subsubsection:results:performance-measurement:separate-cache-no-reduction}
 
-In this approach, each micro frontend has a separate instance of the GraphQL client and \texttt{InMemoryCache}. The queries are not reduced using the cache and the custom implementation. After the client completes the journey through the application, the following metrics were collected.
+With this approach, each micro frontend has a separate instance of the GraphQL client and \texttt{InMemoryCache}. The queries are not reduced using the cache and the custom implementation. After the client completes the journey through the application, the following metrics are collected.
 
 \begin{itemize}
   \item 47 network requests to the GraphQL \ac{API}
   \item 10.78MB transferred
 \end{itemize}
 
-\noindent The \texttt{GRAPHQL\_CLIENT\_OPTIONS\_CONFIG} and \texttt{REDUCE\_QUERY\_OPTIONS} injection tokens have to be configured the following way A more detailed description of the configuration options can be found in section \ref{section:applied-methods:shared-caching-layer} and in section \ref{subsection:applied-methods:query-reduction:testing-query-reduction}:
+\noindent The \texttt{GRAPHQL\_CLIENT\_OPTIONS\_CONFIG} and \texttt{REDUCE\_QUERY\_OPTIONS} injection tokens have to be configured the following way. A more detailed description of the configuration options can be found in section \ref{section:applied-methods:shared-caching-layer} and in section \ref{subsection:applied-methods:query-reduction:testing-query-reduction}:
 
 \begin{itemize}
   \item \texttt{shareCache: false}
   \item \texttt{reduceQueries: false}
 \end{itemize}
 
-\noindent 47 network requests have to be made to the GraphQL backend which can be seen in figure \ref{fig:results:no-shared-cache-no-reduction}. The figure shows 53 requests in total, but six requests have to be subtracted because they are needed to make the prototypical architecture work. They load the micro-frontends from their remote locations and fetch their settings. These requests are only needed for the functionality of the micro-service architecture.
+\noindent 47 network requests have to be made to the GraphQL \ac{API}, which can be seen in figure \ref{fig:results:no-shared-cache-no-reduction}. The figure shows 53 requests, but 6 requests have to be subtracted because they are needed to make the prototypical architecture work. They load the micro-frontends from their remote locations and fetch their settings, and these requests are only needed for the functionality of the micro-service architecture
 
 \ifshowImages
 \begin{figure}[H]
@@ -62,11 +62,11 @@ In this approach, each micro frontend has a separate instance of the GraphQL cli
 \end{figure}
 \fi
 
-\noindent The total size of the requests was 17.46 KB and the size of the responses was 10.78 MB. The 47 queries retrieve a total of 81510 records from the GraphQL backend.
+\noindent The total size of the requests was 17.46 KB, and the responses were 10.78 MB. The 47 queries retrieve a total of 81510 records from the GraphQL backend.
 
 \subsubsection{Shared Cache and no reduced queries}\label{subsubsection:results:performance-measurement:shared-cache-no-reduction}
 
-In this approach, an instance of the cache is shared by all micro-frontends, but the GraphQL queries are not reduced with data already present in the \texttt{InMemoryCache}. After the client completes the journey through the application, the following metrics were collected:
+With this approach, an instance of the cache is shared by all micro-frontends, but the GraphQL queries are not reduced with data already present in the \texttt{InMemoryCache}. After the client completes the journey through the application, the following metrics are collected:
 
 \begin{itemize}
   \item 36 network requests to the GraphQL \ac{API}
@@ -80,7 +80,7 @@ In this approach, an instance of the cache is shared by all micro-frontends, but
   \item \texttt{reduceQueries: false}
 \end{itemize}
 
-\noindent 36 requests have to be made to the GraphQL backend which can be seen in figure \ref{fig:results:no-shared-cache-no-reduction}. Six requests have to be deducted (\texttt{settings.json}, \texttt{module-federation.manifest.json}, \dots) like in the previous section.
+\noindent 36 requests have to be made to the GraphQL \ac{API}, which can be seen in Figure \ref{fig:results:no-shared-cache-no-reduction}. Six requests have to be deducted (\texttt{settings.json}, \texttt{module-federation.manifest.json}, \dots) as in the previous section.
 
 \ifshowImages
 \begin{figure}[H]
@@ -90,11 +90,11 @@ In this approach, an instance of the cache is shared by all micro-frontends, but
 \end{figure}
 \fi
 
-\noindent The total size of the queries was 15.176 KB and the size of the responses was 8.5 MB. The 36 queries retrieve a total of 51319 records from the GraphQL backend.
+\noindent The total size of the queries was 15.176 KB, and the size of the responses was 8.5 MB. The 36 queries retrieve a total of 51319 records from the GraphQL backend.
 
 \subsubsection{Shared cache, query reduction}\label{subsubsection:results:performance-measurement:separate-cache-reduction}
 
-With this approach, the same instance of the cache is shared between all of the micro-frontends in the architecture, and the queries are reduced with already existing data inside the cache. After the client completes the journey through the application, the following metrics were collected.
+With this approach, the same instance of the cache is shared between all of the micro-frontends in the architecture, and the queries are reduced with already existing data inside the cache. After the client completes the journey through the application, the following metrics are collected.
 
 \begin{itemize}
   \item 36 network requests to the GraphQL \ac{API}
@@ -108,7 +108,7 @@ With this approach, the same instance of the cache is shared between all of the 
   \item \texttt{reduceQueries: true}
 \end{itemize}
 
-\noindent 36 requests have to be made to the GraphQL backend which can be seen in figure \ref{fig:results:no-shared-cache-no-reduction}. Six requests have to be deducted (\texttt{settings.json}, \texttt{module-federation.manifest.json}, \dots) like in the previous sections.
+\noindent 36 requests have to be made to the GraphQL \ac{API}, which can be seen in Figure \ref{fig:results:no-shared-cache-no-reduction}. Six requests have to be deducted (\texttt{settings.json}, \texttt{module-federation.manifest.json}, \dots) as in the previous sections.
 
 \ifshowImages
 \begin{figure}[H]
@@ -118,7 +118,7 @@ With this approach, the same instance of the cache is shared between all of the 
 \end{figure}
 \fi
 
-\noindent The total size of the queries was 13.533 KB and the size of the responses was 8.37 MB. The 36 queries retrieve a total of 51319 records from the GraphQL backend.
+\noindent The total size of the queries was 13.53 KB, and the size of the responses was 8.37 MB. The 36 queries retrieve a total of 51319 records from the GraphQL backend.
 
 \input{chapters/results/comparing-first-path.tex}
 
