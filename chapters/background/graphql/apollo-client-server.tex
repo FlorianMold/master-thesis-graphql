@@ -30,7 +30,7 @@ This section describes how the caching mechanism of the Apollo Client works. The
 \end{figure}
 \fi
 
-\noindent If a request with the same user id is made again, the flow of execution looks like in figure \ref{fig:background:graphql:user-query-second-time}. As seen in the figure, no network request has to be made to the GraphQL \ac{API}, because everything is served from the Apollo Cache alone. Compared to the four steps in figure \ref{fig:background:graphql:user-query-first-time}, only two steps need to be done here. \cite{misc:-:background:graphql:apollo-client-cache-overview}
+\noindent If a request with the same user id is made again, the flow of execution looks like in Figure \ref{fig:background:graphql:user-query-second-time}. As seen in the figure, no network request has to be made to the GraphQL \ac{API}, because everything is served from the Apollo Cache alone. Compared to the four steps in Figure \ref{fig:background:graphql:user-query-first-time}, only two steps need to be done here. \cite{misc:-:background:graphql:apollo-client-cache-overview}
 
 \ifshowImages
 \begin{figure}[H]
@@ -46,7 +46,7 @@ Whenever the Apollo Client receives the response data of a query, it does the fo
 
 \paragraph{1. Identify objects}\label{paragraph:background:graphql:apollo-server-client:data-normalization:identify-objects}
 
-The cache identifies all distinct objects included in the query response. For example, take the query from figure \ref{code:background:graphql:query-user-cache}, which returns the \texttt{id}, \texttt{username}, and \texttt{email} of every user.
+The cache identifies all distinct objects included in the query response. For example, take the query from Figure \ref{code:background:graphql:query-user-cache}, which returns the \texttt{id}, \texttt{username}, and \texttt{email} of every user.
 
 \ifshowListings
 \begin{listing}[H]
@@ -250,7 +250,7 @@ The resulting objects are stored inside the cache's flat lookup table. Whenever 
 
 \subsubsection{Understanding the structure of the cache}\label{subsubsection:background:graphql:apollo-server-client:understanding-cache-structure}
 
-Apollo offers development tools for the browser in the form of browser extensions. The \textbf{Apollo Client Developer Tools} can be installed for Chrome and Firefox. The extension can be found in the Chrome Web Store and the Firefox Add-ons Store. The browser extension adds a tab to the browser inspection tools. \cite{misc:-:background:graphql:apollo-developer-tools} The view of the cache contents from the Apollo Client Development Tools can be seen in figure \ref{fig:background:graphql:apollo:apollo-dev-tools}.
+Apollo offers development tools for the browser in the form of browser extensions. The \textbf{Apollo Client Developer Tools} can be installed for Chrome and Firefox. The extension can be found in the Chrome Web Store and the Firefox Add-ons Store. The browser extension adds a tab to the browser inspection tools. \cite{misc:-:background:graphql:apollo-developer-tools} The view of the cache contents from the Apollo Client Development Tools can be seen in Figure \ref{fig:background:graphql:apollo:apollo-dev-tools}.
 
 \ifshowImages
   \begin{figure}[H]

@@ -1,6 +1,6 @@
 \subsection{Query reduction mechanism}\label{subsection:applied-methods:query-reduction:how-does-the-library-work}
 
-This section briefly describes how the dependency removes fields from the query by utilizing the \texttt{InMemoryCache}. Apollo Client allows specifying multiple options when fetching a query from the GraphQL \ac{API}. Three important options are \texttt{variables}, \texttt{query}, and \texttt{fetchPolicy}. The \texttt{query} specifies a GraphQL query and the \texttt{variables} are the variables for the query. The fetch policy allows the client to specify how data is stored and retrieved from the cache. The typical structure of a GraphQL query inside the micro-frontend architecture is shown in listing \ref{code:applied-methods:query-reduction:executing-graphql-query}. The query fetches the details of the user with the given \texttt{id}. The default fetch policy of a query is \texttt{cache-first}.
+This section briefly describes how the query reduction functionality removes fields from the query using the \texttt{InMemoryCache}. Apollo Client allows specifying multiple configuration options when fetching a query from a GraphQL \ac{API}. Three important options are \texttt{variables}, \texttt{query}, and \texttt{fetchPolicy}. The \texttt{query} specifies the GraphQL query, and the \texttt{variables} are the variables for the query. The fetch policy lets the client specify how data is stored and retrieved from the cache. The typical structure of a GraphQL query inside the micro-frontend architecture is shown in Listing \ref{code:applied-methods:query-reduction:executing-graphql-query}. The query fetches the user's details with the given \texttt{id}. The default fetch policy of a query is \texttt{cache-first}.
 
 \ifshowListings
 \begin{listing}[H]
@@ -11,25 +11,25 @@ this.graphQLClient.watchQuery({
   fetchPolicy: 'cache-first',
 });
 \end{minted}
-\caption{Defining a GraphQL query with Apollo Client.}\label{code:applied-methods:query-reduction:executing-graphql-query}
+\caption{Defining and running a GraphQL query with Apollo Client.}\label{code:applied-methods:query-reduction:executing-graphql-query}
 \end{listing}
 \fi
 
-\noindent The Apollo Client offers several fetch policies that customize how the client retrieves data from the cache. The available fetch-policies are: \cite{misc:-:applied-methods:query-reduction:apollo-client:queries}
+\noindent The Apollo Client offers several fetch policies that customize how the client retrieves data from the cache. The available fetch policies are: \cite{misc:-:applied-methods:query-reduction:apollo-client:queries}
 
 \begin{itemize}
-  \item \textbf{cache-first (default)}: This fetch policy instructs the Apollo Client to first check the local cache for the result of the query. If the data is present in the cache, it is returned immediately. Otherwise, Apollo Client will execute the query and fetch the result from the server, which will then be cached.
-  \item \textbf{cache-and-network}: This fetch policy combines the cache-first and network-only policies. Apollo Client first checks the cache for the query result, and returns it immediately if it's present. Then, a network request is made to fetch the most up-to-date data, which is then used to update the cache. This is a good option for displaying data that gets updated frequently.
-  \item \textbf{cache-only}: This fetch policy tells Apollo Client to only check the cache for the query result. If the result is present in the cache, it is returned immediately.
+  \item \textbf{cache-first (default)}: This fetch policy instructs the Apollo Client first to check the local cache for the query result. If the data is present in the cache, it is returned immediately. Otherwise, Apollo Client will execute the query and fetch the result from the server, which will then be cached.
+  \item \textbf{cache-and-network}: This fetch policy combines the cache-first and network-only policies. Apollo Client first checks the cache for the query result and returns it immediately if it is present. Then, a network request is made to fetch the most up-to-date data, which is then used to update the cache. This fetch policy is a good option for displaying data that gets updated frequently.
+  \item \textbf{cache-only}: This fetch policy tells Apollo Client only to check the cache for the query result. If the result is present in the cache, it is returned immediately.
   \item \textbf{network-only}: This fetch policy instructs Apollo to skip the cache entirely and always fetch the query result from the server.
   \item \textbf{no-cache}: This fetch policy skips the cache entirely and always fetches the query result from the server. Unlike network-only, the result is not cached.
 \end{itemize}
 
-\noindent The first step of the function is, whether the fetch policy allows the query to be reduced. If the query is executed with one of the following cache policies: \texttt{cache-only}, \texttt{network-only}, and \texttt{no-cache}, reducing the query is counterproductive. With \texttt{network-only}, the latest data should be fetched from the GraphQL \ac{API}. The \texttt{cache-only} policy only targets the cache, therefore no reduction is necessary. The \texttt{no-cache} policy bypasses the cache and just requests the data from the GraphQL \ac{API}. Another feature of Apollo Client is polling. Polling in Apollo Client is a technique used to periodically refetch a query's data at a specified interval and it allows a near-real-time synchronization with the server. To enable polling for a query, pass a \texttt{pollInterval} configuration option to the \texttt{watchQuery} method. Reducing a query that uses polling that does not make sense either, because real-time data should be displayed. The next sections describe the steps needed to reduce the query. 
+\noindent The first step of the function is whether the fetch policy allows the query to be reduced. Suppose the query is executed with one of the following cache policies: \texttt{cache-only}, \texttt{network-only}, and \texttt{no-cache}; reducing the query is counterproductive. With \texttt{network-only}, the latest data should be fetched from the GraphQL \ac{API}. The \texttt{cache-only} policy only targets the cache; therefore, no reduction is necessary. The no-cache policy bypasses the cache and requests data from the GraphQL \ac{API}. Another feature of Apollo Client is polling. Polling in Apollo Client is a technique used to fetch a query's data at a specified interval periodically, and it allows a near-real-time synchronization with the server. To enable polling for a query, pass a \texttt{pollInterval} (ms) configuration option to the \texttt{watchQuery} method. Removing fields from a query that uses polling does not make sense either because real-time data should be rendered. The following sections describe the steps needed to reduce the query.
 
-\subsubsection{Identify key fields of every type}
+\subsubsection{Identify key fields of every GraphQL type}
 
-The first step is to identify the key fields of the types inside the schema. The contents of the \texttt{InMemoryCache} can be extracted using the \texttt{cache.extract()} function. This returns an object with all the contents of the cache. The key fields can be read from the configuration of the cache. The implementation returns an object, where the type name is the key and the key fields are the value. Key fields are used by the \texttt{InMemoryCache} to generate cache \acp{ID} for individual types. By default, the \texttt{id} or \texttt{\_id} of the type is used as the unique \ac{ID}. To make the reduction work, it is necessary to fetch the key field of the type. A type policy must be defined for the type that should be customized. The definition of a custom key-field for a type is shown in listing \ref{code:applied-methods:query-reduction:defining-a-custom-key-field}. The \texttt{name} is used instead of the \texttt{id} to generate the cache \ac{ID} of a \texttt{Salutation}. The GraphQL API does not provide an \ac{ID} field and the name is unique. \cite{misc:-:background:graphql:apollo-client-cache-configuration}
+The first step is identifying the key fields of the types inside the schema. The contents of the \texttt{InMemoryCache} can be extracted using the \texttt{cache.extract()} function. This function returns an object with all the contents of the cache. The key fields can be read from the configuration of the cache. The implementation returns an object where the type name is the key and the key fields are the value. The \texttt{InMemoryCache} uses key fields to generate cache \acp{ID} for individual types. By default, the \texttt{id} or \texttt{\_id} of the type is used as the unique \ac{ID}. To make the query reduction work, fetching the key field of the type is necessary. A type policy must be defined for the type that should be customized. The definition of a custom key field for a type is shown in Listing \ref{code:applied-methods:query-reduction:defining-a-custom-key-field}. The \texttt{name} is used instead of the \texttt{id} to generate the cache \ac{ID} of a \texttt{Salutation}. The GraphQL API does not provide an \ac{ID} field; the name is unique. \cite{misc:-:background:graphql:apollo-client-cache-configuration}
 
 \ifshowListings
 \begin{listing}[H]
@@ -44,9 +44,9 @@ new InMemoryCache({
 \end{listing}
 \fi
 
-\noindent The key fields of a type cannot be removed by the reduction process, because they are the unique identifier of the data entry. Apollo Client needs this \ac{ID} to determine if an entity with the same \ac{ID} already exists in the cache. If it does, the Apollo Client will try to merge the incoming data with the existing data, otherwise, it will create a new cache entry.
+\noindent The reduction process cannot remove the key fields of a type because they are the unique identifier of the data entry inside the cache. Apollo Client needs this \ac{ID} to determine if an entity with the same \ac{ID} already exists in the cache. If it does, the Apollo Client will try to merge the incoming data with the existing data; otherwise, it will create a new cache entry.
 
-\subsubsection{Check whether the query was executed before}
+\subsubsection{Check the data of the cache}
 
 After storing the key fields for every type, the selected fields of the query are iterated. For example, listing \ref{code:applied-methods:query-reduction:selection-set-query} shows a GraphQL query that fetches all salutations and all titles. The selection set of this combined query is an array containing \texttt{allSalutations} and \texttt{allTitles}.
 
@@ -68,7 +68,7 @@ query {
 \end{listing}
 \fi
 
-\noindent The names of the queries can be used to check whether the query was executed before and was cached. Therefore, the identifier of the query inside the cache must be determined. By default, the name of the query inside the cache is the name concatenated with the variables of the query. The arguments are converted to a string that has the following structure \texttt{(\{variableName:value,variableName:value,\dots\})}. If the query is executed with other arguments, it has a separate entry inside the cache. The arguments of a query are converted to key-value pairs. For example, the following query shown in listing \ref{code:applied-methods:query-reduction:storing-a-query-with-arguments} fetches a contact by its \ac{ID} and just reads the \texttt{id}.
+\noindent The names of the queries can be used to check whether the query was executed before and was cached. Therefore, the identifier of the query inside the cache must be determined. The query's name inside the cache is concatenated with the query variables by default. The arguments are converted to a string that has the following structure \texttt{(\{variableName:value,variableName:value,\dots\})}. If the query is executed with different arguments, it has a separate entry inside the cache. The arguments of a query are converted to key-value pairs. For example, the following query shown in listing \ref{code:applied-methods:query-reduction:storing-a-query-with-arguments} fetches a contact by its \ac{ID} and reads the \texttt{id} from the contact.
 
 \ifshowListings
 \begin{listing}[H]
@@ -83,7 +83,7 @@ query {
 \end{listing}
 \fi
 
-\noindent After the GraphQL query was fetched from the \ac{API}, the contents of the \texttt{InMemoryCache} are shown in listing \ref{code:applied-methods:query-reduction:cache-representation-of-query-with-arguments}. The cache entry is the name of the query with the parameters of the query. If the same query is executed with different arguments, there would be a separate cache entry inside the \texttt{ROOT\_QUERY} object.
+\noindent After the GraphQL query was fetched from the GraphQL \ac{API}, the contents of the \texttt{InMemoryCache} are shown in listing \ref{code:applied-methods:query-reduction:cache-representation-of-query-with-arguments}. The cache entry is the name of the query with the parameters of the query joined together. If the same query is executed with different arguments, there would be a separate cache entry inside the \texttt{ROOT\_QUERY} object.
 
 \ifshowListings
 \begin{listing}[H]
@@ -104,15 +104,15 @@ query {
 \end{listing}
 \fi
 
-\noindent To check whether the query was executed before, the name query to reduce and its arguments must be put into the form of how the cache stores them. If no arguments are present, the name of the query is the name inside the cache, without the round brackets. The forked library did not account for queries that do not have arguments. The implementation did not check whether any arguments were set. It stringified the empty arguments object, which resulted in the library checking the \texttt{ROOT\_QUERY} with the argument value \enquote{(\{\})} instead of just the name directly. This leads to a cache miss and the query can't be reduced, although the query would have been cached. The adaption to the library is shown in listing \ref{code:applied-methods:query-reduction:determine-the-field-name}, where the name of the query is returned if no arguments are present.
+\noindent To check whether the query was executed before, the query's name to reduce and its arguments must be put into the form of how the cache stores them. If no arguments are present, the name of the query is stored as the name inside the cache, without the round brackets. The forked library did not account for queries that do not have arguments, and the implementation did not check whether any arguments were set. It stringified the empty arguments object, which resulted in the library checking the \texttt{ROOT\_QUERY} with the argument value \enquote{(\{\})} instead of only the name directly. This leads to a cache miss and the query can't be reduced, although the query would have been cached. The adaption to the library is shown in Listing \ref{code:applied-methods:query-reduction:determine-the-field-name}, where the name of the query is returned directly if no arguments are present.
 
 \bigskip
 
-\noindent Another difference from the original implementation was that key args of the type were not taken into consideration. Key args are used to configure field policies for caching, specifying which arguments should be used as part of the cache key for a particular field.  For example, if a \texttt{User} is queried with the \texttt{id} 1 and 2, the Apollo Client stores two entries for both. By default, the cache stores separate entries for each unique combination of field arguments. Each storage key includes the corresponding argument values. If a field has no arguments, its storage key is just its name. The cache doesn't know whether it can merge the values returned for different argument combinations without invalidating data. The cache should not merge the results of querying for \texttt{User}s with \texttt{id}s 1 and 2. A key argument is an argument for a GraphQL field that's included in cache storage keys for that field. \cite{misc:-:applied-methods:query-reduction:key-args}
+\noindent Another difference from the original implementation was that key args of the type were not considered. Key arguments are used to configure field policies for caching, specifying which arguments should be used as part of the cache key for a particular field. For example, if a \texttt{User} is queried with the \texttt{id} 1 and 2, the Apollo Client stores two entries for both. By default, the cache stores separate entries for each unique combination of field arguments. Each storage key includes the corresponding argument values. If a field has no arguments, its storage key is just its name. The cache must determine whether it can merge the values returned for different argument combinations without invalidating data. The cache should not merge the querying results for Users with ids 1 and 2. A key argument is an argument for a GraphQL field that's included in cache storage keys for that field. \cite{misc:-:applied-methods:query-reduction:key-args}
 
 \bigskip
 
-\noindent The original implementation has not covered the case, that the client might have set individual \texttt{keyArgs} for a query. Therefore it considers all given arguments as \texttt{keyArgs}. Just like the key fields, the key args for every type can be read from the configuration of the cache. The arguments of the query are filtered by the key args of the type. The filtered arguments are then used to determine the field name of the query. A part of the logic to determine the field name of the query inside the cache is shown inside listing \ref{code:applied-methods:query-reduction:determine-the-field-name}.
+\noindent The original implementation has not taken into account that the client might have set individual \texttt{keyArgs} for a query. Therefore it considers all given arguments as \texttt{keyArgs}. Like the key fields, the key args for every type can be read from the cache configuration. Only if a given argument of the query is a key argument, the GraphQL argument is considered for the cache key. Unnecessary arguments are filtered out, and the filtered arguments are then used to determine the field name of the query. A part of the logic to determine the field name of the query inside the cache is shown inside Listing \ref{code:applied-methods:query-reduction:determine-the-field-name}.
 
 \ifshowListings
 \begin{listing}[H]
@@ -137,7 +137,7 @@ return `${fieldSelection.name.value}(${stringifiedArgs})`;
 
 \subsubsection{Accessing the cached data}
 
-\noindent After the field name is determined, the \texttt{ROOT\_QUERY} of the cache object is checked, whether it contains the name of the query. Listing \ref{code:applied-methods:query-reduction:getting-cache-content} shows how the contents of the cache are accessed programmatically. If the result of the access is undefined, the query was not cached before and has to be executed completely against the cache, otherwise, a reference to the cached data is returned. This cache reference is used to read the real data from the cache and use the existing fields to reduce the fields inside the query. All fields that are inside the query and the cache reference can be removed from the query, except key fields. If the query fetches a list, all cache objects must have the fields from the query, otherwise, the fields can't be removed from the query.
+\noindent After the field name is determined, the \texttt{ROOT\_QUERY} of the cache object is checked, whether it contains the query's name. Listing \ref{code:applied-methods:query-reduction:getting-cache-content} shows how the contents of the cache are accessed programmatically. If the result of the access is undefined, the query's results were not cached before, and the query has to be executed entirely against the cache; otherwise, a reference to the cached data is returned. This cache reference is used to locate and read the actual data from the cache and use the existing fields to reduce the fields inside the query. All fields inside the query and the cache reference can be removed from the query, except key fields. If the query fetches a list, all cache objects must have the fields from the query. Otherwise, the fields cannot be removed from the query.
 
 \ifshowListings
 \begin{listing}[H]
@@ -148,7 +148,7 @@ const cacheObjectsOrRefs = cacheContents['ROOT_QUERY']?.[fieldName];
 \end{listing}
 \fi
 
-\noindent Another additional feature, that differs from the original implementation is that additional cache references can be passed to the query by the client. These references are used to look up data inside the cache when the initial check for the query name returned undefined. The reference to the object is then used to look up the fields that can be reduced. As already explained in section \ref{section:applied-methods:query-reduction} caching works on the query level. The data for a query could already be fetched with another query. The client knows that the same parts of the data are already in the cache and can pass the reference to the query. The listing \ref{code:applied-methods:query-reduction:passing-an-additional-cache-ref} shows how additional cache references are passed to the query. The function \texttt{cache.identify} is used to generate a valid cache reference for the user. The process respects and considers the settings of the cache and generates a valid reference, based on the key fields. But this feature works only in collaboration with cache redirects. To make the \texttt{InMemoryCache} aware that the data of the user can be found somewhere else, a cache redirect like in listing \ref{code:applied-methods:query-reduction:user-cache-redirect} has to be defined.
+\noindent Another feature that differs from the original implementation is that additional cache references can be passed to the query by the client. These references are used to look up data inside the cache when the initial check for the query name returns undefined. The reference to the object is then used to look up the fields that can be reduced. As explained in Section \ref{section:applied-methods:query-reduction}, caching works on the query level, and the data for a query could already be fetched with another query. The client knows that some parts of the desired data are already in the cache and can pass a reference to the query. Listing \ref{code:applied-methods:query-reduction:passing-an-additional-cache-ref} shows how additional cache references are passed to the query. The function \texttt{cache.identify} is used to generate a valid cache reference for the user based on its \texttt{id}. The process respects and considers the settings of the cache and generates a valid reference based on the key fields. However, this feature works only in collaboration with cache redirects. To make the \texttt{InMemoryCache} aware that the user's data can be found somewhere else, a cache redirect, like in listing \ref{code:applied-methods:query-reduction:user-cache-redirect}, has to be defined.
 
 \ifshowListings
 \begin{listing}[H]
@@ -165,9 +165,9 @@ this.graphQLClient.watchQuery({
 \end{listing}
 \fi
 
-\subsubsection{Fetching the data}
+\subsubsection{Querying the data}
 
-\noindent After the fields which are already inside the cache are removed, the reduced query is executed against the GraphQL \ac{API}, and the original query is executed just against the cache with the fetch-policy \texttt{cache-only}. The results of both queries are merged to fetch the data for the query, a part of this logic is seen in listing \ref{code:applied-methods:query-reduction:combining-the-results}. If a query can't be reduced, because no data is available in the cache to reduce it, the original query is executed against the GraphQL \ac{API}.
+\noindent After removing unnecessary fields from the query, the reduced query is executed against the GraphQL \ac{API}. The original query is executed just against the cache with the fetch-policy \texttt{cache-only}. The results of both operations are merged to fetch all of the fields that the original query selects, a part of this logic is seen in Listing \ref{code:applied-methods:query-reduction:combining-the-results}. If a query cannot be reduced because no existing data is available in the cache to reduce it, the original query is executed against the GraphQL \ac{API}.
 
 \ifshowListings
 \begin{listing}[H]
@@ -188,8 +188,6 @@ this.graphqlClient
     )
   )
 \end{minted}
-\caption{Combining the results of the reduced- and original-query}\label{code:applied-methods:query-reduction:combining-the-results}
+\caption{Combining the results of the reduced- and original-query.}\label{code:applied-methods:query-reduction:combining-the-results}
 \end{listing}
 \fi
-
-\

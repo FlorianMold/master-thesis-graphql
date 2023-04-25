@@ -1,6 +1,6 @@
 \section{Implementing a prototypical micro-frontend architecture}\label{section:applied-methods:prototypical-implementation}
 
-A prototypical micro-frontend architecture was implemented to evaluate the research questions. The architecture was developed to lay the groundwork for later use in a production environment. The micro-frontends are integrated using client-side integration, more precisely, run-time integration. The integration strategy was implemented with Webpack's Module Federation, which was described in the excellent detail section \ref{subsection:background:micro-frontend:module-federation}. The central part of the implementation is written in Angular. One micro-frontend was implemented in React to showcase the technology agnosticism of the architecture. The prototype contains a single application shell that loads all other micro-frontends. The architecture is divided into nine widgets that display only simple data and four complex single-page applications. The four \acp{SPA} are Dashboard, Contact, Sales, and User.
+A prototypical micro-frontend architecture was implemented to evaluate the research questions. The architecture was developed to lay the groundwork for later use in a production environment. The micro-frontends are integrated using client-side integration, more precisely, run-time integration. The integration strategy was implemented with Webpack's Module Federation, which was described in more detail in Section \ref{subsection:background:micro-frontend:module-federation}. The central part of the implementation is written in Angular. One micro-frontend was implemented in React to showcase the technology agnosticism of the architecture. The prototype contains a single application shell that loads all other micro-frontends. The architecture is divided into nine widgets that display only simple data and four complex single-page applications. The four \acp{SPA} are Dashboard, Contact, Sales, and User.
 
 \bigskip
 
@@ -8,7 +8,7 @@ A prototypical micro-frontend architecture was implemented to evaluate the resea
 
 \bigskip
 
-\noindent A rough overview of the architecture is shown in figure \ref{fig:applied-methods:prototype-micro-frontend-architecture}. It also shows a wireframe of how the structure of the application should look. The icons inside the squares represent the \ac{JS} Framework used. Each widget is a separate application that exposes a module through Module Federation, consumed by the Dashboard micro-frontend.
+\noindent A rough overview of the architecture is shown in Figure \ref{fig:applied-methods:prototype-micro-frontend-architecture}. It also shows a wireframe of how the structure of the application should look. The icons inside the squares represent the \ac{JS} Framework used. Each widget is a separate application that exposes a module through Module Federation, consumed by the Dashboard micro-frontend.
 
 \ifshowImages
 \begin{figure}[H]
@@ -22,7 +22,7 @@ A prototypical micro-frontend architecture was implemented to evaluate the resea
 
 \bigskip
 
-\noindent The listing \ref{code:applied-methods:module-federation-config-expose} shows the configuration of the contact micro-frontend to expose its primary implementation through module federation in the form of the \texttt{entry.module}. The configuration of the other micro-frontends looks similar. The properties of the module-federation plugin were already discussed in the section \ref{subsection:background:micro-frontend:module-federation}. All Angular- and Apollo- dependencies are specified to be shared across all micro-frontends. Sharing the dependencies ensures that all micro-frontends use the same version of the dependencies. In the listing \ref{code:applied-methods:module-federation-config-expose}, the versions of the dependencies are written out. Inside the application, the versions are read from the \texttt{package.json} to ensure consistency. The versions are also important later to ensure the caching layer works correctly.
+\noindent The listing \ref{code:applied-methods:module-federation-config-expose} shows the configuration of the contact micro-frontend to expose its primary implementation through module federation in the form of the \texttt{entry.module}. The configuration of the other micro-frontends looks similar. The properties of the module-federation plugin were already discussed in the Section \ref{subsection:background:micro-frontend:module-federation}. All Angular- and Apollo- dependencies are specified to be shared across all micro-frontends. Sharing the dependencies ensures that all micro-frontends use the same version of the dependencies. In the listing \ref{code:applied-methods:module-federation-config-expose}, the versions of the dependencies are written out. Inside the application, the versions are read from the \texttt{package.json} to ensure consistency. The versions are also important later to ensure the caching layer works correctly.
 
 \ifshowListings
 \begin{listing}[H]

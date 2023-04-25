@@ -1,6 +1,6 @@
 \section{Communication between the application-shell and the remote-modules}\label{section:applied-methods:communication-shell-remote}
 
-The next step was to implement communication between the application shell and the micro-frontends. Apollo Client's cache should be used to increase the performance of the micro-frontend architecture. Therefore, the application shell and the micro-frontends must share the same instance of the in-memory cache. How the in-memory cache works is described in section  \ref{subsubsection:background:graphql:apollo-server-client:in-memory-cache-working}. The application shell must provide the cache instance to the micro-frontends to create a shared caching layer. The implementation details will be explained in section \ref{section:applied-methods:shared-caching-layer} in more detail. This section focuses on communication between the application shell and the micro-frontends.
+The next step was to implement communication between the application shell and the micro-frontends. Apollo Client's cache should be used to increase the performance of the micro-frontend architecture. Therefore, the application shell and the micro-frontends must share the same instance of the in-memory cache. How the in-memory cache works is described in section  \ref{subsubsection:background:graphql:apollo-server-client:in-memory-cache-working}. The application shell must provide the cache instance to the micro-frontends to create a shared caching layer. The implementation details will be explained in Section \ref{section:applied-methods:shared-caching-layer} in more detail. This section focuses on communication between the application shell and the micro-frontends.
 
 \bigskip
 
@@ -8,7 +8,7 @@ The next step was to implement communication between the application shell and t
 
 \bigskip
 
-\noindent As explained in section \ref{subsection:background:micro-frontend:communication-patterns} three distinct types of communication exist between micro-frontends and the application shell. Angular provides an excellent feature for implementing unidirectional communication between micro-frontends, namely \ac{DI}. The application shell can provide services that remote applications can inject. An Angular injection token was created to implement specific behavior if an application runs in standalone mode or is consumed by an application shell.
+\noindent As explained in Section \ref{subsection:background:micro-frontend:communication-patterns} three distinct types of communication exist between micro-frontends and the application shell. Angular provides an excellent feature for implementing unidirectional communication between micro-frontends, namely \ac{DI}. The application shell can provide services that remote applications can inject. An Angular injection token was created to implement specific behavior if an application runs in standalone mode or is consumed by an application shell.
 
 \noindent An injection Token can be used to define a dependency that should be injectable into a class. The can be of any value, but the injected type is usually not reified, which means that it is not available at runtime. \cite{misc:-:applied-methods:communication:angular-injection-token}
 
@@ -34,7 +34,7 @@ class ContactCoreModule {}
   \end{listing}
 \fi
 
-\noindent One requirement was that the remote applications should be able to integrate their navigation into the application shell. The rough structure of the requirement is shown in the figure \ref{fig:applied-methods:communication-patterns:comparison-between-host-and-contact-layout}. Upon loading the contact micro-frontend into the application shell, the navigation for the contact should be created below the navigation of the application shell.
+\noindent One requirement was that the remote applications should be able to integrate their navigation into the application shell. The rough structure of the requirement is shown in the Figure \ref{fig:applied-methods:communication-patterns:comparison-between-host-and-contact-layout}. Upon loading the contact micro-frontend into the application shell, the navigation for the contact should be created below the navigation of the application shell.
 
 \ifshowImages
   \begin{figure}[H]
@@ -44,7 +44,7 @@ class ContactCoreModule {}
   \end{figure}
 \fi
 
-\noindent The application shell has to offer a mechanism to make it possible to integrate the micro-frontend into the layout. A layout service was created that can be injected into the remote modules. The layout-service navigation can register nodes in the header. The logic for registering a second row inside the toolbar is only executed if the remote module is run in a native environment. The difference between the navigation inside the application shell and the contact application can be seen in figure \ref{fig:applied-methods:communication-patterns:contact-application-header} and \ref{fig:applied-methods:communication-patterns:application-shell-header}. The first figure shows the navigation inside the contact micro-frontend to create a new contact. The second figure shows the navigation of the application shell, which incorporates the navigation of the contact micro-frontend. It has two toolbar rows. The first row is the navigation of the application shell, which links to the different micro-frontends. The second row is the navigation of the contact micro-frontend, which is only shown if the contact micro-frontend is loaded into the application shell.
+\noindent The application shell has to offer a mechanism to make it possible to integrate the micro-frontend into the layout. A layout service was created that can be injected into the remote modules. The layout-service navigation can register nodes in the header. The logic for registering a second row inside the toolbar is only executed if the remote module is run in a native environment. The difference between the navigation inside the application shell and the contact application can be seen in Figure \ref{fig:applied-methods:communication-patterns:contact-application-header} and \ref{fig:applied-methods:communication-patterns:application-shell-header}. The first figure shows the navigation inside the contact micro-frontend to create a new contact. The second figure shows the navigation of the application shell, which incorporates the navigation of the contact micro-frontend. It has two toolbar rows. The first row is the navigation of the application shell, which links to the different micro-frontends. The second row is the navigation of the contact micro-frontend, which is only shown if the contact micro-frontend is loaded into the application shell.
 
 \ifshowImages
   \begin{figure}[H]
