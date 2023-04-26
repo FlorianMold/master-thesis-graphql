@@ -1,10 +1,13 @@
 \chapter{Future work}\label{chapter:future-work}
 
-\section{Another solution}
+This master thesis was primarily focused on implementing a prototypical micro-frontend architecture to replace the companys legacy system in the future. In the process, it examined, whether GraphQL can bring performance improvements to such an architecture. The prototype was implemented with a few improvements to the GraphQL layer of the frontend. The approach of sharing a single caching layer across all micro-frontends was ver successful. But the more promising solution of reducting queries with already existing data in the cache was not really improving the performance in the scenario of the prototype. The mechanism could bring more improvements in other scenarios, they are described in more detail in the following sections.
 
-% \lipsum[1-5]
+\subsubsection{Another solution}
 
-\section{Technology agnostic}
+This is some text with a footnote.\footnote{\href{https://example.com/}{This is a link in the footnote}.}
+
+
+\subsubsection{Technology agnostic}
 
 % \lipsum[1-5]
 
@@ -15,3 +18,6 @@
 % make the shell application and the communcation really technology agnostic
 
 % The dashboard functionality of the approach is not well suited for the query reduction approach. But a use case, where the query reduction shines might be an e-commerce application like Amazon.
+
+
+% Probleme, weil Apollo alles auf das window haengt.

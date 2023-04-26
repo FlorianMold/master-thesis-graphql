@@ -42,7 +42,7 @@ With this approach, each micro frontend has a separate instance of the GraphQL c
 
 \begin{itemize}
   \item 47 network requests to the GraphQL \ac{API}
-  \item 10.78MB transferred
+  \item 10.78 MB transferred
 \end{itemize}
 
 \noindent The \texttt{GRAPHQL\_CLIENT\_OPTIONS\_CONFIG} and \texttt{REDUCE\_QUERY\_OPTIONS} injection tokens have to be configured the following way. A more detailed description of the configuration options can be found in Section \ref{section:applied-methods:shared-caching-layer} and in Section \ref{subsection:applied-methods:query-reduction:testing-query-reduction}:
@@ -57,12 +57,12 @@ With this approach, each micro frontend has a separate instance of the GraphQL c
 \ifshowImages
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.6\linewidth]{images/results/1-attempt/no-shared-cache-no-reduction.png}
+\includegraphics[width=0.7\linewidth]{images/results/1-attempt/no-shared-cache-no-reduction.png}
 \caption{All requests made during the measurement of the first approach.}\label{fig:results:no-shared-cache-no-reduction}
 \end{figure}
 \fi
 
-\noindent The total size of the requests was 17.46 KB, and the responses were 10.78 MB. The 47 queries retrieve a total of 81510 records from the GraphQL backend.
+\noindent The total size of the requests was 17.46 KB, and the responses were 10.78 MB. The 47 queries retrieve a total of 81510 records from the GraphQL  \ac{API}.
 
 \subsubsection{Shared Cache and no reduced queries}\label{subsubsection:results:performance-measurement:shared-cache-no-reduction}
 
@@ -85,12 +85,12 @@ With this approach, an instance of the cache is shared by all micro-frontends, b
 \ifshowImages
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.6\linewidth]{images/results/1-attempt/shared-not-reduced-cache.png}
+\includegraphics[width=0.7\linewidth]{images/results/1-attempt/shared-not-reduced-cache.png}
 \caption{All requests made during the measurement of the second approach.}\label{fig:results:shared-cache-no-reduction}
 \end{figure}
 \fi
 
-\noindent The total size of the queries was 15.176 KB, and the size of the responses was 8.5 MB. The 36 queries retrieve a total of 51319 records from the GraphQL backend.
+\noindent The total size of the queries was 15.176 KB, and the size of the responses was 8.5 MB. The 36 queries retrieve a total of 51319 records from the GraphQL \ac{API}.
 
 \subsubsection{Shared cache, query reduction}\label{subsubsection:results:performance-measurement:separate-cache-reduction}
 
@@ -113,12 +113,12 @@ With this approach, the same instance of the cache is shared between all of the 
 \ifshowImages
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.6\linewidth]{images/results/1-attempt/no-shared-cache-no-reduction.png}
+\includegraphics[width=0.7\linewidth]{images/results/1-attempt/shared-reduced-cache.png}
 \caption{All requests made during the measurement of the third approach.}\label{fig:results:shared-cache-reduction}
 \end{figure}
 \fi
 
-\noindent The total size of the queries was 13.53 KB, and the size of the responses was 8.37 MB. The 36 queries retrieve a total of 51319 records from the GraphQL backend.
+\noindent The total size of the queries was 13.53 KB, and the size of the responses was 8.37 MB. The 36 queries retrieve a total of 51319 records from the GraphQL \ac{API}.
 
 \input{chapters/results/comparing-first-path.tex}
 

@@ -28,11 +28,11 @@ GraphQL is based on several design principles: \cite{misc:-:background:graphql:g
 
 \subsection{Advantages}\label{subsection:background:graphql:graphql-advantages}
 
-GraphQL helps to reduce the network traffic between the clients and the backend they query. Research indicates that the dynamic approach to fetching data can reduce the number of fields to be fetched and, therefore, the bytes sent back and forth to the GraphQL server. \cite{inprocessdings:2019:background:graphql:migration-to-graphql}
+GraphQL helps to reduce the network traffic between the clients and the service they query. Research indicates that the dynamic approach to fetching data can reduce the number of fields to be fetched and, therefore, the bytes sent back and forth to the GraphQL server. \cite{inprocessdings:2019:background:graphql:migration-to-graphql}
 
 \bigskip
 
-\noindent Because the client specifies the required fields that should be fetched, the complexity on the backend can be reduced. The backend does not need to implement many endpoints, only used by a small subset of clients. The backend can implement a single endpoint that all clients can query. \cite{book:2018:richardson:background:bff:microservices-patterns}
+\noindent Because the client specifies the required fields that should be fetched, the complexity on the server can be reduced. The backend service does not need to implement many endpoints, only used by a small subset of clients. The \ac{API} can implement a single endpoint that all clients can query. \cite{book:2018:richardson:background:bff:microservices-patterns}
 
 \bigskip
 
@@ -40,11 +40,11 @@ GraphQL helps to reduce the network traffic between the clients and the backend 
 
 \subsection{Disadvantages}\label{subsection:background:graphql:graphql-disadvantages}
 
-\noindent The advantage that GraphQL reduces complexity on the backend is a disadvantage for the client-side application. It leads to higher complexity when consuming GraphQL services compared to \ac{REST}. With \ac{REST}, only an endpoint has to be queried, whereas, with GraphQL, the requested data has to be specified at the field level. However, the introspection abilities of GraphQL allow consumers to understand better the query and data structure, which mitigates the disadvantage. A study \cite{inproceedings:2020:brito:background:graphql:rest-vs-graphql} showed that the study participants found it easier to consume a GraphQL Service than a \ac{REST} Service \cite{inproceedings:2017:de-pauda:background:graphql:handling-anti-patterns}.
+\noindent The advantage that GraphQL reduces complexity on the server is a disadvantage for the client-side application. It leads to higher complexity when consuming GraphQL services compared to \ac{REST}. With \ac{REST}, only an endpoint has to be queried, whereas, with GraphQL, the requested data has to be specified at the field level. However, the introspection abilities of GraphQL allow consumers to understand better the query and data structure, which mitigates the disadvantage. A study \cite{inproceedings:2020:brito:background:graphql:rest-vs-graphql} showed that the study participants found it easier to consume a GraphQL Service than a \ac{REST} Service \cite{inproceedings:2017:de-pauda:background:graphql:handling-anti-patterns}.
 
 \bigskip
 
-\noindent GraphQL shifts responsibilities from the backend to the client, generally done with a gateway. \ac{API} composition can shift from the server to the client. Depending on the actual use-capabilities
+\noindent GraphQL shifts responsibilities from the server to the client, generally done with a gateway. \ac{API} composition can shift from the server to the client. Depending on the actual use-capabilities
 
 \bigskip
 

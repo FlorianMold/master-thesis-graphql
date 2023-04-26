@@ -4,7 +4,7 @@ Every microservice provides its functionality to consumers with \acp{API}. Never
 
 \bigskip
 
-\noindent Another problem could be that a cluster of microservices uses another form of communication. For example, an asynchronous message bus or another protocol like \ac{GRPC} differs from the \ac{HTTP}. Clients usually communicate using synchronous communication, whereas microservices might use asynchronous communication. With an adapter in between, the communication will work properly. Even if communication is possible, the client needs to know many internal details about the cluster of microservices, like the \ac{IP} address. It needs to be clarified which microservice offers the data that is needed for the client. Changing the \ac{API} of a microservice would have a ripple effect on the requests on the frontend because they would have to be changed in many places. \cite[254-257]{book:2018:richardson:background:bff:microservices-patterns}
+\noindent Another problem could be that a cluster of microservices uses another form of communication. For example, an asynchronous message bus or another protocol like \ac{gRPC} differs from the \ac{HTTP}. Clients usually communicate using synchronous communication, whereas microservices might use asynchronous communication. With an adapter in between, the communication will work properly. Even if communication is possible, the client needs to know many internal details about the cluster of microservices, like the \ac{IP} address. It needs to be clarified which microservice offers the data that is needed for the client. Changing the \ac{API} of a microservice would have a ripple effect on the requests on the frontend because they would have to be changed in many places. \cite[254-257]{book:2018:richardson:background:bff:microservices-patterns}
 
 \bigskip
 
@@ -12,7 +12,7 @@ Every microservice provides its functionality to consumers with \acp{API}. Never
 
 \bigskip
 
-\noindent The main task of a gateway is to forward tasks to the correct microservice and compose \ac{API} for loading the needed data in one request. They might implement functionalities like authorization and authentication or transform the protocol, like converting \ac{HTTP} to \ac{GRPC}. With \ac{API} gateways, it is also easier to split a microservice into two separate services without a ripple effect to change all clients that consume that microservice. \cite[260-263]{book:2018:richardson:background:bff:microservices-patterns}
+\noindent The main task of a gateway is to forward tasks to the correct microservice and compose \ac{API} for loading the needed data in one request. They might implement functionalities like authorization and authentication or transform the protocol, like converting \ac{HTTP} to \ac{gRPC}. With \ac{API} gateways, it is also easier to split a microservice into two separate services without a ripple effect to change all clients that consume that microservice. \cite[260-263]{book:2018:richardson:background:bff:microservices-patterns}
 
 \bigskip
 
