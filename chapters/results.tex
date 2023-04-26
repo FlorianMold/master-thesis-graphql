@@ -1,6 +1,6 @@
 \chapter{Results}\label{chapter:results}
 
-This chapter explains whether a micro-frontend architecture with GraphQL and a shared caching layer can improve performance over a separated cache. The micro-frontend architecture implements four \acp{SPA} and nine widgets. Most of the implementation was done using Angular, but one single widget was implemented in React. Using a framework showcased whether another technology could access the shared caching layer. Furthermore, a \ac{BFF} service was developed using GraphQL which is explicitly tailored to the needs of the micro-frontends. The \ac{BFF} aggregates the data from the microservices and provides it to the micro-frontends. An overview of the prototypical architectures communicates with the GraphQL \ac{API} is shown in listing \ref{fig:results:micro-frontend-prototype}.
+This chapter explains whether the micro-frontend architecture using GraphQL and a shared caching layer can improve performance over a separated cache. The micro-frontend architecture implements four \acp{SPA} and nine widgets. Most of the implementation was done using Angular, but one single widget was implemented in React. Using another framework should showcase whether another technology could access the shared caching layer. Furthermore, a \ac{BFF} service was developed using GraphQL which is explicitly tailored to the needs of the micro-frontends. The \ac{BFF} aggregates the data from the microservices and provides it to the micro-frontends. An overview of the prototypical architectures communicates with the GraphQL \ac{API} is shown in listing \ref{fig:results:micro-frontend-prototype}.
 
 \ifshowImages
 \begin{figure}[H]
@@ -12,7 +12,7 @@ This chapter explains whether a micro-frontend architecture with GraphQL and a s
 
 \section{Performance measurement}\label{section:results:performance-measurement}
 
-This section explains how the micro-frontend architecture was evaluated regarding the hypotheses. Three distinct approaches were identified to measure the performance of the shared GraphQL caching layer, and the architecture allows switching quickly between these three approaches.
+This section explains how the micro-frontend architecture will be evaluated regarding the first hypothesis. Three distinct approaches were identified to measure the performance of the shared GraphQL caching layer. The architecture implements a switch allowing it to switch quickly between these three approaches.
 
 \begin{enumerate}
   \item \textbf{Separate Cache and no reduced queries}: All remote modules use a separate cache, and no queries are reduced with the help of the cache.
@@ -20,7 +20,7 @@ This section explains how the micro-frontend architecture was evaluated regardin
   \item \textbf{Shared Cache and reduced queries}: All remote modules share the same instance of the cache, and queries are reduced by using the functionality from apollo-augmented-hooks.
 \end{enumerate}
 
-\noindent Two exemplary paths through the application were planned to measure and compare the performance of these three approaches. These user journeys were intended to show how many network requests were made to the GraphQL \ac{API} and how much network traffic was generated during the process. A large amount of mock data was generated and used by the GraphQL \ac{API} to make the measurements as close as possible to real conditions. With this large amount of data, measuring the differences in response size is more expressive. Fetching smaller datasets makes only a difference when the application is used over a more extended period of time. The following section details the results of the first path through the application.
+\noindent Two exemplary paths through the application were planned to measure and compare the performance of these three approaches. These user journeys were intended to show how many network requests were made to the GraphQL \ac{API} and how much network traffic was generated during the process. A large amount of mock data was generated and used by the GraphQL \ac{API} to make the measurements as close as possible to real conditions. With this large amount of data, measuring the differences in response size is more expressive. Fetching smaller datasets makes only a difference when the application is used over a more extended period of time. The following sections detail the results of the user journeys through the application.
 
 \input{chapters/results/comparing-first-path.tex}
 
