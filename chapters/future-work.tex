@@ -1,19 +1,17 @@
 \chapter{Future work}\label{chapter:future-work}
 
-This master thesis was primarily focused on implementing a prototypical micro-frontend architecture to replace the companys legacy system in the future. In the process, it examined, whether GraphQL can bring performance improvements to such an architecture. The prototype was implemented with a few improvements to the GraphQL layer of the frontend. The approach of sharing a single caching layer across all micro-frontends was ver successful. But the more promising solution of reducting queries with already existing data in the cache was not really improving the performance in the scenario of the prototype. The mechanism could bring more improvements in other scenarios, they are described in more detail in the following sections.
+This master thesis was primarily focused on implementing a prototypical micro-frontend architecture to replace the company's internal management software sometime in the future. In the process, it was examined, whether GraphQL using Apollo Client can bring performance improvements inside a micro-frontend architecture. The improvements to the GraphQL layer should be implemented with two methods. First, the GraphQL layer should be shared across all micro-frontends. Second, the GraphQL layer should reduce queries by using the cache. Using one cache instance for all micro-frontends leads to great improvements regarding request size and response size. The second method to improve performance was very promising, but in the scenario of the prototype, it did not bring significant improvements. The prototype follows the approach of a list view and detail view however, the table view does not fetch enough fields to make a difference when fetching the detail view with its additional fields. Nevertheless, other applications that have a different structure might benefit from reducing queries with existing data. The following section explains a theoretical example of an application that might benefit from using query reduction.
 
 \subsubsection{Another solution}
 
-This is some text with a footnote.\footnote{\href{https://example.com/}{This is a link in the footnote}.}
-
-
-\subsubsection{Technology agnostic}
-
-% \lipsum[1-5]
-
 % examine a project that might improve from using query reduction
+This section describes a fictional application that might improve greatly from using query reduction. The application is a simple e-commerce application that has a list view of products and a detail view of a product. The list view shows the name, price and a short description of the product. The detail view shows the name, price, description, the category and the manufacturer of the product. The application has a GraphQL layer that fetches the data from a backend. The GraphQL layer is shared across all micro-frontends. The list view and the detail view are two different micro-frontends. The list view fetches the name, price and description of the product. The detail view fetches the name, price, description, category and manufacturer of the pro
 
-% the dashboard problems
+\subsubsection{Further prototype development}
+
+The current focus is the further development of the architecture. The prototypical implementation, done in this master thesis is a small subset of the functional requirements for the overall system. The basic setup that all micro-frontends must have, is defined and easily accessible. The creation, integration and configuration of a new micro-frontend are also well-defined and follow a standardized principle. The process of creating and configuring a new micro-frontend might be automated in the future with the help of Angular's Schematics\footnote[1]{https://angular.io/guide/schematics}.
+
+
 
 % make the shell application and the communcation really technology agnostic
 
@@ -21,3 +19,5 @@ This is some text with a footnote.\footnote{\href{https://example.com/}{This is 
 
 
 % Probleme, weil Apollo alles auf das window haengt.
+
+% motivation weiter ausbauen und schreiben warum queries reduced werden sollen. woher kommt die idee.
