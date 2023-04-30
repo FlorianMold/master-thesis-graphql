@@ -1,6 +1,16 @@
 \chapter{Conclusion}\label{chapter:conclusion}
 
-\noindent For the validation of the first hypothesis, which states that using GraphQL with a common caching layer and a mechanism to reduce queries can prevent over-fetching and over-requesting, a micro-frontend architecture with four \acp{SPA} and eight widgets was designed and implemented. Before the implementation, the old legacy system was analyzed to identify potential bounded contexts that could be extracted into a separate micro-frontend. The prototype was implemented using mainly Angular and React for a single widget. The micro-frontends were integrated using client-side integration with the help of Webpack's Module Federation. A \ac{BFF} service in the form of a GraphQL \ac{API} was implemented using the dependency Apollo Server. This service provides a gateway for the interfaces of the microservices that live inside the company's service cluster. The \ac{BFF} takes care of fetching and aggregating the data from multiple microservice. The data from the microservices is later used for the GraphQL queries. The GraphQL \ac{API} was querying and mutating mocked datasets during development because the microservice cluster was not fully operational. The micro-frontend prototype will be integrated into the company's infrastructure sometime in the future and it will replace the legacy management system. Therefore, the GraphQL schema and queries will be used later in production, making the evaluations' results very expressive.
+\noindent For the validation of the first hypothesis, which states that using GraphQL with a common caching layer and a mechanism to reduce queries can prevent over-fetching and over-requesting, a micro-frontend architecture with four \acp{SPA} and eight widgets was designed and implemented. An image showing the dashboard of the micro-frontend prototype is shown in Figure \ref{fig:conclusion:ui-dashboard}.
+
+\ifshowImages
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{images/prototype-screenshots/ui-dashboard.png}
+    \caption{The dashboard of the micro-frontend prototype.}\label{fig:conclusion:ui-dashboard}
+  \end{figure}
+\fi
+
+\noindent Before the implementation, the old legacy system was analyzed to identify potential bounded contexts that could be extracted into a separate micro-frontend. The prototype was implemented using mainly Angular and React for a single widget. The micro-frontends were integrated using client-side integration with the help of Webpack's Module Federation. A \ac{BFF} service in the form of a GraphQL \ac{API} was implemented using the dependency Apollo Server. This service provides a gateway for the interfaces of the microservices that live inside the company's service cluster. The \ac{BFF} takes care of fetching and aggregating the data from multiple microservice. The data from the microservices is later used for the GraphQL queries. The GraphQL \ac{API} was querying and mutating mocked datasets during development because the microservice cluster was not fully operational. The micro-frontend prototype will be integrated into the company's infrastructure sometime in the future and it will replace the legacy management system. Therefore, the GraphQL schema and queries will be used later in production, making the evaluations' results very expressive.
 
 \bigskip
 
@@ -22,11 +32,3 @@ The use cases of the built prototype do not leverage the potential of query redu
 \bigskip
 
 \noindent To validate the second hypothesis, which states that the prototype should provide enough freedom in the choice of technology, a micro frontend was written using React and embedded in the shell application. Module Federation is a great tool that provides many options for integrating applications from various frameworks into the application shell. The application shell has implemented abstractions for integrating frameworks other than Angular into the unidirectional data flow. The React application integrated with the existing architecture and used both the shared caching layer and the query reduction mechanism. The architecture is thus theoretically open to the free choice of technology. However, it has to be considered that running multiple frontend frameworks on the same architecture leads to large bundle sizes, which negatively impact the performance of the client.
-
-\ifshowImages
-  \begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{images/prototype-screenshots/ui-dashboard.png}
-    \caption{A screenshot of the prototypes dashboard.}\label{fig:conclusion:ui-dashboard}
-  \end{figure}
-\fi

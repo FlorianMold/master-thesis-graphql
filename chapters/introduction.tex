@@ -2,9 +2,11 @@
 
 The company AGnet\footnote{\url{https://www.agnet.at/}} has an outdated monolithic system to manage its customers, sales, and so on. The technology stack must be updated, so a migration to newer technology is necessary. The new architecture should consist of micro-frontends and microservices. Microservices are already in development, and a prototypical micro-frontend architecture should be developed in the course of this master thesis. Micro-frontends have different problems than traditional frontend applications, and the developed prototype should tackle the problems that a distributed architecture brings to the table. The prototype should be able to replace the old monolithic application in the future. The prototype should be able to provide the same functionality as the old application.
 
+% motivation weiter ausbauen und schreiben warum queries reduced werden sollen. woher kommt die idee.
+
 \bigskip
 
-\noindent The work is structured in a theoretical part, and a practical part follows it. In the final chapters, the results of the work are presented and discussed. This chapter describes the motivation for the hypothesis for this thesis. Chapter \ref{chapter:background} describes the principles of software monoliths, \ac{API} abstractions, micro-frontends, and GraphQL. Chapter \ref{chapter:applied-methods} covers the methods applied to the micro-frontend prototype to deal with over-fetching and over-requesting. It describes the most significant problems and hurdles during the development and the solutions. The results can be found in Chapter \ref{chapter:results}, and the discussion revolving around the result is in Chapter \ref{chapter:discussion}. The final Chapter \ref{chapter:conclusion} concludes the thesis. Finally, Chapter \ref{chapter:future-work} gives an outlook for planned and possible extensions in the future.
+\noindent The work is structured in a theoretical part, and a practical part follows it. In the final chapters, the results of the work are presented and discussed. This Chapter describes the motivation for the hypothesis for this thesis. Chapter \ref{chapter:background} describes the principles of software monoliths, \ac{API} abstractions, micro-frontends, and GraphQL. Chapter \ref{chapter:applied-methods} covers the methods applied to the micro-frontend prototype to deal with over-fetching and over-requesting. It describes the most significant problems and hurdles during the development and the solutions. The results can be found in Chapter \ref{chapter:results}, and the discussion revolving around the result is in Chapter \ref{chapter:discussion}. The final Chapter \ref{chapter:conclusion} concludes the thesis. Finally, Chapter \ref{chapter:future-work} gives an outlook for planned and possible extensions in the future.
 
 \section{Motivation}\label{section:introduction:motivation}
 
@@ -23,15 +25,11 @@ A micro-frontend architecture using a shared GraphQL caching layer with query re
 
 \bigskip
 
-\noindent The second hypothesis focuses on the fact that the creation of a micro-frontend architecture should not depend on a single technology.
+\noindent The second hypothesis suggests that the caching strategy proposed in the thesis is adaptable and flexible enough to be applied successfully in various contexts, regardless of the specific technologies used. The strategy is not limited to a technology stack and can be applied to various systems with different architectures. The thesis focuses on the caching strategy rather than the technologies used, indicating that the proposed approach can be implemented across different technologies and systems.
 
 \paragraph{Hypothesis 2}
-The micro-frontend architecture of the prototype provides enough freedom for an individual choice of technology.
-
-The caching strategy proposed in this master-thesis provides enough freedom can ultimately applied technology agnostic outside of the scope.
-
-The caching strategy proposed in this thesis is versatile enough to be effectively implemented in a wide range of contexts, providing sufficient flexibility to accommodate varying system requirements and usage patterns.
+The caching strategy proposed in this thesis is versatile enough to be effectively implemented in various contexts, providing sufficient flexibility to be technology agnostic.
 
 \bigskip
 
-\noindent The result of the work is proof that GraphQL can solve problems of a micro-frontend architecture. The proof is provided by designing a micro-frontend architecture and writing a shared caching layer.
+\noindent The work results prove that GraphQL can solve the performance problems of a micro-frontend architecture. The proof is provided by designing and implementing a micro-frontend architecture, writing a shared caching layer, and implementing a mechanism to remove fields from a query that are already stored in the cache.
