@@ -42,7 +42,7 @@ This section describes how the caching mechanism of the Apollo Client works. The
 
 \subsubsection{Data normalization}\label{subsubsection:background:graphql:apollo-server-client:data-normalization}
 
-Whenever the Apollo Client receives the response data of a query, it does the following. In order to correctly understand cache updates, it is essential to the structure of the cache before. The \texttt{InMemoryCache} is a simple normalized \ac{JS} object. The Apollo Client stores the data as a flat lookup table of objects referencing each other. An empty cache is just an empty object. These objects correspond to the objects that are returned by GraphQL queries. A single cache object might include fields fetched by multiple queries, allowing multiple queries to fetch different fields for the same object. \cite{misc:-:background:graphql:apollo-client-cache-overview} The following paragraphs describe the steps from a GraphQL query to the objects inside the cache.
+Whenever the Apollo Client receives the response data of a query, it does the following. To correctly understand cache updates, it is essential to the structure of the cache before. The \texttt{InMemoryCache} is a simple normalized \ac{JS} object. The Apollo Client stores the data as a flat lookup table of objects referencing each other. An empty cache is just an empty object. These objects correspond to the objects that are returned by GraphQL queries. A single cache object might include fields fetched by multiple queries, allowing multiple queries to fetch different fields for the same object. \cite{misc:-:background:graphql:apollo-client-cache-overview} The following paragraphs describe the steps from a GraphQL query to the objects inside the cache.
 
 \paragraph{1. Identify objects}\label{paragraph:background:graphql:apollo-server-client:data-normalization:identify-objects}
 
@@ -63,7 +63,7 @@ query {
 \end{listing}
 \fi
 
-\noindent The server responds with the following result from listing \ref{code:background:graphql:query-user-response-result}. The \texttt{\_\_typename} property is automatically appended to the query by the Apollo Client to identify the object.
+\noindent The server responds with the following result from Listing \ref{code:background:graphql:query-user-response-result}. The \texttt{\_\_typename} property is automatically appended to the query by the Apollo Client to identify the object.
 
 \ifshowListings
 \begin{listing}[H]
@@ -85,7 +85,7 @@ query {
   ]
 }
     \end{minted}
-    \caption{The result of the GraphQL query from listing \ref{code:background:graphql:query-user-cache}.}\label{code:background:graphql:query-user-response-result}
+    \caption{The result of the GraphQL query from Listing \ref{code:background:graphql:query-user-cache}.}\label{code:background:graphql:query-user-response-result}
 \end{listing}
 \fi
 
@@ -107,7 +107,7 @@ After identifying all objects, the cache generates a cache ID for each object. A
     \item \texttt{User:a2096556-9a4e-4994-9de8-86c9e85ed6a1}
 \end{itemize}
 
-\noindent By default, an object's cache ID is concatenated with the object's \texttt{\_\_typename} and \texttt{id} (or \texttt{\_id}) fields. If the cache cannot generate a cache ID for a particular object, that object is directly stored inside its parent object and must be referenced via the parent. Therefore the cache is not always completely flat. This behavior is shown with the query in listing \ref{code:background:graphql:no-id-query-user-cache}. 
+\noindent By default, an object's cache ID is concatenated with the object's \texttt{\_\_typename} and \texttt{id} (or \texttt{\_id}) fields. If the cache cannot generate a cache ID for a particular object, that object is directly stored inside its parent object and must be referenced via the parent. Therefore the cache is not always completely flat. This behavior is shown with the query in Listing \ref{code:background:graphql:no-id-query-user-cache}. 
 
 \ifshowListings
 \begin{listing}[H]
@@ -147,7 +147,7 @@ query {
   }
 }
     \end{minted}
-    \caption{The structure inside the cache with the query from listing \ref{code:background:graphql:no-id-query-user-cache}.}\label{code:background:graphql:no-id-query-user-cache-representation}
+    \caption{The structure inside the cache with the query from Listing \ref{code:background:graphql:no-id-query-user-cache}.}\label{code:background:graphql:no-id-query-user-cache-representation}
 \end{listing}
 \fi
 
@@ -175,7 +175,7 @@ query {
 \end{listing}
 \fi
 
-Listing \ref{code:background:graphql:nested-query-response-user-cache} shows a single result from the GraphQL server for the query from listing \ref{code:background:graphql:nested-query-user-cache}.
+Listing \ref{code:background:graphql:nested-query-response-user-cache} shows a single result from the GraphQL server for the query from Listing \ref{code:background:graphql:nested-query-user-cache}.
 
 \ifshowListings
 \begin{listing}[H]
@@ -191,11 +191,11 @@ Listing \ref{code:background:graphql:nested-query-response-user-cache} shows a s
   }
 }
     \end{minted}
-    \caption{The result of the GraphQL query from listing \ref{code:background:graphql:nested-query-user-cache}.} \label{code:background:graphql:nested-query-response-user-cache}
+    \caption{The result of the GraphQL query from Listing \ref{code:background:graphql:nested-query-user-cache}.} \label{code:background:graphql:nested-query-response-user-cache}
 \end{listing}
 \fi
 
-And listing \ref{code:background:graphql:nested-query-response-after-replacement} shows how the object is stored inside the \texttt{InMemoryCache}.
+\noindent And Listing \ref{code:background:graphql:nested-query-response-after-replacement} shows how the object is stored inside the \texttt{InMemoryCache}.
 
 \ifshowListings
 \begin{listing}[H]
@@ -205,7 +205,7 @@ And listing \ref{code:background:graphql:nested-query-response-after-replacement
   id: '36bad921-8fcf-4f33-9f29-0d3cd70205c8',
   username: 'Florian',
   title: { __ref: 'Title:36bad921-8fcf-4f33-9f29-0d3cd70205c8' }
-},
+}
     \end{minted}
     \caption{The result after the cache has replaced objects with references.}\label{code:background:graphql:nested-query-response-after-replacement}
 \end{listing}
@@ -244,7 +244,7 @@ The resulting objects are stored inside the cache's flat lookup table. Whenever 
   },
 }
     \end{minted}
-    \caption{The data inside the cache with the response from the query from listing \ref{code:background:graphql:nested-query-user-cache}.}\label{code:background:graphql:nested-query-user-cache-representation}
+    \caption{The data inside the cache with the response from the query from Listing \ref{code:background:graphql:nested-query-user-cache}.}\label{code:background:graphql:nested-query-user-cache-representation}
 \end{listing}
 \fi
 
@@ -263,10 +263,10 @@ Apollo offers development tools for the browser in the form of browser extension
 \noindent The development tools offer the following four main features: \cite{misc:-:background:graphql:apollo-developer-tools}
 
 \begin{itemize}
-    \item \textbf{GraphiQL}: Send queries to the server through the web application's configured Apollo Client instance, or query the Apollo Client cache to see what data is loaded.
-    \item \textbf{Watched query inspector}: View active queries, variables, cached results, and re-run individual queries.
-    \item \textbf{Mutation inspector}: View active mutations and their variables, and re-run individual mutations.
-    \item \textbf{Cache inspector}: Visualize the Apollo Client and search it by field name and/or value.
+  \item \textbf{GraphiQL}: Send queries to the server through the web application's configured Apollo Client instance, or query the Apollo Client cache to see what data is loaded.
+  \item \textbf{Watched query inspector}: View active queries, variables, cached results, and re-run individual queries.
+  \item \textbf{Mutation inspector}: View active mutations and their variables, and re-run individual mutations.
+  \item \textbf{Cache inspector}: Visualize the Apollo Client and search it by field name and/or value.
 \end{itemize}
 
 \noindent Another method to access the content of the cache is through the \texttt{window} object in \ac{JS}. The object can be accessed through \texttt{window.\_\_APOLLO\_CLIENT\_\_.cache.extract()} inside the browser's development console.
@@ -279,7 +279,7 @@ Apollo offers development tools for the browser in the form of browser extension
   \end{figure}
 \fi
 
-\noindent  With this approach, the content of the cache can be explored with the help of \ac{JS} methods inside the browser development tools.
+\noindent With this approach, the content of the cache can be explored with the help of \ac{JS} methods inside the browser development tools.
 
 \subsubsection{Type-Policies}\label{subsubsection:background:graphql:apollo-server-client:type-policies}
 
@@ -287,17 +287,17 @@ Type policies are a way to define how the client stores and manages data in the 
 
 \bigskip
 
-\noindent A field policy consists of: \cite{misc:-:background:graphql:apollo-client-cache-reading-writing}
+\noindent A field policy for a field consists of: \cite{misc:-:background:graphql:apollo-client-cache-reading-writing}
 
 \begin{itemize}
-  \item A \texttt{read} function that is called when the field is read from the cache.
-  \item A \texttt{merge} function that is called when the field is written to the cache.
-  \item An array of \texttt{keyArgs} that avoid storing duplicate data in the cache.
+  \item A \texttt{read} function which is called when the field is read from the cache.
+  \item A \texttt{merge} function which is called when the field is written to the cache.
+  \item An array of fields, which are the key arguments that identify an object. This so-called \texttt{keyArgs} avoids storing duplicate data in the cache.
 \end{itemize}
 
 \paragraph{Read function}
 
-Listing \ref{code:background:graphql:read-type-policy} shows the definition of a \texttt{read} function. The cache calls that function when the client queries for a user's first name. The \texttt{InMemoryCache} then returns the function's response instead of the cached value. The first parameter of the function is the current value of the field. The second parameter is an object that contains the arguments of the field and several helper functions and properties. \cite{misc:-:background:graphql:apollo-client-cache-reading-writing} The \texttt{read} function of listing \ref{code:background:graphql:read-type-policy} returns a default value for the \texttt{firstName} of the \texttt{User} type when a value is unavailable in the cache. If a value exists in the cache, the value is returned unmodified.
+Listing \ref{code:background:graphql:read-type-policy} shows the definition of a \texttt{read} function. The cache calls that function when the client queries for a user's first name. The \texttt{InMemoryCache} then returns the function's response instead of the cached value. The first parameter of the function is the current value of the field. The second parameter is an object that contains the arguments of the field and several helper functions and properties. \cite{misc:-:background:graphql:apollo-client-cache-reading-writing} The \texttt{read} function of Listing \ref{code:background:graphql:read-type-policy} returns a default value for the \texttt{firstName} of the \texttt{User} type when a value is unavailable in the cache. If a value exists in the cache, the value is returned unmodified.
 
 \ifshowListings
 \begin{listing}[H]
@@ -305,8 +305,8 @@ Listing \ref{code:background:graphql:read-type-policy} shows the definition of a
 new InMemoryCache({
   typePolicies: { User: { fields: {
     firstName: {
-      read(value = 'Unknown', options) {
-        return value;
+      read(value, options) {
+        return value ?? 'Unknown';
       }
     }
   }}}

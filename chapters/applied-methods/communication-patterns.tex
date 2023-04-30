@@ -15,7 +15,7 @@ The next step was to implement communication between the application shell and t
 
 \bigskip
 
-\noindent The following paragraph describes the usage of the token inside the contact application, but the usage is the same for every micro-frontend inside the architecture. The definition and the usage of the token is shown in the listing \ref{code:applied-methods:communication-patterns:providing-native-configuration}. The core module inside the contact application provides the token, which specifies that if the token can be injected, the application runs in standalone mode. The token is used by the contact's feature module, which is also the module that is exposed via Module Federation. The contact remote module injects the token to run additional logic if the application shell consumes it. The application shell does not need to provide the injection token because the logic is not executed if it is not defined.
+\noindent The following paragraph describes the usage of the token inside the contact application, but the usage is the same for every micro-frontend inside the architecture. The definition and the usage of the token is shown in the Listing \ref{code:applied-methods:communication-patterns:providing-native-configuration}. The core module inside the contact application provides the token, which specifies that if the token can be injected, the application runs in standalone mode. The token is used by the contact's feature module, which is also the module that is exposed via Module Federation. The contact remote module injects the token to run additional logic if the application shell consumes it. The application shell does not need to provide the injection token because the logic is not executed if it is not defined.
 
 \ifshowListings
   \begin{listing}[H]
@@ -62,7 +62,7 @@ class ContactCoreModule {}
   \end{figure}
 \fi
 
-\noindent Some form of initialization logic has to be executed when the micro-frontend is rendered inside the application shell. This initialization logic should register the second navigation toolbar. Upon loading the micro-frontend, the second row of the navigation is registered, and it is removed upon navigating away from the micro-frontend. The initialization logic is only executed if the application is not running in a native environment. The workflow of registering and removing the second toolbar row is shown in the listing \ref{code:applied-methods:communication-patterns:initialization-logic-micro-frontend}.
+\noindent Some form of initialization logic has to be executed when the micro-frontend is rendered inside the application shell. This initialization logic should register the second navigation toolbar. Upon loading the micro-frontend, the second row of the navigation is registered, and it is removed upon navigating away from the micro-frontend. The initialization logic is only executed if the application is not running in a native environment. The workflow of registering and removing the second toolbar row is shown in the Listing \ref{code:applied-methods:communication-patterns:initialization-logic-micro-frontend}.
 
 \ifshowListings
   \begin{listing}[H]

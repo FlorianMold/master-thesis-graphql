@@ -22,7 +22,7 @@ A prototypical micro-frontend architecture was implemented to evaluate the resea
 
 \bigskip
 
-\noindent The listing \ref{code:applied-methods:module-federation-config-expose} shows the configuration of the contact micro-frontend to expose its primary implementation through module federation in the form of the \texttt{entry.module}. The configuration of the other micro-frontends looks similar. The properties of the module-federation plugin were already discussed in the Section \ref{subsection:background:micro-frontend:module-federation}. All Angular- and Apollo- dependencies are specified to be shared across all micro-frontends. Sharing the dependencies ensures that all micro-frontends use the same version of the dependencies. In the listing \ref{code:applied-methods:module-federation-config-expose}, the versions of the dependencies are written out. Inside the application, the versions are read from the \texttt{package.json} to ensure consistency. The versions are also important later to ensure the caching layer works correctly.
+\noindent The Listing \ref{code:applied-methods:module-federation-config-expose} shows the configuration of the contact micro-frontend to expose its primary implementation through module federation in the form of the \texttt{entry.module}. The configuration of the other micro-frontends looks similar. The properties of the module-federation plugin were already discussed in the Section \ref{subsection:background:micro-frontend:module-federation}. All Angular- and Apollo- dependencies are specified to be shared across all micro-frontends. Sharing the dependencies ensures that all micro-frontends use the same version of the dependencies. In the Listing \ref{code:applied-methods:module-federation-config-expose}, the versions of the dependencies are written out. Inside the application, the versions are read from the \texttt{package.json} to ensure consistency. The versions are also important later to ensure the caching layer works correctly.
 
 \ifshowListings
 \begin{listing}[H]
@@ -48,7 +48,7 @@ module.exports = {
 \end{listing}
 \fi
 
-\noindent The application shell can be configured to consume the remote modules listed inside the remotes-object. The configuration to consume the four micro-frontends of the architecture can be seen in the listing \ref{code:applied-methods:module-federation-config-consume}. With this configuration, the application-shell consumes the \texttt{entry.module} of the remote applications, which were exposed with the configuration from listing \ref{code:applied-methods:module-federation-config-expose}. Like in the configuration of the remote modules, the application shell must also share all dependencies. Sharing the dependencies is needed so that the micro-frontends can load their runtime dependencies from the application shell and use the same dependency version.
+\noindent The application shell can be configured to consume the remote modules listed inside the remotes-object. The configuration to consume the four micro-frontends of the architecture can be seen in the Listing \ref{code:applied-methods:module-federation-config-consume}. With this configuration, the application-shell consumes the \texttt{entry.module} of the remote applications, which were exposed with the configuration from Listing \ref{code:applied-methods:module-federation-config-expose}. Like in the configuration of the remote modules, the application shell must also share all dependencies. Sharing the dependencies is needed so that the micro-frontends can load their runtime dependencies from the application shell and use the same dependency version.
 
 \ifshowListings
 \begin{listing}[H]
@@ -77,7 +77,7 @@ module.exports = {
 \end{listing}
 \fi
 
-\noindent With the help of the Module Federation configuration, the application shell can load the remote modules. The remote modules are loaded asynchronously and can be referenced by the host application. The listing \ref{code:applied-methods:angular-route-to-remote-module} shows the route configuration to the contact micro-frontend using the Angular router. @Nwrl/nx offers helper methods like \texttt{loadRemoteModule} for micro-frontends to load remote modules into the routes of the application shell. The prototype of the application shell shows one micro-frontend per route.
+\noindent With the help of the Module Federation configuration, the application shell can load the remote modules. The remote modules are loaded asynchronously and can be referenced by the host application. The Listing \ref{code:applied-methods:angular-route-to-remote-module} shows the route configuration to the contact micro-frontend using the Angular router. Nx offers helper methods like \texttt{loadRemoteModule} for Module Federation to load remote modules into the routes of the application shell. The prototype of the application shell shows one micro-frontend per route.
 
 \ifshowListings
 \begin{listing}[H]

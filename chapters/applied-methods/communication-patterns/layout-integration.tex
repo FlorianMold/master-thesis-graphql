@@ -11,7 +11,7 @@ At first, it was troublesome to integrate the remote module into the layout. The
   \item The \texttt{forChild} function is called in a child module that imports the feature module to provide configuration options that are specific to that module. This method usually returns a module with providers only available to components and services within that child module.
 \end{itemize}
 
-\noindent The listing \ref{code:applied-methods:communication-patterns:layout-module} shows the implementation of the \texttt{forRoot} and \texttt{forChild} pattern inside the layout-module.
+\noindent The Listing \ref{code:applied-methods:communication-patterns:layout-module} shows the implementation of the \texttt{forRoot} and \texttt{forChild} pattern inside the layout-module.
 
 \ifshowListings
   \begin{listing}[H]
@@ -33,7 +33,7 @@ class LayoutModule {
   \end{listing}
 \fi
 
-\noindent This approach allows the \texttt{LayoutNavigationService}- and \texttt{LayoutTemplateService}-services available in the root injector. These services can be used to register navigation nodes and templates inside the header. The \texttt{LayoutModule.forChild()} can be used where the components and directives of the layout are needed. Providing the \texttt{LayoutModule} in the root module is shown in the listing \ref{code:applied-methods:communication-patterns:importing-the-root-layout-module}
+\noindent This approach allows the \texttt{LayoutNavigationService}- and \texttt{LayoutTemplateService}-services available in the root injector. These services can be used to register navigation nodes and templates inside the header. The \texttt{LayoutModule.forChild()} can be used where the components and directives of the layout are needed. Providing the \texttt{LayoutModule} in the root module is shown in the Listing \ref{code:applied-methods:communication-patterns:importing-the-root-layout-module}
 
 \ifshowListings
   \begin{listing}[H]

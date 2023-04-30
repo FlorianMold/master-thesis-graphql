@@ -48,7 +48,7 @@ new InMemoryCache({
 
 \subsubsection{Check the data of the cache}
 
-After storing the key fields for every type, the selected fields of the query are iterated. For example, listing \ref{code:applied-methods:query-reduction:selection-set-query} shows a GraphQL query that fetches all salutations and all titles. The selection set of this combined query is an array containing \texttt{allSalutations} and \texttt{allTitles}.
+After storing the key fields for every type, the selected fields of the query are iterated. For example, Listing \ref{code:applied-methods:query-reduction:selection-set-query} shows a GraphQL query that fetches all salutations and all titles. The selection set of this combined query is an array containing \texttt{allSalutations} and \texttt{allTitles}.
 
 \ifshowListings
 \begin{listing}[H]
@@ -68,7 +68,7 @@ query {
 \end{listing}
 \fi
 
-\noindent The names of the queries can be used to check whether the query was executed before and was cached. Therefore, the identifier of the query inside the cache must be determined. The query's name inside the cache is concatenated with the query variables by default. The arguments are converted to a string that has the following structure \texttt{(\{variableName:value,variableName:value,\dots\})}. If the query is executed with different arguments, it has a separate entry inside the cache. The arguments of a query are converted to key-value pairs. For example, the following query shown in listing \ref{code:applied-methods:query-reduction:storing-a-query-with-arguments} fetches a contact by its \ac{ID} and reads the \texttt{id} from the contact.
+\noindent The names of the queries can be used to check whether the query was executed before and was cached. Therefore, the identifier of the query inside the cache must be determined. The query's name inside the cache is concatenated with the query variables by default. The arguments are converted to a string that has the following structure \texttt{(\{variableName:value,variableName:value,\dots\})}. If the query is executed with different arguments, it has a separate entry inside the cache. The arguments of a query are converted to key-value pairs. For example, the following query shown in Listing \ref{code:applied-methods:query-reduction:storing-a-query-with-arguments} fetches a contact by its \ac{ID} and reads the \texttt{id} from the contact.
 
 \ifshowListings
 \begin{listing}[H]
@@ -83,7 +83,7 @@ query {
 \end{listing}
 \fi
 
-\noindent After the GraphQL query was fetched from the GraphQL \ac{API}, the contents of the \texttt{InMemoryCache} are shown in listing \ref{code:applied-methods:query-reduction:cache-representation-of-query-with-arguments}. The cache entry is the name of the query with the parameters of the query joined together. If the same query is executed with different arguments, there would be a separate cache entry inside the \texttt{ROOT\_QUERY} object.
+\noindent After the GraphQL query was fetched from the GraphQL \ac{API}, the contents of the \texttt{InMemoryCache} are shown in Listing \ref{code:applied-methods:query-reduction:cache-representation-of-query-with-arguments}. The cache entry is the name of the query with the parameters of the query joined together. If the same query is executed with different arguments, there would be a separate cache entry inside the \texttt{ROOT\_QUERY} object.
 
 \ifshowListings
 \begin{listing}[H]
@@ -100,7 +100,7 @@ query {
   }
 }
 \end{minted}
-\caption{The contents of the cache after fetching the query from listing \ref{code:applied-methods:query-reduction:storing-a-query-with-arguments}.}\label{code:applied-methods:query-reduction:cache-representation-of-query-with-arguments}
+\caption{The contents of the cache after fetching the query from Listing \ref{code:applied-methods:query-reduction:storing-a-query-with-arguments}.}\label{code:applied-methods:query-reduction:cache-representation-of-query-with-arguments}
 \end{listing}
 \fi
 
@@ -148,7 +148,7 @@ const cacheObjectsOrRefs = cacheContents['ROOT_QUERY']?.[fieldName];
 \end{listing}
 \fi
 
-\noindent Another feature that differs from the original implementation is that additional cache references can be passed to the query by the client. These references are used to look up data inside the cache when the initial check for the query name returns undefined. The reference to the object is then used to look up the fields that can be reduced. As explained in Section \ref{section:applied-methods:query-reduction}, caching works on the query level, and the data for a query could already be fetched with another query. The client knows that some parts of the desired data are already in the cache and can pass a reference to the query. Listing \ref{code:applied-methods:query-reduction:passing-an-additional-cache-ref} shows how additional cache references are passed to the query. The function \texttt{cache.identify} is used to generate a valid cache reference for the user based on its \texttt{id}. The process respects and considers the settings of the cache and generates a valid reference based on the key fields. However, this feature works only in collaboration with cache redirects. To make the \texttt{InMemoryCache} aware that the user's data can be found somewhere else, a cache redirect, like in listing \ref{code:applied-methods:query-reduction:user-cache-redirect}, has to be defined.
+\noindent Another feature that differs from the original implementation is that additional cache references can be passed to the query by the client. These references are used to look up data inside the cache when the initial check for the query name returns undefined. The reference to the object is then used to look up the fields that can be reduced. As explained in Section \ref{section:applied-methods:query-reduction}, caching works on the query level, and the data for a query could already be fetched with another query. The client knows that some parts of the desired data are already in the cache and can pass a reference to the query. Listing \ref{code:applied-methods:query-reduction:passing-an-additional-cache-ref} shows how additional cache references are passed to the query. The function \texttt{cache.identify} is used to generate a valid cache reference for the user based on its \texttt{id}. The process respects and considers the settings of the cache and generates a valid reference based on the key fields. However, this feature works only in collaboration with cache redirects. To make the \texttt{InMemoryCache} aware that the user's data can be found somewhere else, a cache redirect, like in Listing \ref{code:applied-methods:query-reduction:user-cache-redirect}, has to be defined.
 
 \ifshowListings
 \begin{listing}[H]

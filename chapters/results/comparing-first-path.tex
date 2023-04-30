@@ -19,7 +19,7 @@ With this approach, each micro frontend has a separate instance of the GraphQL c
 
 \begin{itemize}
   \item 47 network requests to the GraphQL \ac{API}
-  \item 10.78 MB transferred
+  \item 10.80 MB transferred (request size + response size)
 \end{itemize}
 
 \noindent The \texttt{GRAPHQL\_CLIENT\_OPTIONS\_CONFIG} and \texttt{REDUCE\_QUERY\_OPTIONS} injection tokens have to be configured the following way. A more detailed description of the configuration options can be found in Section \ref{section:applied-methods:shared-caching-layer} and in Section \ref{subsection:applied-methods:query-reduction:testing-query-reduction}:
@@ -47,7 +47,7 @@ With this approach, an instance of the cache is shared by all micro-frontends, b
 
 \begin{itemize}
   \item 36 network requests to the GraphQL \ac{API}
-  \item 8.5 MB transferred
+  \item 8.45 MB transferred (request size + response size)
 \end{itemize}
 
 \noindent The \texttt{GRAPHQL\_CLIENT\_OPTIONS\_CONFIG} and \texttt{REDUCE\_QUERY\_OPTIONS} injection tokens have to be configured the following way:
@@ -57,7 +57,7 @@ With this approach, an instance of the cache is shared by all micro-frontends, b
   \item \texttt{reduceQueries: false}
 \end{itemize}
 
-\noindent 36 requests have to be made to the GraphQL \ac{API}, which can be seen in Figure \ref{fig:results:no-shared-cache-no-reduction}. Six requests have to be deducted (\texttt{settings.json}, \texttt{module-federation.manifest.json}, \dots) as in the previous section.
+\noindent 36 requests have to be made to the GraphQL \ac{API}, which can be seen in Figure \ref{fig:results:shared-cache-no-reduction}. Six requests have to be deducted (\texttt{settings.json}, \texttt{module-federation.manifest.json}, \dots) as in the previous section.
 
 \ifshowImages
 \begin{figure}[H]
@@ -67,7 +67,7 @@ With this approach, an instance of the cache is shared by all micro-frontends, b
 \end{figure}
 \fi
 
-\noindent The total size of the queries was 15.176 KB, and the size of the responses was 8.5 MB. The 36 queries retrieve a total of 51319 records from the GraphQL \ac{API}.
+\noindent The total size of the queries was 15.18 KB, and the size of the responses was 8.43 MB. The 36 queries retrieve a total of 51319 records from the GraphQL \ac{API}.
 
 \subsubsection{Shared cache, query reduction}\label{subsubsection:results:performance-measurement:separate-cache-reduction}
 
@@ -75,7 +75,7 @@ With this approach, the same instance of the cache is shared between all of the 
 
 \begin{itemize}
   \item 36 network requests to the GraphQL \ac{API}
-  \item 8.4 MB transferred
+  \item 8.39 MB transferred (request size + response size)
 \end{itemize}
 
 \noindent The \texttt{GRAPHQL\_CLIENT\_OPTIONS\_CONFIG} and \texttt{REDUCE\_QUERY\_OPTIONS} injection tokens have to be configured the following way:
@@ -85,7 +85,7 @@ With this approach, the same instance of the cache is shared between all of the 
   \item \texttt{reduceQueries: true}
 \end{itemize}
 
-\noindent 36 requests have to be made to the GraphQL \ac{API}, which can be seen in Figure \ref{fig:results:no-shared-cache-no-reduction}. Six requests have to be deducted (\texttt{settings.json}, \texttt{module-federation.manifest.json}, \dots) as in the previous sections.
+\noindent 36 requests have to be made to the GraphQL \ac{API}, which can be seen in Figure \ref{fig:results:shared-cache-reduction}. Six requests have to be deducted (\texttt{settings.json}, \texttt{module-federation.manifest.json}, \dots) as in the previous sections.
 
 \ifshowImages
 \begin{figure}[H]
@@ -162,7 +162,7 @@ As in the previous comparison, there is the same difference in the number of net
 
 \subsection{Comparing the second- and third-approach}\label{subsection:results:comparison-second-third-approach}
 
-Between the first and second approaches, there is almost no difference in request- and response size compared to the comparisons from sections \ref{subsection:results:comparison-first-second-approach} and \ref{subsection:results:comparison-first-third-approach}, as seen in Table \ref{table:results:size-comparison-first-path-no-cache-no-reduction-cache-reduction}. Both approaches have the same number of queries sent to the GraphQL \ac{API} since all micro-frontends share the same cache instance. Reducing queries does not lead to fewer network requests, because it just removed fields from executed queries. The difference in request and response size between the two approaches comes solely from query reduction. Using the third approach, the difference in request size is about 1.64 KB (11\%), which is insignificant. The difference between the response sizes (62.45 KB) is almost zero in relation to the amount of data that was returned.
+Between the first and second approaches, there is almost no difference in request- and response size compared to the comparisons from sections \ref{subsection:results:comparison-first-second-approach} and \ref{subsection:results:comparison-first-third-approach}, as seen in Table \ref{table:results:size-comparison-first-path-cache-no-reduction-cache-reduction}. Both approaches have the same number of queries sent to the GraphQL \ac{API} since all micro-frontends share the same cache instance. Reducing queries does not lead to fewer network requests, because it just removed fields from executed queries. The difference in request and response size between the two approaches comes solely from query reduction. Using the third approach, the difference in request size is about 1.64 KB (11\%), which is insignificant. The difference between the response sizes (62.45 KB) is almost zero in relation to the amount of data that was returned.
 
 \ifshowTables
 \begin{table}[H]
@@ -177,7 +177,7 @@ Between the first and second approaches, there is almost no difference in reques
   \hline
   \textbf{Diff} & \textbf{1643} & \textbf{62448} & \textbf{0} & \textbf{0} \\
   \hline
-  \textbf{Reduction (\%)} & \textbf{11\%} & \textbf{0\%} & \textbf{-} & \textbf{-} \\
+  \textbf{Reduction (\%)} & \textbf{11\%} & \textbf{1\%} & \textbf{-} & \textbf{-} \\
   \hline
   \end{tabular}
   \caption{First Journey: Comparing the requests and responses of the second- and third-approach.}\label{table:results:size-comparison-first-path-cache-no-reduction-cache-reduction}

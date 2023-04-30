@@ -1,6 +1,6 @@
 \section{Micro-Frontend Architecture}\label{section:background:micro-frontend-architecture}
 
-Micro-frontends should bring the same advantages of microservices to the frontend. Instead of creating a giant frontend monolith, a micro-frontend architecture contains many small applications. The advantage is that a separate team can develop and deploy every micro-frontend independently. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}. The difference between monolithic frontend architecture and micro-frontend architecture can be seen in the Figure \ref{fig:background:micro-frontend:monolith-micro-frontend-comparison}.
+Micro-frontends should bring the same advantages of microservices to the frontend. Instead of creating a giant frontend monolith, a micro-frontend architecture contains many small applications. The advantage is that a separate team can develop and deploy every micro-frontend independently. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action} The difference between monolithic frontend architecture and micro-frontend architecture can be seen in the Figure \ref{fig:background:micro-frontend:monolith-micro-frontend-comparison}.
 
 \ifshowImages
 \begin{figure}[H]
@@ -55,7 +55,9 @@ Micro-frontends offer the possibility of building an application by composing mu
 
 \subsection{Downsides}\label{subsection:background:micro-frontend-downsides}
 
-Due to the many advantages of micro-frontends, there are also downsides to using this architectural approach. Independent development comes with the disadvantage of having redundancies. Each micro-frontend needs a separate build process and also a continuous integration pipeline. Moreover, if the \ac{BFF} approach is used, every micro-frontend needs its \ac{BFF} service. When implementing this architecture, much code might be duplicated. If multiple teams use the same code and a bug is found, the wrong behavior cannot be fixed in a central place. Therefore, it is essential to share knowledge between the teams to avoid running into the same bad situations over and over again. However, this should not lead to inter-team dependencies between the different teams. \cite[17-18]{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
+Building micro-frontends comes with many advantages, but also with some downsides. The following section describes the disadvantages of micro-frontends. The autonomy of having independent teams, that built autonomous software comes with a price. One important aspect of building software is the principle of eliminating redundancy. Having multiple teams, that build and run their application side by side introduces a lot of redundancy. Moreover, if the \ac{BFF} approach is used, every micro-frontend needs its separate \ac{BFF} service. Every team needs to set up a build process and a continuous integration pipeline. Duplicate \ac{CSS} and \ac{JS} code might be fetched by the browser. If multiple teams use a popular library and a critical security vulnerability is encountered, every team needs to update the dependency and deploy the application to fix the problem. It is essential to share knowledge between the teams to avoid fixing the same bugs over and over again. The cost of having redundancies is lower than the negative impacts of having inter-team dependencies. The free choice of technology also comes with some disadvantages. It's hard for a developer to switch from one team to another and exchange their best practices. \cite[17-18]{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
+
+Over-fetching and Over-requesting
 
 
 \input{chapters/background/micro-frontend/integration-strategies.tex}

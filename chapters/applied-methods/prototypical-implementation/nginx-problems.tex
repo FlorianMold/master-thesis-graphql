@@ -1,6 +1,6 @@
 \subsection{Deployment problems}\label{subsection:applied-methods:prototypical-implementation:nginx-problems}
 
-Docker containers are used to serve the micro-frontends. To serve the application Nginx is used. The application is built, and the files are copied into the docker image. The dockerfile is shown in listing \ref{code:applied-methods:prototype-implementation-dockerfile}.
+Docker containers are used to serve the micro-frontends. To serve the application Nginx is used. The application is built, and the files are copied into the docker image. The dockerfile is shown in Listing \ref{code:applied-methods:prototype-implementation-dockerfile}.
 
 \ifshowListings
   \begin{listing}[H]
@@ -20,7 +20,7 @@ CMD [
   \end{listing}
 \fi
 
-\noindent Module Federation applications expose a file called \texttt{remoteEntry.mjs}, which is consumed by the application shell. However, Nginx currently cannot interpret the mime-type of \texttt{\*.mjs} which would be \ac{JS}. Therefore, it falls back to the default mime-type \texttt{text/plain}, where \ac{JS} is not executed. As a workaround for this problem, a custom \texttt{nginx.conf} has been created that sets the default mime-type to \texttt{text/javascript}. A part of the configuration is shown in listing \ref{code:applied-methods:prototype-implementation-custom-nginx-conf}.
+\noindent Module Federation applications expose a file called \texttt{remoteEntry.mjs}, which is consumed by the application shell. However, Nginx currently cannot interpret the mime-type of \texttt{\*.mjs} which would be \ac{JS}. Therefore, it falls back to the default mime-type \texttt{text/plain}, where \ac{JS} is not executed. As a workaround for this problem, a custom \texttt{nginx.conf} has been created that sets the default mime-type to \texttt{text/javascript}. A part of the configuration is shown in Listing \ref{code:applied-methods:prototype-implementation-custom-nginx-conf}.
 
 \ifshowListings
   \begin{listing}[H]

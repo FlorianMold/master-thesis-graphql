@@ -5,7 +5,7 @@ The application shell is set up to use dynamic Module Federation. The location o
 
 \bigskip
 
-\noindent One possibility to fetch the remote definitions at runtime is to store them in a simple \ac{JSON} file, which can easily be configured for every environment. The host makes a simple GET request to get the definitions inside the \ac{JSON} file. The content of the file has to be a simple mapping between the name of the remote and their location, as shown in listing \ref{code:applied-methods:define-module-federation-manifest}.
+\noindent One possibility to fetch the remote definitions at runtime is to store them in a simple \ac{JSON} file, which can easily be configured for every environment. The host makes a simple GET request to get the definitions inside the \ac{JSON} file. The content of the file has to be a simple mapping between the name of the remote and their location, as shown in Listing \ref{code:applied-methods:define-module-federation-manifest}.
 
 \ifshowListings
 \begin{listing}[H]
@@ -21,7 +21,7 @@ The application shell is set up to use dynamic Module Federation. The location o
 \end{listing}
 \fi
 
-\noindent The host has to fetch the definitions when starting up the application. The definitions are stored and stored for the Webpack configuration, as shown in listing \ref{code:applied-methods:load-module-federation-settings}. If the file can be fetched successfully, the bootstrap process of the application gets imported dynamically.
+\noindent The host has to fetch the definitions when starting up the application. The definitions are stored and stored for the Webpack configuration, as shown in Listing \ref{code:applied-methods:load-module-federation-settings}. If the file can be fetched successfully, the bootstrap process of the application gets imported dynamically.
 
 \ifshowListings
 \begin{listing}[H]
@@ -43,7 +43,7 @@ fetch('/assets/module-federation.manifest.json')
 
 \bigskip
 
-\noindent The listing \ref{code:applied-methods:fetch-and-store-settings} shows a simplified version to fetch and store the settings in the local storage. The settings are fetched from the \texttt{settings.json} file, which content is used to configure the application. The settings of the application shell are stored with the key \texttt{host}. Each application of the micro-frontend architecture stores its settings with its application name as the key.
+\noindent The Listing \ref{code:applied-methods:fetch-and-store-settings} shows a simplified version to fetch and store the settings in the local storage. The settings are fetched from the \texttt{settings.json} file, which content is used to configure the application. The settings of the application shell are stored with the key \texttt{host}. Each application of the micro-frontend architecture stores its settings with its application name as the key.
 
 \ifshowListings
 \begin{listing}[H]
@@ -80,7 +80,7 @@ Each application of the prototypical micro-frontend architecture follows this ap
   \end{figure}
 \fi
 
-\noindent With the help of Angular resolvers, the resolvers executed before the components of the target are rendered. Due to the dynamic Module Federation, the location of the remote module is known. Therefore, the \texttt{settings.json} is loaded and stored in addition to loading the remote module. A simplified version of the code is shown in listing \ref{code:applied-methods:fetch-and-store-remote-application-settings}. The same principle applies to every remote module, which is consumed.
+\noindent With the help of Angular resolvers, the resolvers executed before the components of the target are rendered. Due to the dynamic Module Federation, the location of the remote module is known. Therefore, the \texttt{settings.json} is loaded and stored in addition to loading the remote module. A simplified version of the code is shown in Listing \ref{code:applied-methods:fetch-and-store-remote-application-settings}. The same principle applies to every remote module, which is consumed.
 
 \ifshowListings
 \begin{listing}[H]

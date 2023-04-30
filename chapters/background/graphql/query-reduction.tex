@@ -1,10 +1,10 @@
 \subsection{Query Reduction}\label{subsection:background:graphql:query-reduction}
 
-This section describes the theory behind reducing queries with existing data inside the cache. Apollo Client does not offer this behavior by default. The GitHub repository of Apollo Client includes many feature requests (\href{https://github.com/apollographql/apollo-client/issues/2977}{2977}, \href{https://github.com/apollographql/apollo-client/issues/2872}{2872}, \href{https://github.com/apollographql/apollo-feature-requests/issues/104}{104}, \url{https://github.com/apollographql/apollo-client/issues/2425}{2425}) that want such a feature implemented for queries. So far, this did not happen. The following section describes how the theory behind reduction works.
+This section describes the theory behind reducing queries with existing data inside the cache. Apollo Client does not offer this behavior by default. The GitHub repository of Apollo Client contains many feature requests (\cite{misc:-:background:graphql:feature-request-apollo:1, misc:-:background:graphql:feature-request-apollo:2, misc:-:background:graphql:feature-request-apollo:3, misc:-:background:graphql:feature-request-apollo:4}) that want such a feature implemented for fetching partial queries. So far, this did not happen. The following section describes how the theory behind query reduction works.
 
 \subsubsection{Theoretical Concept}\label{subsubsection:background:graphql:theoretical-concept}
 
-In large applications, the same query is likely executed with different selection sets over and over again. Unless the selection set of the query is perfectly identical, Apollo Client will fetch the query from the server. Ignoring the fact that many of the fields of the query are already inside the cache. An example query is shown in listing  \ref{code:background:graphql:query-reduction:example-query-simple}.
+In large applications, the same query is likely executed with different selection sets over and over again. Unless the selection set of the query is perfectly identical, Apollo Client will fetch the query from the server. Ignoring the fact that many of the fields of the query are already inside the cache. An example query is shown in Listing  \ref{code:background:graphql:query-reduction:example-query-simple}.
 
 \ifshowListings
 \begin{listing}[H]
@@ -28,7 +28,7 @@ query {
 \end{listing}
 \fi
 
-\noindent The first time this query is executed, a request is sent to the server. Each subsequent execution of the query with the same selection set is served from the cache, and a round trip to the server is saved. Afterwards, the same query is executed with a different selection set. The query is sent to the server again, even though the selection set is slightly different. The selection set of the query is extended by the \texttt{email}-field and is shown in listing \ref{code:background:graphql:query-reduction:example-query-extended}.
+\noindent The first time this query is executed, a request is sent to the server. Each subsequent execution of the query with the same selection set is served from the cache, and a round trip to the server is saved. Afterwards, the same query is executed with a different selection set. The query is sent to the server again, even though the selection set is slightly different. The selection set of the query is extended by the \texttt{email}-field and is shown in Listing \ref{code:background:graphql:query-reduction:example-query-extended}.
 
 \ifshowListings
 \begin{listing}[H]
@@ -53,7 +53,7 @@ query {
 \end{listing}
 \fi
 
-\noindent The queries are almost identical, but an additional field will result in a cache miss. The entire query will be requested again from the server. This default behavior is unnecessary because most data is already in the cache. A better approach would be to fetch only the field which is missing inside the cache, as shown in listing \ref{code:background:graphql:query-reduction:example-query-reduced}.
+\noindent The queries are almost identical, but an additional field will result in a cache miss. The entire query will be requested again from the server. This default behavior is unnecessary because most data is already in the cache. A better approach would be to fetch only the field which is missing inside the cache, as shown in Listing \ref{code:background:graphql:query-reduction:example-query-reduced}.
 
 \ifshowListings
 \begin{listing}[H]
@@ -65,7 +65,7 @@ query {
   }
 }
     \end{minted}
-    \caption{The part of the query from listing \ref{code:background:graphql:query-reduction:example-query-extended} that is necessary.}\label{code:background:graphql:query-reduction:example-query-reduced}
+    \caption{The part of the query from Listing \ref{code:background:graphql:query-reduction:example-query-extended} that is necessary.}\label{code:background:graphql:query-reduction:example-query-reduced}
 \end{listing}
 \fi
 
