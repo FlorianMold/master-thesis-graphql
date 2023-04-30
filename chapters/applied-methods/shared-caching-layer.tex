@@ -10,7 +10,7 @@
   \end{figure}
 \fi
 
-\noindent The application shell should provide the instance of the GraphQL \texttt{InMemoryCache}. The Listing \ref{code:applied-methods:creating-the-apollo-client} shows how the Apollo Client is created in Angular for an application with default settings. The \texttt{cache} property is important, as it needs an instance of Apollo's \texttt{InMemoryCache}. This allows for architecture to create the cache instance elsewhere and pass it the Apollo Client. 
+\noindent The application shell should provide the instance of the GraphQL \texttt{InMemoryCache}. The Listing \ref{code:applied-methods:creating-the-apollo-client} shows how the Apollo Client is created in Angular for an application with default settings. The \texttt{cache} property is important, as it needs an instance of Apollo's \texttt{InMemoryCache}. This allows for the architecture to create a cache instance elsewhere and pass it to the Apollo Client. 
 
 \ifshowListings
 \begin{listing}[H]
@@ -84,7 +84,7 @@ class ContactRemoteModule {}
 \end{listing}
 \fi
 
-\noindent The function creates a new Apollo Client instance with specified default settings. The \ac{URL} of the GraphQL \ac{API} is taken from the storage service. By default, it tries to inject the \texttt{GRAPHQL\_CLIENT\_CACHE}, to use a shared cache instance. If it cannot be injected, it creates a separate cache instance for the client. An injection token named \texttt{GRAPHQL\_CLIENT\_OPTIONS\_CONFIG} can be used to specify further options when creating a Apollo Client inside the micro-frontend architecture. The injection token's usage and default options are shown inside Listing \ref{code:applied-methods:graphql-client-extra-configuration-options}. The injection token must be specified inside the same module where the \texttt{GraphQLClientOptionsModule} was defined.
+\noindent The function creates a new Apollo Client instance with specified default settings. The \ac{URL} of the GraphQL \ac{API} is taken from the storage service. By default, it tries to inject the \texttt{GRAPHQL\_CLIENT\_CACHE}, to use a shared cache instance. If it cannot be injected, it creates a separate cache instance for the client. An injection token named \texttt{GRAPHQL\_CLIENT\_OPTIONS\_CONFIG} can be used to specify further options when creating an Apollo Client inside the micro-frontend architecture. The injection token's usage and default options are shown inside Listing \ref{code:applied-methods:graphql-client-extra-configuration-options}. The injection token must be specified inside the same module where the \texttt{GraphQLClientOptionsModule} was defined.
 
 \ifshowListings
 \begin{listing}[H]

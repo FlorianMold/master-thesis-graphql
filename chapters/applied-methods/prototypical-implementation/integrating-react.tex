@@ -47,7 +47,7 @@ render<Comp extends ElementType>(rootEl: Root, Comp: Comp) {
 \end{listing}
 \fi
 
-\noindent With the help of the function, the widget can access the instance of the \texttt{InMemoryCache} from the application shell and use it to share the cache between the Angular and the React micro-frontend. How the \texttt{InMemoryCache} from the application shell is injected and consumed is shown in Listing \ref{code:applied-methods:prototypical-implementation:consume-react-context}. The cache is used to create a new instance of the ApolloClient, and afterwards the client is provided to the application using another context.
+\noindent With the help of the function, the widget can access the instance of the \texttt{InMemoryCache} from the application shell and use it to share the cache between the Angular and the React micro-frontend. How the \texttt{InMemoryCache} from the application shell is injected and consumed is shown in Listing \ref{code:applied-methods:prototypical-implementation:consume-react-context}. The cache is used to create a new instance of the Apollo Client, and afterwards the client is provided to the application using another context.
 
 \ifshowListings
 \begin{listing}[H]

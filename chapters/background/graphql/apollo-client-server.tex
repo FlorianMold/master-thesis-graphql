@@ -1,10 +1,10 @@
 \subsection{Apollo Server and Apollo Client}\label{subsection:background:graphql:apollo-server-client}
 
-GraphQL has a specification and is a query language. Developing a GraphQL server and client is up to the application developer. Facebook has created its own GraphQL implementation of the specification in \ac{JS} with GraphQL.js for the backend and Relay for the frontend. Relay is a prominent example of a GraphQL client, but it is only available for Facebook's React framework. When evaluating different GraphQL clients, Apollo was chosen because it supports almost every possible programming language and framework.
+GraphQL has a specification and is a query language. Developing a GraphQL server and client is up to the application developer. Facebook has created its own GraphQL implementation of the specification in \ac{JS} with GraphQL.js for the backend and Relay for the frontend. Relay is a prominent example of a GraphQL client, but it is only available for Facebook's React framework. When evaluating different GraphQL clients, Apollo Client was chosen because it supports almost every possible programming language and framework.
 
 \bigskip
 
-\noindent Apollo Server is an open-source implementation of the GraphQL specification, and it offers any feature that the GraphQL specification states. Moreover, it supports \textbf{Apollo Sandbox} out of the box. \cite{misc:-:background:graphql:apollo-server-introduction} \textbf{Apollo Sandbox} helps local development. \textbf{Apollo Sandbox} loads the GraphQL Schema from the server with the help of the Introspection Query. \cite{misc:-:background:graphql:apollo-sandbox} Such a development environment enables executing queries and mutations directly inside the browser.
+\noindent Apollo Server is an open-source implementation of the GraphQL specification, and it offers any feature that the GraphQL specification states. Moreover, it supports Apollo Sandbox\footnote{\url{https://www.apollographql.com/docs/graphos/explorer/sandbox/}} out of the box. \cite{misc:-:background:graphql:apollo-server-introduction} {Apollo Sandbox helps local development. Apollo Sandbox loads the GraphQL Schema from the server with the help of the Introspection Query. \cite{misc:-:background:graphql:apollo-sandbox} Such a development environment enables executing queries and mutations directly inside the browser.
 
 \bigskip
 
@@ -16,7 +16,7 @@ This section describes how the caching mechanism of the Apollo Client works. The
 
 \bigskip
 
-\noindent \textbf{Apollo Client} includes a caching interface called Apollo Cache and a proprietary implementation named \texttt{InMemoryCache}. Several Open-Source alternatives implement the ApolloCache interface, but Apollo's implementation is well-supported and receives regular updates.
+\noindent \textbf{Apollo Client} includes a caching interface called \texttt{ApolloCache} and a proprietary implementation named \texttt{InMemoryCache}. Several Open-Source alternatives implement the \texttt{ApolloCache} interface, but Apollo's implementation is well-supported and receives regular updates.
 
 \bigskip
 
@@ -151,7 +151,7 @@ query {
 \end{listing}
 \fi
 
-\noindent Omitting IDs from a query should be avoided. If data of an un-normalized object has to be updated, every occurrence of the item in the cache has to be updated manually. It should be avoided that the same thing is queried, sometimes with an id and sometimes without, because \texttt{ApolloClient} will throw an error when trying to update the cache after such a query.
+\noindent Omitting IDs from a query should be avoided. If data of an un-normalized object has to be updated, every occurrence of the item in the cache has to be updated manually. It should be avoided that the same thing is queried, sometimes with an id and sometimes without, because Apollo Client will throw an error when trying to update the cache after such a query.
 
 \paragraph{3. Replace object fields with references}\label{paragraph:background:graphql:apollo-server-client:data-normalization:replace-object-fields-with-references}
 
@@ -250,7 +250,7 @@ The resulting objects are stored inside the cache's flat lookup table. Whenever 
 
 \subsubsection{Understanding the structure of the cache}\label{subsubsection:background:graphql:apollo-server-client:understanding-cache-structure}
 
-Apollo offers development tools for the browser in the form of browser extensions. The \textbf{Apollo Client Developer Tools} can be installed for Chrome and Firefox. The extension can be found in the Chrome Web Store and the Firefox Add-ons Store. The browser extension adds a tab to the browser inspection tools. \cite{misc:-:background:graphql:apollo-developer-tools} The view of the cache contents from the Apollo Client Development Tools can be seen in Figure \ref{fig:background:graphql:apollo:apollo-dev-tools}.
+Apollo Client offers development tools for the browser in the form of browser extensions. The Apollo Client Developer Tools\footnote{\url{https://chrome.google.com/webstore/detail/apollo-client-devtools/jdkknkkbebbapilgoeccciglkfbmbnfm}} can be installed for Chrome and Firefox. The extension can be found in the Chrome Web Store and the Firefox Add-ons Store. The browser extension adds a tab to the browser inspection tools. \cite{misc:-:background:graphql:apollo-developer-tools} The view of the cache contents from the Apollo Client Development Tools can be seen in Figure \ref{fig:background:graphql:apollo:apollo-dev-tools}.
 
 \ifshowImages
   \begin{figure}[H]

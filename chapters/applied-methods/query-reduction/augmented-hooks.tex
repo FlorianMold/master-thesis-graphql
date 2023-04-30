@@ -21,7 +21,7 @@ this.graphQLClient.watchQuery({
   \item \textbf{cache-first (default)}: This fetch policy instructs the Apollo Client first to check the local cache for the query result. If the data is present in the cache, it is returned immediately. Otherwise, Apollo Client will execute the query and fetch the result from the server, which will then be cached.
   \item \textbf{cache-and-network}: This fetch policy combines the cache-first and network-only policies. Apollo Client first checks the cache for the query result and returns it immediately if it is present. Then, a network request is made to fetch the most up-to-date data, which is then used to update the cache. This fetch policy is a good option for displaying data that gets updated frequently.
   \item \textbf{cache-only}: This fetch policy tells Apollo Client only to check the cache for the query result. If the result is present in the cache, it is returned immediately.
-  \item \textbf{network-only}: This fetch policy instructs Apollo to skip the cache entirely and always fetch the query result from the server.
+  \item \textbf{network-only}: This fetch policy instructs Apollo Client to skip the cache entirely and always fetch the query result from the server.
   \item \textbf{no-cache}: This fetch policy skips the cache entirely and always fetches the query result from the server. Unlike network-only, the result is not cached.
 \end{itemize}
 
