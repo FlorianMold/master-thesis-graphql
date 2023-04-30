@@ -46,7 +46,7 @@ Whenever the Apollo Client receives the response data of a query, it does the fo
 
 \paragraph{1. Identify objects}\label{paragraph:background:graphql:apollo-server-client:data-normalization:identify-objects}
 
-The cache identifies all distinct objects included in the query response. For example, take the query from Figure \ref{code:background:graphql:query-user-cache}, which returns the \texttt{id}, \texttt{username}, and \texttt{email} of every user.
+The cache identifies all distinct objects included in the query response. For example, take the query from Listing \ref{code:background:graphql:query-user-cache}, which returns the \texttt{id}, \texttt{username}, and \texttt{email} of every user.
 
 \ifshowListings
 \begin{listing}[H]
@@ -63,7 +63,7 @@ query {
 \end{listing}
 \fi
 
-\noindent The server responds with the following result from Listing \ref{code:background:graphql:query-user-response-result}. The \texttt{\_\_typename} property is automatically appended to the query by the Apollo Client to identify the object.
+\noindent The server responds with the following response seen in Listing \ref{code:background:graphql:query-user-response-result}. The \texttt{\_\_typename} property is automatically appended to the query by the Apollo Client to identify the object.
 
 \ifshowListings
 \begin{listing}[H]
@@ -269,7 +269,7 @@ Apollo offers development tools for the browser in the form of browser extension
   \item \textbf{Cache inspector}: Visualize the Apollo Client and search it by field name and/or value.
 \end{itemize}
 
-\noindent Another method to access the content of the cache is through the \texttt{window} object in \ac{JS}. The object can be accessed through \texttt{window.\_\_APOLLO\_CLIENT\_\_.cache.extract()} inside the browser's development console.
+\noindent Another method to access the content of the cache is through the \texttt{window} object in \ac{JS}. The object can be accessed through \texttt{window.\_\_APOLLO\_CLIENT\_\_.cache.extract()} inside the browser's development console. The result of this method invocation can be seen in Figure \ref{fig:background:graphql:apollo:apollo-cache-browser-window}.
 
 \ifshowImages
   \begin{figure}[H]
