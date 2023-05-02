@@ -11,7 +11,7 @@ this.graphQLClient.watchQuery({
   fetchPolicy: 'cache-first',
 });
 \end{minted}
-\caption{Defining and running a GraphQL query with Apollo Client.}\label{code:applied-methods:query-reduction:executing-graphql-query}
+\caption{Defining and executing a GraphQL query with Apollo Client.}\label{code:applied-methods:query-reduction:executing-graphql-query}
 \end{listing}
 \fi
 
@@ -42,7 +42,7 @@ new InMemoryCache({
   }
 });
 \end{minted}
-\caption{Defining a custom key field for the Salutation type.}\label{code:applied-methods:query-reduction:defining-a-custom-key-field}
+\caption{Defining a custom key field for the \texttt{Salutation} type.}\label{code:applied-methods:query-reduction:defining-a-custom-key-field}
 \end{listing}
 \fi
 
@@ -54,7 +54,7 @@ After storing the key fields for every type, the selected fields of the query ar
 
 \ifshowListings
 \begin{listing}[H]
-\begin{minted}{typescript}
+  \begin{minted}{typescript}
 query {
   allSalutations {
     id
@@ -65,8 +65,8 @@ query {
     name
   }
 }
-\end{minted}
-\caption{A combined GraphQL query that fetches two datasets.}\label{code:applied-methods:query-reduction:selection-set-query}
+  \end{minted}
+  \caption{GraphQL query that fetches two different queries.}\label{code:applied-methods:query-reduction:selection-set-query}
 \end{listing}
 \fi
 
@@ -81,7 +81,7 @@ query {
   }
 }
 \end{minted}
-\caption{Fetching a contact by id.}\label{code:applied-methods:query-reduction:storing-a-query-with-arguments}
+\caption{GraphQL query that fetches a contact by id.}\label{code:applied-methods:query-reduction:storing-a-query-with-arguments}
 \end{listing}
 \fi
 
@@ -133,7 +133,7 @@ const filteredQueryArgs = Object.keys(queryArgs)
 const stringifiedArgs = stringify(filteredQueryArgs);
 return `${fieldSelection.name.value}(${stringifiedArgs})`;
 \end{minted}
-\caption{Finding the name of the query inside the \texttt{InMemoryCache}.}\label{code:applied-methods:query-reduction:determine-the-field-name}
+\caption{Generate the name of the query inside the \texttt{InMemoryCache}.}\label{code:applied-methods:query-reduction:determine-the-field-name}
 \end{listing}
 \fi
 
@@ -146,7 +146,7 @@ return `${fieldSelection.name.value}(${stringifiedArgs})`;
 \begin{minted}{typescript}
 const cacheObjectsOrRefs = cacheContents['ROOT_QUERY']?.[fieldName];
 \end{minted}
-\caption{Accessing the cached data for a query.}\label{code:applied-methods:query-reduction:getting-cache-content}
+\caption{Access the cached results of a query from the root query.}\label{code:applied-methods:query-reduction:getting-cache-content}
 \end{listing}
 \fi
 
@@ -163,7 +163,7 @@ this.graphQLClient.watchQuery({
   additionalCacheRefs: userRef ? [{ __ref: userRef }] : []
 })
 \end{minted}
-\caption{Provide the GraphQL query reduction with additional information about the cache.}\label{code:applied-methods:query-reduction:passing-an-additional-cache-ref}
+\caption{Provide the GraphQL query with additional information about the structure of the cache.}\label{code:applied-methods:query-reduction:passing-an-additional-cache-ref}
 \end{listing}
 \fi
 
@@ -190,6 +190,6 @@ this.graphqlClient
     )
   )
 \end{minted}
-\caption{Combining the results of the reduced- and original-query.}\label{code:applied-methods:query-reduction:combining-the-results}
+\caption{Merge the results of the reduced- and original-query.}\label{code:applied-methods:query-reduction:combining-the-results}
 \end{listing}
 \fi

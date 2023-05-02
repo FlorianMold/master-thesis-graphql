@@ -16,7 +16,7 @@ module.exports = {
   ]
 };
     \end{minted}
-    \caption{Module Federation config for exposing the \texttt{remote.entry} of the React micro-frontend.}\label{code:applied-methods:module-federation-react-config-expose}
+    \caption{The Module Federation configuration for exposing the functionality of the React micro-frontend.}\label{code:applied-methods:module-federation-react-config-expose}
 \end{listing}
 \fi
 
@@ -28,7 +28,7 @@ module.exports = {
 
 \ifshowListings
 \begin{listing}[H]
-    \begin{minted}{typescript}
+  \begin{minted}{typescript}
 render<Comp extends ElementType>(rootEl: Root, Comp: Comp) {
   rootEl.render(
     createElement(
@@ -42,8 +42,8 @@ render<Comp extends ElementType>(rootEl: Root, Comp: Comp) {
     )
   );
 }
-    \end{minted}
-    \caption{The function to render the React widget into an Angular component.}\label{code:applied-methods:prototypical-implementation:render-react-component-with-context}
+  \end{minted}
+  \caption{The function to render a React widget into an Angular component.}\label{code:applied-methods:prototypical-implementation:render-react-component-with-context}
 \end{listing}
 \fi
 
@@ -67,6 +67,6 @@ return (
 );
 
     \end{minted}
-    \caption{Use the \texttt{InMemoryCache} instance from the React context.}\label{code:applied-methods:prototypical-implementation:consume-react-context}
+    \caption{The function to get the \texttt{InMemoryCache} instance from the React context.}\label{code:applied-methods:prototypical-implementation:consume-react-context}
 \end{listing}
 \fi

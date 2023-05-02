@@ -17,7 +17,7 @@ The application shell is set up to use dynamic Module Federation. The location o
   "user": "http://localhost:4204"
 }
 \end{minted}
-\caption{Loading micro-frontend \acp{URL} during startup.}\label{code:applied-methods:define-module-federation-manifest}
+\caption{The structure of the micro-frontend definition file with the name and \ac{URL}.}\label{code:applied-methods:define-module-federation-manifest}
 \end{listing}
 \fi
 
@@ -31,7 +31,7 @@ fetch('/assets/module-federation.manifest.json')
   .then((definitions) => setRemoteDefinitions(definitions))
   .then(() => import('./bootstrap').catch((err) => console.error(err)));
 \end{minted}
-\caption{Loading micro-frontend \acp{URL} during initialization.}\label{code:applied-methods:load-module-federation-settings}
+\caption{Loading the micro-frontend definition file during initialization.}\label{code:applied-methods:load-module-federation-settings}
 \end{listing}
 \fi
 
@@ -99,7 +99,7 @@ const routes: Routes = [{
   ...
 ]
 \end{minted}
-\caption{Fetching the configuration of the contact application.}\label{code:applied-methods:fetch-and-store-remote-application-settings}
+\caption{Fetch the settings of the contact application.}\label{code:applied-methods:fetch-and-store-remote-application-settings}
 \end{listing}
 \fi
 

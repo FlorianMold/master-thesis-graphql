@@ -24,7 +24,7 @@ query {
   }
 }
     \end{minted}
-    \caption{An exemplary GraphQL query that fetches all users.}\label{code:background:graphql:query-reduction:example-query-simple}
+    \caption{GraphQL query that fetches all users.}\label{code:background:graphql:query-reduction:example-query-simple}
 \end{listing}
 \fi
 
@@ -49,7 +49,7 @@ query {
   }
 }
     \end{minted}
-    \caption{An exemplary GraphQL query that fetches all users with an additional field.}\label{code:background:graphql:query-reduction:example-query-extended}
+    \caption{GraphQL query that is similar to Listing \ref{code:background:graphql:query-reduction:example-query-simple}, except that it fetches the \texttt{email} aswell.}\label{code:background:graphql:query-reduction:example-query-extended}
 \end{listing}
 \fi
 
@@ -57,15 +57,15 @@ query {
 
 \ifshowListings
 \begin{listing}[H]
-    \begin{minted}{typescript}
+  \begin{minted}{typescript}
 query {
   allUsers {
     id
     email
   }
 }
-    \end{minted}
-    \caption{The part of the query from Listing \ref{code:background:graphql:query-reduction:example-query-extended} that is necessary.}\label{code:background:graphql:query-reduction:example-query-reduced}
+  \end{minted}
+  \caption{The remaining part of the GraphQL query from Listing \ref{code:background:graphql:query-reduction:example-query-extended}, after query reduction.}\label{code:background:graphql:query-reduction:example-query-reduced}
 \end{listing}
 \fi
 

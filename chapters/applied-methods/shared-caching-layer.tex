@@ -28,7 +28,7 @@
 })
 class AppModule {}
 \end{minted}
-\caption{Creating an instance of the Apollo Client.}\label{code:applied-methods:creating-the-apollo-client}
+\caption{Create a new instance of the Apollo Client.}\label{code:applied-methods:creating-the-apollo-client}
 \end{listing}
 \fi
 
@@ -44,7 +44,7 @@ class AppModule {}
 })
 class HostCoreModule {}
 \end{minted}
-\caption{Provide the instance of the in-memory cache to \ac{DI}.}\label{code:applied-methods:graphql-client-cache-provider}
+\caption{Provide the instance of the \texttt{InMemoryCache} to \ac{DI}.}\label{code:applied-methods:graphql-client-cache-provider}
 \end{listing}
 \fi
 
@@ -60,7 +60,7 @@ class HostCoreModule {}
 })
 class ContactRemoteCoreModule {}
     \end{minted}
-  \caption{Instantiating Apollo Client for the module.}\label{code:applied-methods:graphql-client-creation}
+  \caption{Create the Apollo Client instance for the micro-frontend.}\label{code:applied-methods:graphql-client-creation}
   \end{listing}
 \fi
 
@@ -80,7 +80,7 @@ class ContactRemoteCoreModule {}
 })
 class ContactRemoteModule {}
 \end{minted}
-\caption{Using the shared in-memory cache instance.}\label{code:applied-methods:creating-the-apollo-client-with-a-shared-cache}
+\caption{Access the shared \texttt{InMemoryCache} instance from \ac{DI}.}\label{code:applied-methods:creating-the-apollo-client-with-a-shared-cache}
 \end{listing}
 \fi
 
@@ -102,7 +102,7 @@ class ContactRemoteModule {}
 })
 class ContactRemoteCoreModule {}
 \end{minted}
-\caption{Additional options for creating the Apollo Client instance.}\label{code:applied-methods:graphql-client-extra-configuration-options}
+\caption{Provide additional options for creating the Apollo Client instance.}\label{code:applied-methods:graphql-client-extra-configuration-options}
 \end{listing}
 \fi
 
@@ -119,6 +119,6 @@ const cacheInstance = shareCache ? cache : new InMemoryCache();
 if (typePolicies && useTypePolicies)
   clientCache.policies.addTypePolicies(typePolicies);
 \end{minted}
-\caption{Adding type policies to the cache.}\label{code:applied-methods:adding-extra-type-policies}
+\caption{Insert additional type policies into the cache instance.}\label{code:applied-methods:adding-extra-type-policies}
 \end{listing}
 \fi

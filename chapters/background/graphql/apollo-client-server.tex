@@ -50,7 +50,7 @@ The cache identifies all distinct objects included in the query response. For ex
 
 \ifshowListings
 \begin{listing}[H]
-    \begin{minted}{typescript}
+  \begin{minted}{typescript}
 query {
   users {
     id
@@ -58,8 +58,8 @@ query {
     email
   }
 }
-    \end{minted}
-    \caption{A GraphQL query that fetches the id, username, and email of every user.}\label{code:background:graphql:query-user-cache}
+  \end{minted}
+  \caption{GraphQL query that fetches the id, username, and email of every user.}\label{code:background:graphql:query-user-cache}
 \end{listing}
 \fi
 
@@ -67,7 +67,7 @@ query {
 
 \ifshowListings
 \begin{listing}[H]
-    \begin{minted}{typescript}
+  \begin{minted}{typescript}
 {
   users: [
     {
@@ -84,16 +84,16 @@ query {
     }
   ]
 }
-    \end{minted}
-    \caption{The result of the GraphQL query from Listing \ref{code:background:graphql:query-user-cache}.}\label{code:background:graphql:query-user-response-result}
+  \end{minted}
+  \caption{The result of the GraphQL query from Listing \ref{code:background:graphql:query-user-cache}.}\label{code:background:graphql:query-user-response-result}
 \end{listing}
 \fi
 
 The caching mechanism identifies the following objects to be cached.
 
 \begin{itemize}
-    \item A \texttt{User} with id \texttt{36bad921-8fcf-4f33-9f29-0d3cd70205c8}
-    \item A \texttt{User} with id \texttt{a2096556-9a4e-4994-9de8-86c9e85ed6a1}
+  \item A \texttt{User} with id \texttt{36bad921-8fcf-4f33-9f29-0d3cd70205c8}
+  \item A \texttt{User} with id \texttt{a2096556-9a4e-4994-9de8-86c9e85ed6a1}
 \end{itemize}
 
 \paragraph{2. Generate cache IDs}\label{paragraph:background:graphql:apollo-server-client:data-normalization:generate-cache-ids}
@@ -111,7 +111,7 @@ After identifying all objects, the cache generates a cache ID for each object. A
 
 \ifshowListings
 \begin{listing}[H]
-    \begin{minted}{typescript}
+  \begin{minted}{typescript}
 query {
   allUsers {
     id
@@ -121,8 +121,8 @@ query {
     }
   }
 }
-    \end{minted}
-    \caption{Fetch the \texttt{id}, \texttt{username} and Title of the user, without the \texttt{id} of the title.}\label{code:background:graphql:no-id-query-user-cache}
+  \end{minted}
+  \caption{Fetch the \texttt{id}, \texttt{username} and the \texttt{name} of the title of the user, without the \texttt{id} of the title.}\label{code:background:graphql:no-id-query-user-cache}
 \end{listing}
 \fi
 
@@ -131,7 +131,7 @@ query {
 
 \ifshowListings
 \begin{listing}[H]
-    \begin{minted}{typescript}
+  \begin{minted}{typescript}
 {
   'User:36bad921-8fcf-4f33-9f29-0d3cd70205c8': {
     __typeName: 'User',
@@ -146,8 +146,8 @@ query {
     Title: { name: 'BSc.' }
   }
 }
-    \end{minted}
-    \caption{The structure inside the cache with the query from Listing \ref{code:background:graphql:no-id-query-user-cache}.}\label{code:background:graphql:no-id-query-user-cache-representation}
+  \end{minted}
+  \caption{The content of the cache after fetching the query from Listing \ref{code:background:graphql:no-id-query-user-cache}.}\label{code:background:graphql:no-id-query-user-cache-representation}
 \end{listing}
 \fi
 
@@ -159,7 +159,7 @@ Next, the cache takes each field that contains an object and replaces its value 
 
 \ifshowListings
 \begin{listing}[H]
-    \begin{minted}{typescript}
+  \begin{minted}{typescript}
 query {
   allUsers {
     id
@@ -170,8 +170,8 @@ query {
     }
   }
 }
-    \end{minted}
-    \caption{A query to demonstrate object replacement with references.}\label{code:background:graphql:nested-query-user-cache}
+  \end{minted}
+  \caption{A GraphQL query to fetch all users.}\label{code:background:graphql:nested-query-user-cache}
 \end{listing}
 \fi
 
@@ -199,15 +199,15 @@ Listing \ref{code:background:graphql:nested-query-response-user-cache} shows a s
 
 \ifshowListings
 \begin{listing}[H]
-    \begin{minted}{typescript}
+  \begin{minted}{typescript}
 {
   __typename: 'User',
   id: '36bad921-8fcf-4f33-9f29-0d3cd70205c8',
   username: 'Florian',
   title: { __ref: 'Title:36bad921-8fcf-4f33-9f29-0d3cd70205c8' }
 }
-    \end{minted}
-    \caption{The result after the cache has replaced objects with references.}\label{code:background:graphql:nested-query-response-after-replacement}
+  \end{minted}
+  \caption{The structure of the cache after the user object is stored.}\label{code:background:graphql:nested-query-response-after-replacement}
 \end{listing}
 \fi
 
@@ -243,8 +243,8 @@ The resulting objects are stored inside the cache's flat lookup table. Whenever 
     name: 'BSc.',
   },
 }
-    \end{minted}
-    \caption{The data inside the cache with the response from the query from Listing \ref{code:background:graphql:nested-query-user-cache}.}\label{code:background:graphql:nested-query-user-cache-representation}
+  \end{minted}
+  \caption{The structure of the cache with the result from the query from Listing \ref{code:background:graphql:nested-query-user-cache}.}\label{code:background:graphql:nested-query-user-cache-representation}
 \end{listing}
 \fi
 
@@ -312,7 +312,7 @@ new InMemoryCache({
   }}}
 });
     \end{minted}
-    \caption{Provide a default value for \texttt{firstName}}\label{code:background:graphql:read-type-policy}
+    \caption{Provide a default value for the  \texttt{firstName} field.}\label{code:background:graphql:read-type-policy}
 \end{listing}
 \fi
 
@@ -337,6 +337,6 @@ new InMemoryCache({
   }}},
 });
     \end{minted}
-    \caption{Merge the existing and incoming transactions.}\label{code:background:graphql:write-type-policy}
+    \caption{Merge the existing and incoming transactions in a \texttt{merge} function.}\label{code:background:graphql:write-type-policy}
 \end{listing}
 \fi

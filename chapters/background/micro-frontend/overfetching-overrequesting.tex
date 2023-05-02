@@ -8,12 +8,11 @@ Generic \acp{API} refer to \acp{API} that are very general and can be used by di
 
 \paragraph{Over-Fetching}\label{paragraph:background:micro-frontend:generic-vs-consumer-driven-apis:generic-apis:over-fetching}
 
-
 For example, a contact service provides a contact model that includes \texttt{customerNumber}, \texttt{firstName}, \texttt{secondName}, \texttt{uidNumber}, and the user's address, as seen in the Listing \ref{code:background:micro-frontends:over-fetching}. However, one application requirement is to display only a contact's first and last name inside the header. Only two fields of the model are used, and the rest are unnecessarily queried. \cite{misc:2019:leitner:background:micro-frontends:backend-for-frontends}
 
 \ifshowListings
 \begin{listing}[H]
-    \begin{minted}{typescript}
+  \begin{minted}{typescript}
 interface ContactModel {
   id: string;
   customerNumber: string;
@@ -28,8 +27,8 @@ interface ContactModel {
     Country: string;
   }
 }
-    \end{minted}
-    \caption{Contact-Model that contains too many fields for the requirement.}\label{code:background:micro-frontends:over-fetching}
+  \end{minted}
+  \caption{Contact-Model that contains too many fields for a use-case.}\label{code:background:micro-frontends:over-fetching}
 \end{listing}
 \fi
 
@@ -50,7 +49,7 @@ interface ContactModel {
   address_id: string;
 }
     \end{minted}
-    \caption{Contact-Model model that links the address-model with an id.}\label{code:background:micro-frontends:over-requesting}
+    \caption{Contact-Model model that links to the address-model with the address id.}\label{code:background:micro-frontends:over-requesting}
 \end{listing}
 \fi
 

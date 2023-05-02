@@ -44,7 +44,7 @@ module.exports = {
   ]
 };
     \end{minted}
-    \caption{Module Federation config to expose the contact \texttt{entry.module}.}\label{code:applied-methods:module-federation-config-expose}
+    \caption{The Module Federation configuration to expose the contact's functionality.}\label{code:applied-methods:module-federation-config-expose}
 \end{listing}
 \fi
 
@@ -73,7 +73,7 @@ module.exports = {
   }
 };
     \end{minted}
-    \caption{The configuration for the application-shell to consume the micro-frontends.}\label{code:applied-methods:module-federation-config-consume}
+    \caption{The configuration of the application-shell to be able to consume micro-frontends.}\label{code:applied-methods:module-federation-config-consume}
 \end{listing}
 \fi
 
@@ -81,7 +81,7 @@ module.exports = {
 
 \ifshowListings
 \begin{listing}[H]
-    \begin{minted}{typescript}
+  \begin{minted}{typescript}
 const routes: Routes = [
   {
     path: 'contact',
@@ -90,8 +90,8 @@ const routes: Routes = [
   },
   ...
 ]
-    \end{minted}
-    \caption{Route to the contact micro-frontend.}\label{code:applied-methods:angular-route-to-remote-module}
+  \end{minted}
+  \caption{An Angular route to the contact application.}\label{code:applied-methods:angular-route-to-remote-module}
 \end{listing}
 \fi
 

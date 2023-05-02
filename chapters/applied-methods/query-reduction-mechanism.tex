@@ -10,7 +10,7 @@ After implementing the shared caching layer, the next step was to improve the pe
 \begin{listing}[H]
 \begin{minted}{typescript}
 query allUsers {                        query user(id: ID!) {
-  allUsers {                              user(id: \$id) {
+  allUsers {                              user(id: $id) {
     id                                      id
     username                                username
     email                                   email
@@ -19,7 +19,7 @@ query allUsers {                        query user(id: ID!) {
   }                                       }
 }                                      }
 \end{minted}
-\caption{Comparison between the \texttt{allUsers} and \texttt{User} query.}\label{code:applied-methods:compare-allusers-user-query}
+\caption{Compare the fields between the \texttt{allUsers} and \texttt{User} query.}\label{code:applied-methods:compare-allusers-user-query}
 \end{listing}
 \fi
 
@@ -45,7 +45,7 @@ type User {
   ...
 }
 \end{minted}
-\caption{An excerpt from the GraphQL schema.}\label{code:applied-methods:query-reduction:graphql-schema}
+\caption{An excerpt of the prototypes GraphQL schema.}\label{code:applied-methods:query-reduction:graphql-schema}
 \end{listing}
 \fi
 
@@ -65,7 +65,7 @@ new ApolloClient({
   }}}})
 });
 \end{minted}
-\caption{Writing a cache-redirect for the User-type.}\label{code:applied-methods:query-reduction:user-cache-redirect}
+\caption{A cache-redirect for the User-type.}\label{code:applied-methods:query-reduction:user-cache-redirect}
 \end{listing}
 \fi
 
