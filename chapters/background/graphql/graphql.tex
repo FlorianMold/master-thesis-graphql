@@ -8,7 +8,7 @@ GraphQL was initially developed by Facebook and referred to itself as the query 
 
 \subsection{Origins and history}\label{subsection:background:graphql:origins-and-history}
 
-GraphQL was initially developed in 2012. In 2015 the project was made open-source and available to the public. The motivation behind the initial development of GraphQL was the limited flexibility of available \ac{API} technologies like \ac{REST}. Mobile devices needed only a subset of the fields that a \ac{REST} endpoint offered. Furthermore, the exact amount of fields can change dynamically. The static background of \ac{REST} does not offer this behavior. Using \ac{REST}-based \acp{API} for clients that only need some fields would introduce the problem of Overfetching. Clients will receive more information than is needed. This approach leads to problems as mobile networks often have limited network traffic. Overfetching puts additional strain on the user's data plan. \cite{misc:2015:bryon:background:graphql:graphql-query-language}
+GraphQL was initially developed in 2012. In 2015 the project was made open-source and available to the public. The reason behind the initial creation of GraphQL was the restricted flexibility of known \ac{API} technologies like \ac{REST}. Mobile devices needed only a subset of the fields that a \ac{REST} endpoint offered. Furthermore, the exact amount of fields can change dynamically. The static background of \ac{REST} does not offer this behavior. Using \ac{REST}-based \acp{API} for clients that only need some fields would introduce the problem of Overfetching. Clients will receive more information than is needed. This approach leads to problems as mobile networks often have limited network traffic. Overfetching puts additional strain on the user's data plan. \cite{misc:2015:bryon:background:graphql:graphql-query-language}
 
 \subsection{GraphQL Characteristics}\label{subsection:background:graphql:graphql-characteristics}
 
@@ -44,12 +44,14 @@ GraphQL helps to reduce the network traffic between the clients and the service 
 
 \bigskip
 
-\noindent GraphQL shifts responsibilities from the server to the client, generally done with a gateway. \ac{API} composition can shift from the server to the client. Depending on the actual use-capabilities
+\noindent GraphQL shifts responsibilities from the server to the client, generally done with a gateway. \ac{API} composition can transfer the responsibility from the server to the client. Depending on the actual use cases, this may lead to situations where several web applications must implement the same arrangement of existing fields.
 
 \bigskip
 
-\noindent Allowing the client to specify the query might make the potential complexity of the query transparent to the client. With this approach, it might be possible that the client specifies a query that needs to be completed with long response times or takes up many resources. GraphQL makes it difficult for clients to remain good citizens in a distributed architecture. \cite{book:2018:richardson:background:bff:microservices-patterns}
+\noindent Allowing the client to specify the query might make the potential complexity of the query transparent to the client. With this approach, it might be possible that the client specifies a query that needs to be completed with long response times or takes up many resources. \cite{book:2018:richardson:background:bff:microservices-patterns}
 
+% TODO: (look into the paragraph above)
+% GraphQL makes it challenging for clients to stay good citizens in a distributed architecture.
 
 \input{chapters/background/graphql/apollo-client-server}
 

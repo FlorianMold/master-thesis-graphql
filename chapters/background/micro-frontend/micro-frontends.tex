@@ -18,11 +18,11 @@ Micro-frontends should bring the same advantages of microservices to the fronten
 
 \bigskip
 
-\noindent Micro-frontends apply the same principles from the microservice architecture to frontend development. Often a microservice architecture developed by several teams has only one frontend monolith. Therefore, when adding new features, a single team can be overwhelmed. Like a microservice architecture, a micro-frontend architecture focuses on developing many small frontend applications instead of developing a giant software monolith. Each micro-frontend can be developed independently by another team. However, a challenge is that the micro-frontend should appear as a single application to the user. Therefore, the different applications must be integrated, which can be challenging.
+\noindent Micro-frontends try to apply the same principles from microservice architectures to modern web development. Often a microservice architecture developed by several teams has only one frontend monolith. Therefore, when adding new features, a single team can be overwhelmed. Like a microservice architecture, a micro-frontend architecture focuses on developing many small frontend applications instead of developing a giant software monolith. Each micro-frontend can be developed independently by another team. However, a challenge is that the micro-frontend should appear as a single application to the user. Therefore, the different applications must be integrated, which can be challenging.
 
 \bigskip
 
-\noindent Building micro-frontends with the web allows different strategies for integrating the applications. Three strategies exist to combine multiple micro-frontends into an application shell: client-side integration, server-side integration, and the combination of these two strategies. \cite[10-12]{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
+\noindent Building micro-frontends with the web allows different strategies for integrating the applications. Three strategies exist to combine multiple micro-frontends into an application shell: client-side integration, server-side integration, and a combination of both strategies. \cite[10-12]{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
 
 \subsection{Characteristics}\label{subsection:background:micro-frontend-characteristics}
 
@@ -38,15 +38,15 @@ Just as microservice architectures, micro-frontend architectures can be technolo
 
 \bigskip
 
-\noindent Another problem that could arise is the bundle size of modern \ac{JS} frameworks. If two frameworks like React and Angular need to be fetched, the total bundle size can be enormous and a strain on (mobile) network connections. Loading and running multiple micro-frontends is also resource intensive. Micro-frontends can be developed using a standardized \ac{API} like Web Components. With this approach, no specific framework is needed for developing the application. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
+\noindent Another problem that could arise is the bundle size of modern \ac{JS} frameworks. If two frameworks like React and Angular need to be fetched, the total bundle size can be enormous and a strain on (mobile) network connections. Loading and running multiple micro-frontends is also resource intensive for the browser. Micro-frontends can be developed using a standardized \ac{API} like Web Components. With this approach, no specific framework is needed for developing the application. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
 
 \subsubsection{Independently Deployable}\label{subsubsection:background:micro-frontend-independent-deployable}
 
-The autonomy of micro-frontends offers the possibility for independent deployments. A sizeable monolithic frontend application is more complex to deploy, and there is no need for communication and coordination over multiple teams to deploy the application. Organizational dependencies negatively impact the time-to-market because development teams would have to wait for another team's release. \cite[12]{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
+The autonomy of micro-frontends offers the possibility for independent deployments. A sizeable monolithic frontend application is more complex to deploy, and there is no need for communication and coordination over multiple teams to deploy the application. Organizational dependencies negatively impact the time-to-market because development teams might have to wait for another team's release to be able to ship their software. \cite[12]{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
 
 \subsubsection{Small and Easy to Maintain}\label{subsubsection:background:micro-frontend-small-and-easy-to-maintain}
 
-Because micro-frontends only cover a small domain of an application, the source code is smaller and easier to understand. A smaller codebase is especially helpful for understanding the inner workings of the software. Onboarding new team members is also more accessible because the codebase is smaller than monoliths.
+Because micro-frontends only contain a small domain of the full functionality of an application, the source code is smaller and easier to understand. A smaller codebase is especially helpful for understanding the inner workings of the software. Onboarding new team members is also more accessible because the codebase is smaller than monoliths.
 Due to the easier understanding of the domain, the application can be easier rewritten with state-of-the-art technology if the old one becomes deprecated. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
 
 \subsubsection{Resilience}\label{subsubsection:background:micro-frontend-resilience}
