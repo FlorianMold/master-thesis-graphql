@@ -10,7 +10,7 @@ After implementing the shared caching layer, the next step was to improve the pe
 \begin{listing}[H]
 \begin{minted}{typescript}
 query allUsers {                        query user(id: ID!) {
-  allUsers {                              user(id: $id) {
+  allUsers {                              user(id: id) {
     id                                      id
     username                                username
     email                                   email

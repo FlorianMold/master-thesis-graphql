@@ -24,9 +24,9 @@ This section describes how the caching mechanism of the Apollo Client works. The
 
 \ifshowImages
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\linewidth]{images/background/graphql/apollo/apollo-client-basic-cache.jpg}
-    \caption{The execution of a query which is not in the cache. (Adapted from \cite{misc:-:background:graphql:apollo-client-cache-overview})}\label{fig:background:graphql:user-query-first-time}
+  \centering
+  \includegraphics[width=0.6\linewidth]{images/background/graphql/apollo/apollo-client-basic-cache.jpg}
+  \caption{The execution of a GraphQL query that is not stored in the cache. (Adapted from \cite{misc:-:background:graphql:apollo-client-cache-overview})}\label{fig:background:graphql:user-query-first-time}
 \end{figure}
 \fi
 
@@ -34,9 +34,9 @@ This section describes how the caching mechanism of the Apollo Client works. The
 
 \ifshowImages
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\linewidth]{images/background/graphql/apollo/apollo-client-basic-cache-warm.jpg}
-    \caption{Executing the same query again reduces the steps. (Adapted from \cite{misc:-:background:graphql:apollo-client-cache-overview})}\label{fig:background:graphql:user-query-second-time}
+  \centering
+  \includegraphics[width=0.7\linewidth]{images/background/graphql/apollo/apollo-client-basic-cache-warm.jpg}
+  \caption{Execute the same query, which reduces the necessary steps. (Adapted from \cite{misc:-:background:graphql:apollo-client-cache-overview})}\label{fig:background:graphql:user-query-second-time}
 \end{figure}
 \fi
 
@@ -269,13 +269,13 @@ Apollo Client offers development tools for the browser in the form of browser ex
   \item \textbf{Cache inspector}: Visualize the Apollo Client and search it by field name and/or value.
 \end{itemize}
 
-\noindent Another method to access the content of the cache is through the \texttt{window} object in \ac{JS}. The object can be accessed through \texttt{window.\_\_APOLLO\_CLIENT\_\_.cache.extract()} inside the browser's development console. The result of this method invocation can be seen in Figure \ref{fig:background:graphql:apollo:apollo-cache-browser-window}.
+\noindent Another method to access the content of the cache is through the \texttt{window} object in \ac{JS}. The object can be accessed through \texttt{window.\_\_APOLLO\_CLIENT\_\_.cache.extract()} inside the browser's development tools. The result of this method invocation can be seen in Figure \ref{fig:background:graphql:apollo:apollo-cache-browser-window}.
 
 \ifshowImages
   \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{images/background/graphql/apollo/apollo-cache-browser-window.jpg}
-    \caption{Viewing the contents of the cache inside the development console.}\label{fig:background:graphql:apollo:apollo-cache-browser-window}
+    \caption{View the content of the cache inside the development tools.}\label{fig:background:graphql:apollo:apollo-cache-browser-window}
   \end{figure}
 \fi
 

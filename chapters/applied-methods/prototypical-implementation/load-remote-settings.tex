@@ -31,7 +31,7 @@ fetch('/assets/module-federation.manifest.json')
   .then((definitions) => setRemoteDefinitions(definitions))
   .then(() => import('./bootstrap').catch((err) => console.error(err)));
 \end{minted}
-\caption{Loading the micro-frontend definition file during initialization.}\label{code:applied-methods:load-module-federation-settings}
+\caption{Load the micro-frontend definition file during initialization.}\label{code:applied-methods:load-module-federation-settings}
 \end{listing}
 \fi
 
@@ -76,7 +76,7 @@ Each application of the prototypical micro-frontend architecture follows this ap
   \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\linewidth]{images/applied-methods/prototypical-implementation/load-remote-settings.png}
-  \caption{Loading a storing the configuration of the remote applications.}\label{fig:applied-methods:load-remote-settings}
+  \caption{Load and store the configuration of the remote applications.}\label{fig:applied-methods:load-remote-settings}
   \end{figure}
 \fi
 

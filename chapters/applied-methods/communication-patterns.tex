@@ -40,7 +40,7 @@ class ContactCoreModule {}
   \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{images/applied-methods/communication-patterns/layout-comparison.jpg}
-  \caption{Comparison between the navigation inside the contact-application and the application-shell.}\label{fig:applied-methods:communication-patterns:comparison-between-host-and-contact-layout}
+  \caption{A comparison between the navigation inside the contact-application and the application-shell.}\label{fig:applied-methods:communication-patterns:comparison-between-host-and-contact-layout}
   \end{figure}
 \fi
 
@@ -50,7 +50,7 @@ class ContactCoreModule {}
   \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{images/applied-methods/communication-patterns/contact-header.png}
-  \caption{The navigation elements of the contact-application.}\label{fig:applied-methods:communication-patterns:contact-application-header}
+  \caption{The navigation container of the contact-application.}\label{fig:applied-methods:communication-patterns:contact-application-header}
   \end{figure}
 \fi
 
@@ -58,7 +58,7 @@ class ContactCoreModule {}
   \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{images/applied-methods/communication-patterns/host-contact-header.png}
-  \caption{The navigation of the application-shell.}\label{fig:applied-methods:communication-patterns:application-shell-header}
+  \caption{The navigation container of the application-shell.}\label{fig:applied-methods:communication-patterns:application-shell-header}
   \end{figure}
 \fi
 
@@ -67,20 +67,21 @@ class ContactCoreModule {}
 \ifshowListings
   \begin{listing}[H]
   \begin{minted}{typescript}
-private isNative = inject(CONTACT_NATIVE_ENVIRONMENT, { optional: true })
+#isNative = inject(CONTACT_NATIVE_ENVIRONMENT, { optional: true });
+#layoutService = inject(LayoutService);
 
 init() {
   const { topNodes } = CONTACT_NAVIGATION;
-  if (!this.isNative)
-    this.layoutService.registerSecondToolbarRow(topNodes);
+  if (!this.#isNative)
+    this.#layoutService.registerSecondToolbarRow(topNodes);
 }
 
 ngOnDestroy() {
-  if (!this.isNative)
-    this.layoutService.unregisterSecondToolbarRow();
+  if (!this.#isNative)
+    this.#layoutService.unregisterSecondToolbarRow();
 }
   \end{minted}
-  \caption{An excerpt from the initialization logic of a micro-frontend.}\label{code:applied-methods:communication-patterns:initialization-logic-micro-frontend}
+  \caption{An part of the initialization process of a micro-frontend.}\label{code:applied-methods:communication-patterns:initialization-logic-micro-frontend}
   \end{listing}
 \fi
 
