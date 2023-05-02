@@ -2,7 +2,6 @@
 
 This section describes how the shared caching layer and the reduction of queries were tested for the prototypical micro-frontend architecture. It explains the first user journey through the application and shows the three approaches results. Figure \ref{fig:results:evaluation-first-path} shows the steps through the micro-frontend prototype used to measure the possible performance improvements of the shared caching layer and the reduction of queries. The client has to perform 13 steps throughout the application, which involves almost every available GraphQL query. The dashboard micro-frontend yields some problems if the evaluation is started there. All widgets are created and start to fetch their data simultaneously. Therefore, it can easily happen that multiple widgets fetch the same queries from the GraphQL \ac{API} because the data is not already in the cache. This problem leads to a lot of theoretically unnecessary network requests and is difficult to circumvent. The evaluation shown in the figure is performed with an unauthenticated user. And this section takes the measurements and compares the different approaches regarding request sizes and response sizes, the number of requests, and the total records fetched.
 
-
 \ifshowImages
 \begin{figure}[H]
 \centering
@@ -29,13 +28,13 @@ With this approach, each micro frontend has a separate instance of the GraphQL c
   \item \texttt{reduceQueries: false}
 \end{itemize}
 
-\noindent 47 network requests have to be made to the GraphQL \ac{API}, which can be seen in Figure \ref{fig:results:no-shared-cache-no-reduction}. The figure shows 53 requests, but 6 requests have to be subtracted because they are needed to make the prototypical architecture work. They load the micro-frontends from their remote locations and fetch their settings, and these requests are only needed for the functionality of the micro-service architecture
+\noindent 47 network requests have to be made to the GraphQL \ac{API}, which can be seen in Figure \ref{fig:results:no-shared-cache-no-reduction}. The figure shows 54 requests, but 7 requests have to be subtracted because they are needed to make the prototypical architecture work. They load the micro-frontends from their remote locations and fetch their settings, and these requests are only needed for the functionality of the micro-service architecture
 
 \ifshowImages
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.7\linewidth]{images/results/1-attempt/no-shared-cache-no-reduction.png}
-\caption{All requests made during the measurement of the first approach.}\label{fig:results:no-shared-cache-no-reduction}
+  \begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\linewidth]{images/results/1-attempt/no-shared-cache-no-reduction.jpg}
+  \caption{All requests made during the measurement of the first approach.}\label{fig:results:no-shared-cache-no-reduction}
 \end{figure}
 \fi
 
@@ -57,13 +56,13 @@ With this approach, an instance of the cache is shared by all micro-frontends, b
   \item \texttt{reduceQueries: false}
 \end{itemize}
 
-\noindent 36 requests have to be made to the GraphQL \ac{API}, which can be seen in Figure \ref{fig:results:shared-cache-no-reduction}. Six requests have to be deducted (\texttt{settings.json}, \texttt{module-federation.manifest.json}, \dots) as in the previous section.
+\noindent 36 requests have to be made to the GraphQL \ac{API}, which can be seen in Figure \ref{fig:results:shared-cache-no-reduction}. Seven requests have to be deducted (\texttt{settings.json}, \texttt{module-federation.manifest.json}, \dots) as in the previous section.
 
 \ifshowImages
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.7\linewidth]{images/results/1-attempt/shared-not-reduced-cache.png}
-\caption{All requests made during the measurement of the second approach.}\label{fig:results:shared-cache-no-reduction}
+  \begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\linewidth]{images/results/1-attempt/shared-not-reduced-cache.jpg}
+  \caption{All requests made during the measurement of the second approach.}\label{fig:results:shared-cache-no-reduction}
 \end{figure}
 \fi
 
@@ -85,13 +84,13 @@ With this approach, the same instance of the cache is shared between all of the 
   \item \texttt{reduceQueries: true}
 \end{itemize}
 
-\noindent 36 requests have to be made to the GraphQL \ac{API}, which can be seen in Figure \ref{fig:results:shared-cache-reduction}. Six requests have to be deducted (\texttt{settings.json}, \texttt{module-federation.manifest.json}, \dots) as in the previous sections.
+\noindent 36 requests have to be made to the GraphQL \ac{API}, which can be seen in Figure \ref{fig:results:shared-cache-reduction}. Seven requests have to be deducted (\texttt{settings.json}, \texttt{module-federation.manifest.json}, \dots) as in the previous sections.
 
 \ifshowImages
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.7\linewidth]{images/results/1-attempt/shared-reduced-cache.png}
-\caption{All requests made during the measurement of the third approach.}\label{fig:results:shared-cache-reduction}
+  \begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\linewidth]{images/results/1-attempt/shared-reduced-cache.jpg}
+  \caption{All requests made during the measurement of the third approach.}\label{fig:results:shared-cache-reduction}
 \end{figure}
 \fi
 

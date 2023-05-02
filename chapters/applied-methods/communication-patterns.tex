@@ -67,18 +67,18 @@ class ContactCoreModule {}
 \ifshowListings
   \begin{listing}[H]
   \begin{minted}{typescript}
-#isNative = inject(CONTACT_NATIVE_ENVIRONMENT, { optional: true });
-#layoutService = inject(LayoutService);
+private isNative = inject(CONTACT_NATIVE_ENVIRONMENT, { optional: true });
+private layoutService = inject(LayoutService);
 
 init() {
   const { topNodes } = CONTACT_NAVIGATION;
-  if (!this.#isNative)
-    this.#layoutService.registerSecondToolbarRow(topNodes);
+  if (!this.isNative)
+    this.layoutService.registerSecondToolbarRow(topNodes);
 }
 
 ngOnDestroy() {
-  if (!this.#isNative)
-    this.#layoutService.unregisterSecondToolbarRow();
+  if (!this.isNative)
+    this.layoutService.unregisterSecondToolbarRow();
 }
   \end{minted}
   \caption{An part of the initialization process of a micro-frontend.}\label{code:applied-methods:communication-patterns:initialization-logic-micro-frontend}
