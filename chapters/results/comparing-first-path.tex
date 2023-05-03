@@ -1,4 +1,4 @@
-\section{Comparing the results of the first user journey}\label{section:results:comparison-first-journey}
+\section{Compare the results of the first user journey}\label{section:results:comparison-first-journey}
 
 This section describes how the shared caching layer and the reduction of queries were tested for the prototypical micro-frontend architecture. It explains the first user journey through the application and shows the three approaches results. Figure \ref{fig:results:evaluation-first-path} shows the steps through the micro-frontend prototype used to measure the possible performance improvements of the shared caching layer and the reduction of queries. The client has to perform 13 steps throughout the application, which involves almost every available GraphQL query. The dashboard micro-frontend yields some problems if the evaluation is started there. All widgets are created and start to fetch their data simultaneously. Therefore, it can easily happen that multiple widgets fetch the same queries from the GraphQL \ac{API} because the data is not already in the cache. This problem leads to a lot of theoretically unnecessary network requests and is difficult to circumvent. The evaluation shown in the figure is performed with an unauthenticated user. And this section takes the measurements and compares the different approaches regarding request sizes and response sizes, the number of requests, and the total records fetched.
 
@@ -14,7 +14,7 @@ This section describes how the shared caching layer and the reduction of queries
 
 \subsubsection{Separate Cache and no reduced queries}\label{subsubsection:results:performance-measurement:separate-cache-no-reduction}
 
-With this approach, each micro frontend has a separate instance of the GraphQL client and \texttt{InMemoryCache}. The queries are not reduced using the cache and the custom implementation. After the client completes the journey through the application, the following metrics are collected.
+With this approach, each micro-frontend has a separate instance of the GraphQL client and \texttt{InMemoryCache}. The queries are not reduced using the cache and the custom implementation. After the client completes the journey through the application, the following metrics are collected.
 
 \begin{itemize}
   \item 47 network requests to the GraphQL \ac{API}
@@ -96,7 +96,7 @@ With this approach, the same instance of the cache is shared between all of the 
 
 \noindent The total size of the queries was 13.53 KB, and the size of the responses was 8.37 MB. The 36 queries retrieve a total of 51319 records from the GraphQL \ac{API}.
 
-\subsection{Comparing the first- and second-approach}\label{subsection:results:comparison-first-second-approach}
+\subsection{Compare the first- and second-approach}\label{subsection:results:comparison-first-second-approach}
 
 When comparing the first- with the second approach, there is a significant difference in the number of network requests made to the GraphQL \ac{API} and the size of the requests and responses, as seen in Table \ref{table:results:size-comparison-first-path-no-cache-no-reduction-cache-no-reduction}. The shared cache approach requires eleven fewer network requests than the separate cache approach. Since the queries are not reduced for this comparison, the additional network queries account for the overall difference in request- and response size. The 11 additional requests from the first approach send an additional 2.29 KB to the \ac{API} and return about an additional 2.34 MB from the \ac{API}. Therefore, 22\% of the total response size can be saved using only one shared cache for all micro-frontends. Another interesting observation is that the shared cache approach retrieves 30191 fewer records than the naive approach, about 37\% of the total records returned.
 
@@ -120,7 +120,7 @@ When comparing the first- with the second approach, there is a significant diffe
 \end{table}
 \fi
 
-\noindent The following enumeration shows which and how often GraphQL queries were dropped when using a shared caching layer between the micro front-ends compared to a separate cache:
+\noindent The following enumeration shows which and how often GraphQL queries were dropped when using a shared caching layer between the micro-frontends compared to a separate cache:
 
 \begin{itemize}
   \item allCountries: 2
@@ -135,7 +135,7 @@ When comparing the first- with the second approach, there is a significant diffe
 
 \noindent The data of the omitted requests is usually used for filling selection controls inside detail views and has to be fetched repeatedly in every micro-frontend. The first three queries are used for widgets on the dashboard, the contact application, and the user application. The last five queries are used for widgets on the dashboard and the sales application.
 
-\subsection{Comparing the first- and third-approach}\label{subsection:results:comparison-first-third-approach}
+\subsection{Compare the first- and third-approach}\label{subsection:results:comparison-first-third-approach}
 
 As in the previous comparison, there is the same difference in the number of network requests made to the GraphQL \ac{API}. The size of the responses and the requests have a massive difference, just like before. The results are shown in Table \ref{table:results:size-comparison-first-path-no-cache-no-reduction-cache-reduction}. Just like before, there is a difference of 11 GraphQL queries that are sent to the GraphQL \ac{API}. However, due to the reduction in queries, the difference in the size of the queries and responses is greater than in Section \ref{subsection:results:comparison-first-second-approach}. All queries of the first approach send 3.92 KB more and return about 2.41 MB more from the GraphQL \ac{API} compared to the third approach. A shared cache and query reduction can save about 22\% response sizes. As before, 37\% fewer records need to be fetched from the \ac{API}.
 
@@ -159,7 +159,7 @@ As in the previous comparison, there is the same difference in the number of net
 \end{table}
 \fi
 
-\subsection{Comparing the second- and third-approach}\label{subsection:results:comparison-second-third-approach}
+\subsection{Compare the second- and third-approach}\label{subsection:results:comparison-second-third-approach}
 
 Between the first and second approaches, there is almost no difference in request- and response size compared to the comparisons from sections \ref{subsection:results:comparison-first-second-approach} and \ref{subsection:results:comparison-first-third-approach}, as seen in Table \ref{table:results:size-comparison-first-path-cache-no-reduction-cache-reduction}. Both approaches have the same number of queries sent to the GraphQL \ac{API} since all micro-frontends share the same cache instance. Reducing queries does not lead to fewer network requests, because it just removed fields from executed queries. The difference in request and response size between the two approaches comes solely from query reduction. Using the third approach, the difference in request size is about 1.64 KB (11\%), which is insignificant. The difference between the response sizes (62.45 KB) is almost zero in relation to the amount of data that was returned.
 

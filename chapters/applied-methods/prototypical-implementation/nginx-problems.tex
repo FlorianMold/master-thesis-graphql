@@ -1,6 +1,6 @@
 \subsection{Deployment problems}\label{subsection:applied-methods:prototypical-implementation:nginx-problems}
 
-Docker containers are used to serve the micro-frontends. To serve the application Nginx is used. The application is built, and the files are copied into the docker image. The dockerfile is shown in Listing \ref{code:applied-methods:prototype-implementation-dockerfile}.
+Docker is used to run the micro-frontends in production. The Nginx web server in a Docker container is used to deliver the application files to the client. The dockerfile for the micro-frontends is shown in Listing \ref{code:applied-methods:prototype-implementation-dockerfile}. The application to deploy needs to be built before creating the docker image. Afterwards the necessary files are copied into the docker image.
 
 \ifshowListings
   \begin{listing}[H]
@@ -20,7 +20,7 @@ CMD [
   \end{listing}
 \fi
 
-\noindent Module Federation applications expose a file called \texttt{remoteEntry.mjs}, which is consumed by the application shell. However, Nginx currently cannot interpret the mime-type of \texttt{\*.mjs} which would be \ac{JS}. Therefore, it falls back to the default mime-type \texttt{text/plain}, where \ac{JS} is not executed. As a workaround for this problem, a custom \texttt{nginx.conf} has been created that sets the default mime-type to \texttt{text/javascript}. A part of the configuration is shown in Listing \ref{code:applied-methods:prototype-implementation-custom-nginx-conf}.
+\noindent Module Federation applications expose a file called \texttt{remoteEntry.mjs}, which is consumed by a host application. However, Nginx currently cannot interpret the mime-type of \texttt{\*.mjs} files which would be \ac{JS}. Therefore, it falls back to the default mime-type \texttt{text/plain}, where \ac{JS} is not executed in the browser. As a workaround for this problem, a custom \texttt{nginx.conf} has been created that sets the default mime-type to \texttt{text/javascript}, which allows the execution of the script in the browser. A part of the configuration is shown in Listing \ref{code:applied-methods:prototype-implementation-custom-nginx-conf}.
 
 \ifshowListings
   \begin{listing}[H]
@@ -31,4 +31,4 @@ default_type text/javascript;
   \end{listing}
 \fi
 
-\noindent The custom configuration allows Nginx to correctly load and interpret the remote module files, which it interprets as \ac{JS} files. Setting another default mime type will not break the web server because an Angular application works just with \ac{JS} files.
+\noindent The custom configuration allows Nginx to correctly load and interpret the remote module files. Setting another default mime type will not break the web server because modern frameworks like Angular just work with \ac{JS} files.

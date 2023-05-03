@@ -1,4 +1,4 @@
-\section{Built a mechanism that reduces the size of queries}\label{section:applied-methods:query-reduction}
+\section{Query reduction functionality}\label{section:applied-methods:query-reduction}
 
 After implementing the shared caching layer, the next step was to improve the performance of the micro-frontends by optimizing the use of the cache. The size of the network requests can be reduced by removing parts of a query that are already inside the cache. The theory behind removing fields from the query was already explained in Section \ref{subsection:background:graphql:query-reduction}. The Apollo Client does not provide such a functionality out of the box, but many users request the feature in Apollo's Github Repository. Section \ref{subsubsection:background:graphql:apollo-server-client:in-memory-cache-working} explains how the \texttt{InMemoryCache} of Apollo Client works in more detail. Briefly summarized the caching works with the name and the parameters of a GraphQL query. For example, if a query is executed against the GraphQL \ac{API}, the results of the query are cached. If the same query with the same fields is executed again with the same parameters, the results are fetched from the Apollo Client cache. If the query fetches an additional field, not inside the cache, the complete query is sent to the GraphQL \ac{API}. Only if the queried fields are identical the cache data is used. Consequently, identical queries that fetch different fields are always fetched from the server.
 
@@ -8,9 +8,9 @@ After implementing the shared caching layer, the next step was to improve the pe
 
 \ifshowListings
 \begin{listing}[H]
-\begin{minted}{typescript}
+  \begin{minted}[escapeinside=||]{typescript}
 query allUsers {                        query user(id: ID!) {
-  allUsers {                              user(id: id) {
+  allUsers {                              user(id: |\$|id) {
     id                                      id
     username                                username
     email                                   email
@@ -18,8 +18,8 @@ query allUsers {                        query user(id: ID!) {
     secondName                              secondName
   }                                       }
 }                                      }
-\end{minted}
-\caption{Compare the fields between the \texttt{allUsers} and \texttt{User} query.}\label{code:applied-methods:compare-allusers-user-query}
+  \end{minted}
+  \caption{Compare the fields between the \texttt{allUsers} and \texttt{User} query.}\label{code:applied-methods:compare-allusers-user-query}
 \end{listing}
 \fi
 
@@ -31,7 +31,7 @@ query allUsers {                        query user(id: ID!) {
 
 \ifshowListings
 \begin{listing}[H]
-\begin{minted}{typescript}
+  \begin{minted}{typescript}
 type Query {
   user(id: ID!): User
   allUsers(page: Int, perPage: Int): [User]
@@ -44,8 +44,8 @@ type User {
   secondName: String!
   ...
 }
-\end{minted}
-\caption{An excerpt of the prototypes GraphQL schema.}\label{code:applied-methods:query-reduction:graphql-schema}
+  \end{minted}
+  \caption{An excerpt of the prototypes GraphQL schema.}\label{code:applied-methods:query-reduction:graphql-schema}
 \end{listing}
 \fi
 
@@ -54,7 +54,7 @@ type User {
 
 \ifshowListings
 \begin{listing}[H]
-\begin{minted}{typescript}
+  \begin{minted}{typescript}
 new ApolloClient({
   cache: new InMemoryCache({ typePolicies: { Query: { fields: {
     User: {
@@ -64,7 +64,7 @@ new ApolloClient({
     }
   }}}})
 });
-\end{minted}
+  \end{minted}
 \caption{A cache-redirect for the User-type.}\label{code:applied-methods:query-reduction:user-cache-redirect}
 \end{listing}
 \fi

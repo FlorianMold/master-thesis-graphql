@@ -1,32 +1,32 @@
 \section{Implementing a prototypical micro-frontend architecture}\label{section:applied-methods:prototypical-implementation}
 
-A prototypical micro-frontend architecture was implemented to evaluate the research questions. The architecture was developed to lay the groundwork for later use in a production environment. The micro-frontends are integrated using client-side integration, more precisely, run-time integration. The integration strategy was implemented with Webpack's Module Federation, which was described in more detail in Section \ref{subsection:background:micro-frontend:module-federation}. The central part of the implementation is written in Angular. One micro-frontend was implemented in React to showcase the technology agnosticism of the architecture. The prototype contains a single application shell that loads all other micro-frontends. The architecture is divided into nine widgets that display only simple data and four complex single-page applications. The four \acp{SPA} are Dashboard, Contact, Sales, and User.
+The first step was to implement a prototypical micro-frontend application to evaluate the hypothesis. The base architecture was developed to lay the groundwork for later use in a production environment. The micro-frontends are integrated using client-side integration, more precisely, run-time integration. The integration strategy was implemented with Webpack's Module Federation, which was described in more detail in Section \ref{subsection:background:micro-frontend:module-federation}. The majority of the implementation is written in Angular. One micro-frontend was implemented in React to showcase the technology agnosticism of the caching strategy. The prototype contains an application shell that consumes the other micro-frontends. The architecture is divided into nine widgets that display only simple data and four complex single-page applications. The four \acp{SPA} are Dashboard, Contact, Sales, and User.
 
 \bigskip
 
-\noindent Nx from the company Nwrl is used for managing multiple micro-frontends and libraries. The critical feature of Nx is the support for monorepos, which is the perfect match for micro-frontend applications. It offers support for almost any frontend framework and can be customized by plugins. Multiple related projects can be managed in a single workspace. Additionally, it helps that every project uses the same version of a dependency across the workspace. Besides, Nx offers helper functions for working with Module Federation in micro-frontends. \cite{misc:-:applied-methods:intro-to-nx}
+\noindent The library Nx from the company Nwrl is used for managing the micro-frontends and libraries in a single monorepo. An essential feature of Nx is the support for monorepos, which is the perfect match for managing micro-frontend applications. It offers support and tooling for almost any \ac{JS} framework and can be customized with plugins. Multiple related projects can be managed in a single workspace. Additionally, it ensures that every project uses the same version of a dependency across the workspace. Besides, Nx offers helper functions for working with Module Federation in micro-frontends. \cite{misc:-:applied-methods:intro-to-nx}
 
 \bigskip
 
-\noindent A rough overview of the architecture is shown in Figure \ref{fig:applied-methods:prototype-micro-frontend-architecture}. It also shows a wireframe of how the structure of the application is looking. The icons inside the squares represent the \ac{JS} Framework used. Each widget is a separate application that exposes a remote module through Module Federation, which is consumed by the Dashboard micro-frontend.
+\noindent A rough overview of the architecture is shown in Figure \ref{fig:applied-methods:prototype-micro-frontend-architecture}. It shows a wireframe of the structure of the application. The icons inside the squares represent the \ac{JS} framework used. Each widget is a separate micro-frontend that exposes a remote module through Module Federation, which is then consumed by the Dashboard micro-frontend.
 
 \ifshowImages
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{images/applied-methods/prototypical-implementation/host-architecture.jpg}
-    \caption{The architecture of the micro-frontend prototype.}\label{fig:applied-methods:prototype-micro-frontend-architecture}
+  \centering
+  \includegraphics[width=1\linewidth]{images/applied-methods/prototypical-implementation/host-architecture.jpg}
+  \caption{The architecture of the micro-frontend prototype.}\label{fig:applied-methods:prototype-micro-frontend-architecture}
 \end{figure}
 \fi
 
-\noindent Each micro-frontend is deployed separately and is accessible by a unique \ac{URL}. The application shell is the entry point for the end user, and it consumes the Dashboard, Contact, Sales, and User application. The main functionality of the micro-frontends is implemented in modules. The remote modules of the applications can be easily exposed through Module Federation and consumed by the application shell and the standalone applications.
+\noindent Each micro-frontend is deployed separately and is accessible by a separate \ac{URL}. The application shell is the entry point for the client, and it consumes the Dashboard, Contact, Sales, and User application. The main functionality of the micro-frontends is encapsulated in modules. These modules of the applications can be easily accessed through the Module Federation and used by the application shell. The modules are used in exactly the same way in the standalone application.
 
 \bigskip
 
-\noindent The Listing \ref{code:applied-methods:module-federation-config-expose} shows the configuration of the contact micro-frontend to expose its primary implementation through module federation in the form of the \texttt{entry.module}. The configuration of the other micro-frontends looks similar. The properties of the module-federation plugin were already discussed in the Section \ref{subsection:background:micro-frontend:module-federation}. All Angular- and Apollo- dependencies are specified to be shared across all micro-frontends. Sharing the dependencies ensures that all micro-frontends use the same version of the dependencies. In the Listing \ref{code:applied-methods:module-federation-config-expose}, the versions of the dependencies are written out. Inside the application, the versions are read from the \texttt{package.json} to ensure consistency. The versions are also important later to ensure the caching layer works correctly.
+\noindent The Listing \ref{code:applied-methods:module-federation-config-expose} shows the configuration of the contact micro-frontend to expose its primary implementation through module federation in the form of the \texttt{entry.module}. The configuration of the other micro-frontends looks similar. The properties of the module-federation plugin were already discussed in Section \ref{subsection:background:micro-frontend:module-federation}. All Angular- and Apollo- dependencies are specified to be shared across all micro-frontends. Sharing the dependencies ensures that all micro-frontends use the same and only one version of the dependencies. Listing \ref{code:applied-methods:module-federation-config-expose}, the versions of the dependencies are explicitly specified. Inside the prototype, the versions are read from the root \texttt{package.json} to ensure consistency with the installed versions.
 
 \ifshowListings
 \begin{listing}[H]
-    \begin{minted}{typescript}
+  \begin{minted}{typescript}
 module.exports = {
   name: 'contact',
   exposes: {
@@ -43,16 +43,16 @@ module.exports = {
     ...
   ]
 };
-    \end{minted}
-    \caption{The Module Federation configuration to expose the contact's functionality.}\label{code:applied-methods:module-federation-config-expose}
+  \end{minted}
+  \caption{The Module Federation configuration to expose the contact's functionality.}\label{code:applied-methods:module-federation-config-expose}
 \end{listing}
 \fi
 
-\noindent The application shell can be configured to consume the remote modules listed inside the remotes-object. The configuration to consume the four micro-frontends of the architecture can be seen in the Listing \ref{code:applied-methods:module-federation-config-consume}. With this configuration, the application-shell consumes the \texttt{entry.module} of the remote applications, which were exposed with the configuration from Listing \ref{code:applied-methods:module-federation-config-expose}. Like in the configuration of the remote modules, the application shell must also share all dependencies. Sharing the dependencies is needed so that the micro-frontends can load their runtime dependencies from the application shell and use the same dependency version.
+\noindent The application shell is configured to consume the remote modules listed inside the \texttt{remotes}-object. The configuration to consume the four micro-frontends of the architecture can be seen in the Listing \ref{code:applied-methods:module-federation-config-consume}. This configuration allows the application-shell to consume the \texttt{entry.module} of the remote applications, which were exposed before with the configuration from Listing \ref{code:applied-methods:module-federation-config-expose}. As with the remote module configuration, the application shell shares the same dependencies. Dependency sharing is required so that micro-frontends can load their runtime dependencies from the application shell and use the same dependency version.
 
 \ifshowListings
 \begin{listing}[H]
-    \begin{minted}{typescript}
+  \begin{minted}{typescript}
 module.exports = {
   name: 'host',
   remotes: {
@@ -72,12 +72,12 @@ module.exports = {
     ...
   }
 };
-    \end{minted}
-    \caption{The configuration of the application-shell to be able to consume micro-frontends.}\label{code:applied-methods:module-federation-config-consume}
+  \end{minted}
+  \caption{The configuration of the application-shell to be able to consume micro-frontends.}\label{code:applied-methods:module-federation-config-consume}
 \end{listing}
 \fi
 
-\noindent With the help of the Module Federation configuration, the application shell can load the remote modules. The remote modules are loaded asynchronously and can be referenced by the host application. The Listing \ref{code:applied-methods:angular-route-to-remote-module} shows the route configuration to the contact micro-frontend using the Angular router. Nx offers helper methods like \texttt{loadRemoteModule} for Module Federation to load remote modules into the routes of the application shell. The prototype of the application shell shows one micro-frontend per route.
+\noindent Using the Module Federation configuration from Listing \ref{code:applied-methods:module-federation-config-consume}, the application shell can load and display the remote modules. Listing \ref{code:applied-methods:angular-route-to-remote-module} shows the route configuration for displaying the contact micro-frontend using Angular's router. Nx offers helper methods like \texttt{loadRemoteModule} for Module Federation to load remote modules into a route of the application shell. The application shell follows the approach of showing one micro-frontend per route. The dashboard on the other hand displays multiple micro-frontend widgets on a page.
 
 \ifshowListings
 \begin{listing}[H]

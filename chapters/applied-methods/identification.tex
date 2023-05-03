@@ -1,13 +1,16 @@
 \section{Identification of micro-frontends}\label{section:applied-methods:identification-micro-frontends}
 
-The first step before starting to implement the micro-frontend architecture was to identify the parts of the legacy application that should be extracted into microservices and micro-frontends. The legacy application is a large software monolith with a single database. In collaboration with the product owner, parts of the legacy application were identified as candidates for micro-frontends. The user interface of the old implementation is also one large application.
+The first step before starting to implement the micro-frontend architecture was to identify the parts of the legacy application that should be extracted into microservices and micro-frontends. The application is a large software monolith with a single database. In collaboration with the product owner, parts of the legacy application were identified as candidates for micro-frontends. 
+
+The user interface of the old implementation is also one large application.
 
 \bigskip
 
-\noindent The complete application can't be prototyped at once, so the first three bounded contexts that were identified are: 
+\noindent The complete legacy application can't be prototyped in the course of this master-thesis, therefore the three most important bounded contexts were identified. The bounded contexts are the following:
 
 \begin{itemize}
   \item User
   \item Sales
   \item Contact
+  \item Dashboard
 \end{itemize}
