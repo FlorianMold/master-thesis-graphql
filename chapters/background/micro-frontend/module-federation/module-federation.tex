@@ -1,49 +1,46 @@
 \subsection{Module Federation}\label{subsection:background:micro-frontend:module-federation}
 
-Webpack 5 introduced a new native plugin called Module Federation. Module Federation allows chunks of \ac{JS} code to be loaded synchronously or asynchronously, allowing multiple teams to work in isolation and take care of the application composition, lazy-loading different \ac{JS} chunks behind the scenes. \cite[81]{book:2021:mezzalira:applied-methods:building-micro-frontends}
+Webpack 5 introduced a new native plugin called Module Federation. Module Federation allows chunks of \ac{JS} code to be loaded synchronously or asynchronously during runtime, allowing multiple teams to work in isolation and take care of the application composition. Lazy-loading different \ac{JS} chunks take place behind the scenes. \cite[81]{book:2021:mezzalira:applied-methods:building-micro-frontends}
 
 \bigskip
 
-\noindent Typically a module-federation application is composed of two parts: \cite[81]{book:2021:mezzalira:applied-methods:building-micro-frontends}
+\noindent Typically a module-federation application consists of two parts: \cite[81]{book:2021:mezzalira:applied-methods:building-micro-frontends}
 
 \begin{itemize}
-    \item The \texttt{host}, which is the main application that is responsible for loading the remote micro-frontends or libraries.
-    \item The \texttt{remote}, which is either a micro-frontend or library, is loaded by the host application. A remote can expose multiple modules that can be lazy-loaded inside the application.
+  \item The \texttt{host}, which is the main application is therefore responsible for loading the remote micro-frontends or libraries.
+  \item The \texttt{remote}, which is either a micro-frontend or library, is consumed by the host. A remote can expose multiple modules that can be lazy-loaded inside the application.
 \end{itemize}
 
-\noindent Exposing micro-frontends or libraries with Module Federation is very simple, and developers can import the remote micro-frontends and compose the view just as needed. Another essential feature of Webpack for micro-frontend architectures is sharing external libraries across all distributed applications. The libraries should be shared across multiple micro-frontends, and Module Federation will take care to load only one version. For example, if all micro-frontends use Angular 15. Inside Module Federation's configuration, the shared dependencies' versions need to be specified.
-\noindent Moreover, at compile time, Webpack will load only one version of Angular for all micro-frontends that will consume it. Working with different versions of the same library is also possible, and Module Federation will put each version in a different scope to avoid clashes at runtime. Module Federation is not just limited to the client but is also viable if the application is rendered on the server. \cite[82-83]{book:2021:mezzalira:applied-methods:building-micro-frontends}
+\noindent Exposing micro-frontends or libraries with Module Federation is very simple, and developers can import the remote micro-frontends and compose the view as they would with normal modules. Another essential feature of Module Federation for micro-frontend architectures is the possibility of sharing the same instance of external dependencies across all micro-frontends. If a library should be shared across multiple micro-frontends, Module Federation will make sure to load only one instance. For example, if all micro-frontends should use version 15 of Angular, the version of the shared dependency has to be specified in the Module Federation configuration. At run time, Webpack will load only one version of Angular for all micro-frontends that use it. Working with different versions of the same library is also possible, and Module Federation will put each version in a different scope to avoid clashes at runtime. Module Federation is not just limited to the client but is also viable if the application is rendered on the server. \cite[82-83]{book:2021:mezzalira:applied-methods:building-micro-frontends}
 
 \subsubsection{Performance}\label{subsubsection:background:micro-frontend:module-federation:performance}
 
-Image multiple teams working on the same application. Each team owns a single micro-frontend, and the teams have agreed to use the same \ac{UI} component library for the entire application. These libraries can be automatically shared with Module Federation, and they will be loaded only once at the beginning of the project. Dynamic Module Federation allows the micro-frontends to be loaded dynamically as well. \cite[83]{book:2021:mezzalira:applied-methods:building-micro-frontends}
+Image multiple teams working on the same application. Each team develops one or more micro-frontend, and the teams have agreed to use the same \ac{UI} component libraries for the micro-frontend architecture. These libraries can be automatically shared with Module Federation, and they will be loaded only once at the beginning of the project, therefore all projects have the same version of the \ac{UI} components. Using only one instance of a dependency for multiple applications saves the browser from downloading a large \ac{JS} bundle. Module Federation can also load new micro-frontends during runtime, instead of defining them all in the configuration. \cite[83]{book:2021:mezzalira:applied-methods:building-micro-frontends}
 
 \subsubsection{Composition}\label{subsubsection:background:micro-frontend:module-federation:composition}
 
-Using Module Federation is as easy as importing external \ac{JS} chunks lazy-loaded. Lazy loading describes a technique, that defers the loading of resources until they are needed. The technique is especially important in web development to reduce the time until a page is rendered initially. Resources like images are loaded only when they are visible on the screen. The Composition occurs at runtime on the client side, when an application shell is used for loading different micro-frontends, or on the server when a server-side rendered application is used. \cite[84]{book:2021:mezzalira:applied-methods:building-micro-frontends}
+Using Module Federation is as easy as importing external \ac{JS} chunks lazy-loaded inside a project. Lazy loading describes a technique, that defers the loading of resources until they are needed. The technique is especially important in web development to reduce the time until a page is rendered initially. Resources like images are loaded only when they are visible on the screen. The composition of applications occurs on the client side at runtime, when an application shell is used for loading different micro-frontends, or on the server when a server-side rendered application is used. \cite[84]{book:2021:mezzalira:applied-methods:building-micro-frontends}
 
 \subsubsection{Shared code}\label{subsubsection:background:micro-frontend:module-federation:shared-code}
 
-Module Federation makes sharing code between multiple teams very easy. Module federation allows sharing code between multiple micro-frontends bidirectional. This plugin flattens the hierarchy between the application shell and the remote micro-frontends.
-
-\noindent Unidirectional implementation brings several advantages such as the following: \cite[84]{book:2021:mezzalira:applied-methods:building-micro-frontends}
+Module Federation makes sharing code between multiple teams very easy. Module federation allows sharing code between multiple micro-frontends bidirectional. This Webpack plugin flattens the hierarchy between the application shell and the remote micro-frontends. But sharing code from micro-frontends to the host application is discouraged because a unidirectional implementation brings several advantages such as the following: \cite[84]{book:2021:mezzalira:applied-methods:building-micro-frontends}
 
 \begin{itemize}
-    \item The code is easier to debug, as the location of the code is known.
-    \item It is less prone to errors, and the code communicates in controllable ways.
-    \item It is more efficient, as the micro-frontend knows the boundaries of each part of the system.
+  \item The code is easier to debug, as the location of the code is known.
+  \item It is less prone to errors, and the code communicates in controllable ways.
+  \item It is more efficient, as the micro-frontend knows the boundaries of each part of the application.
 \end{itemize}
 
 \subsubsection{Module Federation 101}\label{subsubsection:background:micro-frontend:module-federation:101}
 
-Module Federation allows a \ac{JS} application can dynamically load and run code from another bundle. Module Federation provides two key concepts that are very important before working with it. \cite[118-119]{book:2021:mezzalira:applied-methods:building-micro-frontends}
+Module Federation allows a \ac{JS} application to dynamically load and run code from another bundle. Module Federation provides two key concepts that are very important before working with it. \cite[118-119]{book:2021:mezzalira:applied-methods:building-micro-frontends}
 
 \begin{itemize}
-    \item \texttt{Host}: The container loads the shared libraries and micro-frontends at runtime.
-    \item \texttt{Remote}: The bundle that should be consumed by the application shell.
+    \item \texttt{Host}: The host is the that container loads the shared libraries and micro-frontends at runtime.
+    \item \texttt{Remote}: The bundle that should be consumed by the host.
 \end{itemize}
 
-\noindent Figure \ref{fig:background:micro-frontend:module-federation:module-federation-architecture} shows a host application that loads multiple remotes. The host is the application shell, whereas a remote is a micro-frontend.
+\noindent Figure \ref{fig:background:micro-frontend:module-federation:module-federation-architecture} shows a host application that loads multiple remotes. The host is also called an application shell, whereas a remote is a micro-frontend.
 
 \ifshowImages
 \begin{figure}[H]
@@ -58,11 +55,11 @@ Module Federation allows a \ac{JS} application can dynamically load and run code
 
 \subsubsection{Configuring Module Federation}\label{subsubsection:background:micro-frontend:module-federation:configuring-module-federation}
 
-Configuring module federation is done inside the Webpack configuration files. Listing \ref{fig:background:micro-frontend:module-federation:configuring-module-federation} shows the configuration of the host application.
+Configuring module federation is done inside Webpack's configuration file. Listing \ref{fig:background:micro-frontend:module-federation:configuring-module-federation} shows the configuration of the host application.
 
 \ifshowListings
 \begin{listing}[H]
-    \begin{minted}{typescript}
+  \begin{minted}{typescript}
 plugins: [
   new ModuleFederationPlugin({
     name: 'Host',
@@ -79,21 +76,21 @@ plugins: [
     ]
   })
 ]
-    \end{minted}
-    \caption{Configuring Module Federation for the application shell.}\label{fig:background:micro-frontend:module-federation:configuring-module-federation}
+  \end{minted}
+  \caption{Configuring Module Federation for the application shell.}\label{fig:background:micro-frontend:module-federation:configuring-module-federation}
 \end{listing}
 \fi
 
-\noindent First, the \texttt{name} has to be defined, in this case, \texttt{Host}. The \texttt{remote} modules that should be loadable into the Host inside the remotes object must be specified. Every remote consists of an ID and an associated \ac{URL} where the \texttt{remoteEntry.js} contains a map of all \ac{JS} chunks for the micro-frontend that should be fetched. These two values are separated through an \texttt{@} symbol. \cite[124]{book:2021:mezzalira:applied-methods:building-micro-frontends}
+\noindent First, the \texttt{name} of the application has to be defined, in this case, \texttt{Host}. The \texttt{remotes}-object specifies the modules that should be consumable by the host. Every remote consists of an ID and an associated \ac{URL} and the \texttt{remoteEntry.js} contains a map of all \ac{JS} chunks for the micro-frontend that should be fetched. These two values are separated through an \texttt{@} symbol. \cite[124]{book:2021:mezzalira:applied-methods:building-micro-frontends}
 
 \bigskip
 
-\noindent For example, the contact micro-frontend has the ID \texttt{Contact} and a local \ac{URL} like \texttt{http:\slash \slash localhost:4201\slash remoteEntry.js}. If the host loads the contact micro-frontend, Module Federation will fetch the \texttt{remoteEntry.js} file to understand which \ac{JS} chunks should be loaded and which dependencies should be shared between all micro-frontends. \cite[125]{book:2021:mezzalira:applied-methods:building-micro-frontends}
+\noindent For example, the contact micro-frontend has the ID \texttt{Contact} and the \ac{URL} \texttt{http:\slash \slash localhost:4201\slash remoteEntry.js}. If the host loads the contact micro-frontend, Module Federation will fetch the \texttt{remoteEntry.js} file to understand which \ac{JS} chunks should be loaded and which dependencies should be shared between all micro-frontends. \cite[125]{book:2021:mezzalira:applied-methods:building-micro-frontends}
 
 \bigskip
 
-\noindent The \texttt{expose} option can be used to define the functionality that should be consumable by other applications using Module Federation. The \texttt{shared} array contains the libraries, which should be shared across all micro-frontends. With Module Federation, though, the dependencies that should be shared in the remote and application shell must be specified. That can be all dependencies of the micro-frontend and the application shell. Then Webpack and Module Federation will create multiple \ac{JS} files, downloading them only once for every user's session across all micro-frontends. \cite[125]{book:2021:mezzalira:applied-methods:building-micro-frontends}
+\noindent The \texttt{expose} option can be used to define the functionality that should be consumable by other applications using Module Federation. The \texttt{shared} array contains the libraries, which should be shared across all micro-frontends. Module Federation requires specifying the dependencies to be shared with the remote and the application shell. This can be all the dependencies of the micro-frontend and the application shell. Then Webpack and Module Federation will create multiple \ac{JS} files containing the dependencies, downloading them only once for the user's session across all micro-frontends. \cite[125]{book:2021:mezzalira:applied-methods:building-micro-frontends}
 
 \bigskip
 
-\noindent As shown inside the \texttt{shared}-array in Listing \ref{fig:background:micro-frontend:module-federation:configuring-module-federation}, a part of the libraries that should be shared is listed. How the dependencies are shared can be configured in many ways. The property \texttt{singleton} only loads the library once. The dependencies that are exposed through Module Federation can be loaded synchronously or asynchronously through the \texttt{eager} property. It is recommended to load the dependencies asynchronously, as the application can be loaded faster. With \texttt{requiredVersion} the version of the library can be configured. These are only some of the configuration properties available, and many more exist. \cite[125]{book:2021:mezzalira:applied-methods:building-micro-frontends}
+\noindent As shown inside the \texttt{shared}-array in Listing \ref{fig:background:micro-frontend:module-federation:configuring-module-federation}, a part of the libraries that should be shared is listed. How the dependencies are shared can be configured in many ways. The property \texttt{singleton} allows the library to be only loaded once. The dependencies that are exposed through Module Federation can be loaded synchronously or asynchronously through the \texttt{eager} property. It is recommended to load the dependencies asynchronously, as the application can be loaded faster. With \texttt{requiredVersion} the required version of the library can be configured. If the version is different, Module Federation throws an error. These are only some of the configuration properties available, and many more exist. \cite[125]{book:2021:mezzalira:applied-methods:building-micro-frontends}
