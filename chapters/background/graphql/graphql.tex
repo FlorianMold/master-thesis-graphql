@@ -1,6 +1,6 @@
 \section{GraphQL}\label{section:background:graphql}
 
-GraphQL was initially developed by Facebook and refers to itself as the query language for \acp{API}. It allows the client to ask precisely for the data fields necessary. GraphQL offers the advantage that all requests can be fetched from only one \ac{URL}. With the help of data types within the GraphQL schema, the technology offers an understandable implicit description of the \ac{API} for clients. \cite{misc:-:background:graphql:graphql-org} The functionality of GraphQL can be compared to \ac{SQL} for databases. The client writes its queries with the desired fields from a query.
+GraphQL was initially developed by Facebook and refers to itself as the query language for \acp{API}. It allows the client to ask precisely for the data fields necessary. GraphQL offers the advantage that all requests can be fetched from only one endpoint. Data types provide an understandable implicit description of \ac{API} for consumers within the GraphQL schema. \cite{misc:-:background:graphql:graphql-org} The functionality of GraphQL can be compared to \ac{SQL} for databases. The client writes its queries with the desired fields from a query.
 
 \bigskip
 
@@ -36,7 +36,7 @@ GraphQL helps to reduce the network traffic between the clients and the service 
 
 \bigskip
 
-\noindent The characteristic that GraphQL can query its schema allows service discovery potential. With the help of introspection, GraphQL allows tools like GraphQL Voyager\footnote{\url{https://ivangoncharov.github.io/graphql-voyager/}}, which can be used to visualize the schema in an \ac{UML} class diagram style. Other tools like GraphiQL\footnote{\url{https://github.com/graphql/graphiql}} can be used to analyze the schema and run queries. The functionality of such tools is explained in more detail in Section \ref{subsection:background:graphql:apollo-server-client}. \ac{REST} provides the same functionality to some degree, but additional tooling is needed because \ac{REST} cannot generate specification files.
+\noindent The characteristic that GraphQL can query its schema allows service discovery potential. Introspection allows GraphQL tools like GraphQL Voyager\footnote{\url{https://ivangoncharov.github.io/graphql-voyager/}} to visualize the schema in an \ac{UML} class diagram style. Other tools like GraphiQL\footnote{\url{https://github.com/graphql/graphiql}} can be used to analyze the schema and run queries. The functionality of such tools is explained in more detail in Section \ref{subsection:background:graphql:apollo-server-client}. \ac{REST} provides the same functionality to some degree, but additional tooling is needed because \ac{REST} cannot generate specification files.
 
 \subsection{Disadvantages}\label{subsection:background:graphql:graphql-disadvantages}
 
