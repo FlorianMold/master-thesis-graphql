@@ -1,24 +1,24 @@
 \section{Communication patterns}\label{section:applied-methods:communication-shell-remote}
 
-The next step was to implement a form of communication between the application shell and the micro-frontends. Apollo Client's cache should be used to increase the performance of the micro-frontend architecture. Therefore, the application shell and the micro-frontends must share the same instance of the in-memory cache. How the in-memory cache works is described in section  \ref{subsubsection:background:graphql:apollo-server-client:in-memory-cache-working}. The application shell must provide the cache instance to the micro-frontends to create a shared caching layer. The implementation details will be explained in Section \ref{section:applied-methods:shared-caching-layer} in more detail. This section focuses on communication between the application shell and the micro-frontends.
+The next step was to implement some form of communication between the application shell and the micro-frontends. This section focuses on the communication strategy implemented through injection tokens between the application shell and the micro-frontends. To further explain the communication, the integration of the layout will be used as an example of this pattern.
 
 \bigskip
 
-\noindent To allow parallel development and deployment of micro-frontends, it is necessary that their implementation stays as independent as possible. Two micro-frontends should not communicate with each other directly, as it creates a tight coupling. Instead, it is better that one micro-frontend communicates to the other micro-frontends by publishing events to a central event bus, and the other micro-frontends subscribe to the events. This pattern is known as publish/subscribe mechanism. Alternatively, the application shell orchestrates the communication of the micro-frontends. One micro-frontend emits an event, and the application shell intercepts that. The application shell propagates the event to the target micro-frontend afterwards. This approach drastically reduces the coupling between micro-frontends. No micro-frontend needs information about the other remote applications, allowing for parallel development.
+\noindent To allow parallel development and deployment of micro-frontends, it is necessary that their implementation is as independent as possible. Two micro-frontends should not communicate directly with each other, as it creates a tight coupling. Instead, it is better that one micro-frontend communicates indirectly to the other micro-frontends by publishing events to a central event bus, and the other micro-frontends are subscribed to the events. This pattern is known as publish/subscribe mechanism. Alternatively, the application shell orchestrates the communication of the micro-frontends. One micro-frontend emits an event, which the application shell intercepts. The application shell propagates the event to the target micro-frontend afterwards. This approach drastically reduces the coupling between micro-frontends. The micro-frontend does not need implementation details about the other micro-frontends, allowing for parallel development.
 
 \bigskip
 
-\noindent As explained in Section \ref{subsection:background:micro-frontend:communication-patterns} three distinct types of communication exist between micro-frontends and the application shell. Angular provides an excellent feature for implementing unidirectional communication between micro-frontends, namely \ac{DI}. The application shell can provide services that remote applications can inject. An Angular injection token was created to implement specific behavior if an application runs in standalone mode or is consumed by an application shell.
+\noindent As explained in Section \ref{subsection:background:micro-frontend:communication-patterns} three distinct types of communication can be used between micro-frontends and the application shell. Angular provides an excellent feature for implementing unidirectional communication between micro-frontends, namely \ac{DI}. The application shell can provide services that the micro-frontends can inject. An Angular injection token was created to implement certain behavior if an application runs in standalone mode or is run through an application shell.
 
-\noindent An injection Token can be used to define a dependency that should be injectable into a class. The can be of any value, but the injected type is usually not reified, which means that it is not available at runtime. \cite{misc:-:applied-methods:communication:angular-injection-token}
+\noindent An injection token can be used to define a dependency that should be injectable into a class. The token can be of any value, but the injected type is usually not reified, which means that it is not available at runtime. \cite{misc:-:applied-methods:communication:angular-injection-token}
 
 
 \bigskip
 
-\noindent The following paragraph describes the usage of the token inside the contact application, but the usage is the same for every micro-frontend inside the architecture. The definition and the usage of the token is shown in the Listing \ref{code:applied-methods:communication-patterns:providing-native-configuration}. The core module inside the contact application provides the token, which specifies that if the token can be injected, the application runs in standalone mode. The token is used by the contact's feature module, which is also the module that is exposed via Module Federation. The contact remote module injects the token to run additional logic if the application shell consumes it. The application shell does not need to provide the injection token because the logic is not executed if it is not defined.
+\noindent The following paragraph describes the usage of the injection token inside the contact application, however, the usage is the same for every micro-frontend inside the architecture. The definition and the usage of the token is shown in Listing \ref{code:applied-methods:communication-patterns:providing-native-configuration}. The core module within the contact application provides the value for the token indicating that the application is running in standalone mode when the token can be injected. The token is injected by the contact's feature module, which is the module exposed via Module Federation. The module injects the token to run additional logic, it is consumed by the application shell. The application shell does not need to provide the injection token because the logic is not executed if the token is not defined.
 
 \ifshowListings
-  \begin{listing}[H]
+\begin{listing}[H]
   \begin{minted}{typescript}
 
 const CONTACT_NATIVE_ENVIRONMENT = 
@@ -31,10 +31,10 @@ const CONTACT_NATIVE_ENVIRONMENT =
 class ContactCoreModule {}
   \end{minted}
   \caption{Provide the application with the \texttt{CONTACT\_NATIVE\_ENVIRONMENT} injection token.}\label{code:applied-methods:communication-patterns:providing-native-configuration}
-  \end{listing}
+\end{listing}
 \fi
 
-\noindent One requirement was that the remote applications should be able to integrate their navigation into the application shell. The rough structure of the requirement is shown in the Figure \ref{fig:applied-methods:communication-patterns:comparison-between-host-and-contact-layout}. Upon loading the contact micro-frontend into the application shell, the navigation for the contact should be created below the navigation of the application shell.
+\noindent A requirement of the architecture is that the remote applications should be able to integrate their navigation nodes into the application shell. The structure of the requirement is shown in Figure \ref{fig:applied-methods:communication-patterns:comparison-between-host-and-contact-layout}. Upon loading the contact micro-frontend in the application shell, the navigation row for the contact should be created below the navigation of the application shell.
 
 \ifshowImages
   \begin{figure}[H]
@@ -44,7 +44,7 @@ class ContactCoreModule {}
   \end{figure}
 \fi
 
-\noindent The application shell has to offer a mechanism to make it possible to integrate the micro-frontend into the layout. A layout service was created that can be injected into the remote modules. The layout-service navigation can register nodes in the header. The logic for registering a second row inside the toolbar is only executed if the remote module is run in a native environment. The difference between the navigation inside the application shell and the contact application can be seen in Figure \ref{fig:applied-methods:communication-patterns:contact-application-header} and \ref{fig:applied-methods:communication-patterns:application-shell-header}. The first figure shows the navigation inside the contact micro-frontend to create a new contact. The second figure shows the navigation of the application shell, which incorporates the navigation of the contact micro-frontend. It has two toolbar rows. The first row is the navigation of the application shell, which links to the different micro-frontends. The second row is the navigation of the contact micro-frontend, which is only shown if the contact micro-frontend is loaded into the application shell.
+\noindent Therefore, the application shell has to offer a mechanism to make it possible to integrate the micro-frontend navigation into the layout. To simplify the procedure, a layout service was created that can be injected by the micro-frontends. The layout service can register a second navigation row in the header. The logic for registering a second row inside the navigation is only executed if the micro-frontend is executed in the application shell. The difference between the navigation inside the application shell and the contact application can be seen in Figure \ref{fig:applied-methods:communication-patterns:contact-application-header} and \ref{fig:applied-methods:communication-patterns:application-shell-header}. The first figure shows the navigation row inside the contact micro-frontend. The second figure shows the navigation of the application shell, which incorporates the navigation of the contact micro-frontend in the second navigation row. The first row contains the navigation of the application shell, which links to the different micro-frontends. The second row is the navigation of the contact micro-frontend, which is only shown if the contact micro-frontend is currently active.
 
 \ifshowImages
   \begin{figure}[H]
@@ -62,10 +62,10 @@ class ContactCoreModule {}
   \end{figure}
 \fi
 
-\noindent Some form of initialization logic has to be executed when the micro-frontend is rendered inside the application shell. This initialization logic should register the second navigation toolbar. Upon loading the micro-frontend, the second row of the navigation is registered, and it is removed upon navigating away from the micro-frontend. The initialization logic is only executed if the application is not running in a native environment. The workflow of registering and removing the second toolbar row is shown in the Listing \ref{code:applied-methods:communication-patterns:initialization-logic-micro-frontend}.
+\noindent Initialization logic has to be executed when a micro-frontend is rendered inside the application shell. This initialization logic registers the second navigation toolbar. Upon navigating to a micro-frontend, the second navigation row is registered, and it is removed upon navigating away from the micro-frontend. The initialization steps are only executed if the micro-frontend is running inside the application shell. A part of the workflow to register and remove the second toolbar row is shown in the Listing \ref{code:applied-methods:communication-patterns:initialization-logic-micro-frontend}.
 
 \ifshowListings
-  \begin{listing}[H]
+\begin{listing}[H]
   \begin{minted}{typescript}
 private isNative = inject(CONTACT_NATIVE_ENVIRONMENT, { optional: true });
 private layoutService = inject(LayoutService);
@@ -82,7 +82,7 @@ ngOnDestroy() {
 }
   \end{minted}
   \caption{An part of the initialization process of a micro-frontend.}\label{code:applied-methods:communication-patterns:initialization-logic-micro-frontend}
-  \end{listing}
+\end{listing}
 \fi
 
 \input{chapters/applied-methods/communication-patterns/layout-integration.tex}

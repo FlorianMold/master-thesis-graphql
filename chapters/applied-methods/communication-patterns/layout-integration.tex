@@ -1,26 +1,23 @@
 \subsection{Layout integration}\label{subsection:applied-methods:communication-patterns:layout-integration}
 
-At first, it was troublesome to integrate the remote module into the layout. Therefore the layout service was created with the \texttt{forRoot} and \texttt{forChild} pattern. This pattern typically provides different configuration options for a feature module.
-
-\bigskip
-
-\noindent Here's how it works:
+This section describes how to integrate a micro-frontend into the application shell layout. To provide micro-frontends with the functionality of integrating their navigation into the layout, the \texttt{LayoutModule} was created using the \texttt{forRoot} and \texttt{forChild} pattern to achieve this goal. Here's how the pattern works:
 
 \begin{itemize}
-  \item The \texttt{forRoot} function is typically called in the application root module to provide configuration options for a global feature module to the entire application. This method usually returns a module with all providers available globally.
+  \item The \texttt{forRoot} function is typically called in the application root module to provide configuration options for the module to the entire application. This method usually returns a module with all providers available globally.
   \item The \texttt{forChild} function is called in a child module that imports the feature module to provide configuration options that are specific to that module. This method usually returns a module with providers only available to components and services within that child module.
 \end{itemize}
 
 \noindent The Listing \ref{code:applied-methods:communication-patterns:layout-module} shows the implementation of the \texttt{forRoot} and \texttt{forChild} pattern inside the layout-module.
 
 \ifshowListings
-  \begin{listing}[H]
+\begin{listing}[H]
   \begin{minted}{typescript}
+@NgModule({...})
 class LayoutModule {
   static forRoot(): ModuleWithProviders<LayoutModule> {
     return {
       ngModule: LayoutModule,
-      providers: [LayoutNavigationService, LayoutTemplateService],
+      providers: [LayoutNavigationService, LayoutTemplateService]
     };
   }
 
@@ -30,13 +27,13 @@ class LayoutModule {
 }
   \end{minted}
   \caption{The implementation of \texttt{forRoot} and \texttt{forChild} inside the layout module.}\label{code:applied-methods:communication-patterns:layout-module}
-  \end{listing}
+\end{listing}
 \fi
 
-\noindent This approach allows the \texttt{LayoutNavigationService}- and \texttt{LayoutTemplateService}-services available in the root injector. These services can be used to register navigation nodes and templates inside the header. The \texttt{LayoutModule.forChild()} can be used where the components and directives of the layout are needed. Providing the \texttt{LayoutModule} in the root module is shown in the Listing \ref{code:applied-methods:communication-patterns:importing-the-root-layout-module}
+\noindent This approach allows the \texttt{LayoutNavigationService}- and \texttt{LayoutTemplateService}-services to be available as a singleton in the root injector. These services are used to register navigation nodes or templates inside the header. The \texttt{LayoutModule.forChild()} function is used where the components and directives of the \texttt{LayoutModule} are needed. To provide the \texttt{LayoutModule.forRoot()} and its service to the root injector import them in a root module, as shown in Listing \ref{code:applied-methods:communication-patterns:importing-the-root-layout-module}.
 
 \ifshowListings
-  \begin{listing}[H]
+\begin{listing}[H]
   \begin{minted}{typescript}
 @NgModule({
   imports: [ LayoutModule.forRoot() ],
@@ -44,5 +41,5 @@ class LayoutModule {
 class ContactCoreModule {}
   \end{minted}
   \caption{Provide the layout services to the root injector.}\label{code:applied-methods:communication-patterns:importing-the-root-layout-module}
-  \end{listing}
+\end{listing}
 \fi

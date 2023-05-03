@@ -40,19 +40,11 @@ GraphQL helps to reduce the network traffic between the clients and the service 
 
 \subsection{Disadvantages}\label{subsection:background:graphql:graphql-disadvantages}
 
-\noindent The advantage that GraphQL reduces complexity on the server is a disadvantage for the client-side application. It leads to higher complexity when consuming GraphQL services compared to \ac{REST}. With \ac{REST}, only an endpoint has to be queried, whereas, with GraphQL, the requested data has to be specified at the field level. However, the introspection abilities of GraphQL allow consumers to understand better the query and data structure, which mitigates the disadvantage. A study \cite{inproceedings:2020:brito:background:graphql:rest-vs-graphql} showed that the study participants found it easier to consume a GraphQL Service than a \ac{REST} Service \cite{inproceedings:2017:de-pauda:background:graphql:handling-anti-patterns}.
+\noindent The advantage that GraphQL reduces complexity on the server is a disadvantage for the client-side application. It leads to higher complexity when consuming GraphQL services compared to \ac{REST}. With \ac{REST}, only an endpoint has to be queried, whereas, with GraphQL, the requested data has to be specified at the field level. However, the introspection abilities of GraphQL allow consumers to understand better the query and data structure, which mitigates the disadvantage. A study \cite{inproceedings:2020:brito:background:graphql:rest-vs-graphql} showed that the study participants found it easier to consume a GraphQL Service than a \ac{REST} Service \cite{inproceedings:2017:de-pauda:background:graphql:handling-anti-patterns}. GraphQL shifts responsibilities from the server to the client, generally done with a gateway. \ac{API} composition can transfer the responsibility from the server to the client.
 
 \bigskip
 
-\noindent GraphQL shifts responsibilities from the server to the client, generally done with a gateway. \ac{API} composition can transfer the responsibility from the server to the client. Depending on the actual use cases, this may lead to situations where several web applications must implement the same arrangement of existing fields.
-% TODO: (look into the paragraph above)
-
-\bigskip
-
-\noindent Allowing the client to specify the structure of a query might make the potential complexity of the query not transparent to the client. With this approach, it might be possible that the client specifies a query which does not complete in a reasonable time or takes up a lot of resources. \cite{book:2018:richardson:background:bff:microservices-patterns}
-
-% TODO: (look into the paragraph above)
-% GraphQL makes it challenging for clients to stay good citizens in a distributed architecture.
+\noindent Allowing the client to specify the structure of a query might make the potential complexity of the query not transparent to the client. The approach makes it possibile that the client may specify a query which does not complete in a reasonable time or takes up a lot of resources. \cite{book:2018:richardson:background:bff:microservices-patterns}
 
 \input{chapters/background/graphql/apollo-client-server}
 
