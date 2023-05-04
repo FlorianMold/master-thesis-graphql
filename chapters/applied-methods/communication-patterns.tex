@@ -1,6 +1,6 @@
 \section{Communication patterns}\label{section:applied-methods:communication-shell-remote}
 
-The next step was to implement some form of communication between the application shell and the micro-frontends. This section focuses on the communication strategy implemented through injection tokens between the application shell and the micro-frontends. To further explain the communication, the integration of the layout will be used as an example of this pattern.
+The next step was to implement some form of communication between the application shell and the micro-frontends. This section focuses on the communication strategy implemented through injection tokens between the application shell and the micro-frontends. To further explain the communication pattern, the integration of the layout will be used as an example of this pattern.
 
 \bigskip
 
@@ -34,7 +34,7 @@ class ContactCoreModule {}
 \end{listing}
 \fi
 
-\noindent A requirement of the architecture is that the remote applications should be able to integrate their navigation nodes into the application shell. The structure of the requirement is shown in Figure \ref{fig:applied-methods:communication-patterns:comparison-between-host-and-contact-layout}. Upon loading the contact micro-frontend in the application shell, the navigation row for the contact should be created below the navigation of the application shell.
+\noindent A requirement of the architecture is that the micro-frontends should be able to integrate their navigation nodes into the application shell. The structure of the requirement is shown in Figure \ref{fig:applied-methods:communication-patterns:comparison-between-host-and-contact-layout}. Upon loading the contact micro-frontend in the application shell, the navigation row for the contact should be created below the navigation of the application shell.
 
 \ifshowImages
   \begin{figure}[H]
@@ -66,19 +66,19 @@ class ContactCoreModule {}
 
 \ifshowListings
 \begin{listing}[H]
-  \begin{minted}{typescript}
-private isNative = inject(CONTACT_NATIVE_ENVIRONMENT, { optional: true });
-private layoutService = inject(LayoutService);
+  \begin{minted}[escapeinside=||]{typescript}
+|#|isNative = inject(CONTACT_NATIVE_ENVIRONMENT, { optional: true });
+|#|layoutService = inject(LayoutService);
 
-init() {
-  const { topNodes } = CONTACT_NAVIGATION;
-  if (!this.isNative)
-    this.layoutService.registerSecondToolbarRow(topNodes);
+init(): void {
+  if (!this.|#|isNative)
+    const { topNodes } = CONTACT_NAVIGATION;
+    this.|#|layoutService.registerSecondToolbarRow(topNodes);
 }
 
-ngOnDestroy() {
-  if (!this.isNative)
-    this.layoutService.unregisterSecondToolbarRow();
+ngOnDestroy(): void {
+  if (!this.|#|isNative)
+    this.|#|layoutService.unregisterSecondToolbarRow();
 }
   \end{minted}
   \caption{An part of the initialization process of a micro-frontend.}\label{code:applied-methods:communication-patterns:initialization-logic-micro-frontend}

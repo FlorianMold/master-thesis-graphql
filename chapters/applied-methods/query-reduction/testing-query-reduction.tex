@@ -1,6 +1,6 @@
 \subsection{Query reduction testing layer}\label{subsection:applied-methods:query-reduction:testing-query-reduction}
 
-The following abstraction, seen in Listing \ref{code:applied-methods:query-reduction:graphql-client} for the GraphQL client, was created to compare the Apollo Client's default behavior with the improved behavior of reducing queries.The \texttt{watchQuery} and \texttt{mutate} functions have the same \ac{API} as Apollo Client's original query and mutate functions. Two implementations (\texttt{ReduceGraphQLClientImpl}, \texttt{GraphQLClientImpl}) were created for the base class \texttt{GraphQLClient}. The \texttt{ReduceGraphQLClientImpl} uses query reduction, while \texttt{GraphQLClientImpl} utilizes the original Apollo Client functions. A switch is used to determine which implementation is created at runtime.
+The abstract class, seen in Listing \ref{code:applied-methods:query-reduction:graphql-client} provides an abstraction for the Apollo Client. The base class was created to make a comparison between Apollo Client's default behavior and the improved behavior of reducing queries. The \texttt{watchQuery} and \texttt{mutate} function have the same \ac{API} as Apollo Client's original \texttt{watchQuery} and \texttt{mutate} functions. Two implementations (\texttt{ReduceGraphQLClientImpl}, \texttt{GraphQLClientImpl}) were created for the base class \texttt{GraphQLClient}. The \texttt{ReduceGraphQLClientImpl} uses query reduction, while \texttt{GraphQLClientImpl} utilizes the original Apollo Client functions. A feature flag is used to determine which implementation is used during runtime.
 
 \ifshowListings
 \begin{listing}[H]
@@ -15,11 +15,11 @@ abstract class GraphQLClient {
   ): Observable<MutationResult<TData>>;
 }
 \end{minted}
-\caption{The abstract base class for the GraphQL client.}\label{code:applied-methods:query-reduction:graphql-client}
+\caption{The abstract base class for the Apollo Client.}\label{code:applied-methods:query-reduction:graphql-client}
 \end{listing}
 \fi
 
-\noindent The switch is implemented as a \ac{DI} token, which can be specified in the applications. The \texttt{REDUCE\_QUERY\_OPTIONS} injection token determines whether the query reduction should be used. The usage of the token is shown in the Listing \ref{code:applied-methods:query-reduction:switch-between-apollo-client-and-query-reduction}. The switch decides whether the \texttt{ReduceGraphQLClientImpl} or \texttt{GraphQLClientImpl} is created. The \texttt{ReduceGraphQLClientImpl} is created when the \texttt{reduceQueries} property is set to \texttt{true}. The provider is specified inside the core module of the application to create the provider globally.
+\noindent The feature flag is implemented as an injection token, which can be provided in the micro-frontends. The \texttt{REDUCE\_QUERY\_OPTIONS} injection token determines whether query reduction is used. The usage of the injection token is shown in the Listing \ref{code:applied-methods:query-reduction:switch-between-apollo-client-and-query-reduction}. The flag decides whether the \texttt{ReduceGraphQLClientImpl} or \texttt{GraphQLClientImpl} is created. The \texttt{ReduceGraphQLClientImpl} is created when the \texttt{reduceQueries} property is set to \texttt{true}, otherwise the \texttt{GraphQLClientImpl} is created.
 
 \ifshowListings
 \begin{listing}[H]
@@ -35,7 +35,7 @@ const REDUCE_QUERY_OPTIONS =
 })
 class ContactCoreModule {}
 \end{minted}
-\caption{Specify whether queries should be reduced.}\label{code:applied-methods:query-reduction:switch-between-apollo-client-and-query-reduction}
+\caption{Specify whether queries should be reduced with existing fields inside the cache.}\label{code:applied-methods:query-reduction:switch-between-apollo-client-and-query-reduction}
 \end{listing}
 \fi
 

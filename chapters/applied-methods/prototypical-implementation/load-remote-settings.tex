@@ -1,7 +1,7 @@
 \subsection{Fetch application settings}\label{subsection:applied-methods:prototypical-implementation
 :load-remote-settings}
 
-The application shell uses Dynamic Module Federation. The \ac{URL} of the remote applications is fetched and stored at the startup process. The problem with static Module Federation is that the \ac{URL} of the remote application must be known at build time. However, this is troublesome if the application should be built once and deployed to multiple stages, like staging, testing and production. It is very tedious to build the same artifact for every environment. The location of micro-frontends in the cluster may change from time to time, requiring the artifacts to be recreated.
+The application shell uses Dynamic Module Federation. The \ac{URL} of a micro-frontend is fetched and stored at the startup process of the application-shell. The problem with static Module Federation is that the \ac{URL} of the remote application must be known at build time. However, this is troublesome if the application should be built once and deployed to multiple stages, like staging, testing and production. It is very tedious to build the same artifact for every environment. The location of micro-frontends in the cluster may change from time to time, requiring the artifacts to be recreated.
 
 \bigskip
 
@@ -43,7 +43,7 @@ fetch('/assets/module-federation.manifest.json')
 
 \bigskip
 
-\noindent Listing \ref{code:applied-methods:fetch-and-store-settings} shows a simplified version for fetching and storing the settings in local memory. The settings are fetched from the \texttt{settings.json} file, which content is used to configure the application. The settings of the application shell are stored with the key \texttt{host}. Each application of the micro-frontend architecture has this function, which stores its settings with its unique application name as the key. This is done to retrieve the settings later when configuring the GraphQL client. 
+\noindent Listing \ref{code:applied-methods:fetch-and-store-settings} shows a simplified version for fetching and storing the settings in local memory. The settings are fetched from the \texttt{settings.json} file, which content is used to configure the application. The settings of the application shell are stored with the key \texttt{host}. Each application of the micro-frontend architecture has this function, which stores its settings with its unique application name as the key. This is done to retrieve the settings that are used later when configuring the Apollo Client. 
 
 \ifshowListings
 \begin{listing}[H]
@@ -70,13 +70,13 @@ class CoreModule {}
 \subsubsection{Fetching the settings of the micro-frontends}\label{subsubsection:applied-methods:prototypical-implementation
 :load-the-configuration}
 
-Each application of the prototypical micro-frontend architecture follows this approach. When an application is initialized, the application configuration is taken from the file \texttt{settings.json}. As mentioned in the previous section, each micro frontend stores its settings with the application name as the key when running in standalone mode. However, the configuration is not retrieved if the application shell uses the functionality of a micro frontend via Module Federation. Therefore, the application gives errors because it cannot access its settings from the storage service. To solve the problem of missing settings for the application, the configuration of a remote application is retrieved and stored in memory when the user navigates to it. This process is shown visually in Figure \ref{fig:applied-methods:load-remote-settings}.
+Each application of the prototypical micro-frontend architecture follows this approach. When an application is initialized, the application configuration is taken from the file \texttt{settings.json}. As mentioned in the previous section, each micro frontend stores its settings with the application name as the key when running in standalone mode. However, the configuration is not retrieved if the application shell uses the functionality of a micro frontend via Module Federation. Therefore, the application gives errors because it cannot access its settings from the storage service. To solve the problem of missing settings for the application, the configuration of a remote application is retrieved and stored in memory when the user activates the route to it. This process is shown visually in Figure \ref{fig:applied-methods:load-remote-settings}.
 
 \ifshowImages
   \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\linewidth]{images/applied-methods/prototypical-implementation/load-remote-settings.png}
-  \caption{Load and store the configuration of the remote applications.}\label{fig:applied-methods:load-remote-settings}
+  \includegraphics[width=1\linewidth]{images/applied-methods/prototypical-implementation/load-remote-settings.png}
+  \caption{Fetch \& store the configuration of the micro-frontends.}\label{fig:applied-methods:load-remote-settings}
   \end{figure}
 \fi
 

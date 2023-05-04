@@ -13,8 +13,8 @@ The first step was to implement a prototypical micro-frontend application to eva
 \ifshowImages
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\linewidth]{images/applied-methods/prototypical-implementation/host-architecture.jpg}
-  \caption{The architecture of the micro-frontend prototype.}\label{fig:applied-methods:prototype-micro-frontend-architecture}
+  \includegraphics[width=1\linewidth]{images/applied-methods/prototypical-implementation/host-architecture.png}
+  \caption{The structure of the micro-frontend prototype.}\label{fig:applied-methods:prototype-micro-frontend-architecture}
 \end{figure}
 \fi
 
@@ -48,7 +48,7 @@ module.exports = {
 \end{listing}
 \fi
 
-\noindent The application shell is configured to consume the remote modules listed inside the \texttt{remotes}-object. The configuration to consume the four micro-frontends of the architecture can be seen in the Listing \ref{code:applied-methods:module-federation-config-consume}. This configuration allows the application-shell to consume the \texttt{entry.module} of the remote applications, which were exposed before with the configuration from Listing \ref{code:applied-methods:module-federation-config-expose}. As with the remote module configuration, the application shell shares the same dependencies. Dependency sharing is required so that micro-frontends can load their runtime dependencies from the application shell and use the same dependency version.
+\noindent The application shell is configured to consume the remote modules listed inside the \texttt{remotes}-object. The configuration to consume the four micro-frontends of the architecture can be seen in the Listing \ref{code:applied-methods:module-federation-config-consume}. This configuration allows the application-shell to consume the \texttt{entry.module} of the micro-frontend, which was exposed before with the configuration from Listing \ref{code:applied-methods:module-federation-config-expose}. As with the remote module configuration, the application shell shares the same dependencies. Dependency sharing is required so that micro-frontends can load their runtime dependencies from the application shell and use the same dependency version.
 
 \ifshowListings
 \begin{listing}[H]
