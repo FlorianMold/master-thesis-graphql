@@ -1,7 +1,7 @@
 \subsection{Fetch application settings}\label{subsection:applied-methods:prototypical-implementation
 :load-remote-settings}
 
-The application shell uses Dynamic Module Federation. The \ac{URL} of a micro-frontend is fetched and stored at the startup process of the application shell. The problem with static Module Federation is that the \ac{URL} of the remote application must be known at build time. However, this is troublesome if the application should be built once and deployed to multiple stages, like staging, testing and production. It is very tedious to build the same artifact for every environment. The location of micro-frontends in the cluster may change from time to time, requiring the artifacts to be recreated.
+The application shell uses Dynamic Module Federation. The \ac{URL} of a micro-frontend is fetched and stored at the startup process of the application shell. The problem with static Module Federation is that the \ac{URL} of the micro-frontend must be known at build time. However, this is troublesome if the application should be built once and deployed to multiple stages, like staging, testing and production. It is very tedious to build the same artifact for every environment. The location of micro-frontends in the cluster may change from time to time, requiring the artifacts to be recreated.
 
 \bigskip
 
@@ -70,7 +70,7 @@ class CoreModule {}
 \subsubsection{Fetching the settings of the micro-frontends}\label{subsubsection:applied-methods:prototypical-implementation
 :load-the-configuration}
 
-Each application of the prototypical micro-frontend architecture follows this approach. When an application is initialized, the application configuration is taken from the file \texttt{settings.json}. As mentioned in the previous section, each micro-frontend stores its settings with the application name as the key when running in standalone mode. However, the configuration is not retrieved if the application shell uses the functionality of a micro-frontend via Module Federation. Therefore, the application gives errors because it cannot access its settings from the storage service. To solve the problem of missing settings for the application, the configuration of a remote application is retrieved and stored in memory when the user activates the route to it. This process is shown visually in Figure \ref{fig:applied-methods:load-remote-settings}.
+Each application of the prototypical micro-frontend architecture follows this approach. When an application is initialized, the application configuration is taken from the file \texttt{settings.json}. As mentioned in the previous section, each micro-frontend stores its settings with the application name as the key when running in standalone mode. However, the configuration is not retrieved if the application shell uses the functionality of a micro-frontend via Module Federation. Therefore, the application gives errors because it cannot access its settings from the storage service. To solve the problem of missing settings for the application, the configuration of a micro-frontend is retrieved and stored in memory when the user activates the route. This process is shown visually in Figure \ref{fig:applied-methods:load-remote-settings}.
 
 \ifshowImages
   \begin{figure}[H]
@@ -80,7 +80,7 @@ Each application of the prototypical micro-frontend architecture follows this ap
   \end{figure}
 \fi
 
-\noindent The Angular router provides a handy tool to execute code when a route is activated. This tool is called \texttt{resolver}. A resolver is a service that is executed before the component is rendered. The resolver can be used to fetch data from a remote \ac{API} and make it available to the component. \cite{misc:-:applied-methods:micro-frontends:angular-router-resolver} The \acp{URL} of the micro-frontends are known because they were fetched when the application shell initialized. Therefore the micro-frontend location can be used to fetch and store the \texttt{settings.json} in addition to fetching and rendering the remote module. A simplified version of the code to fetch and store the settings of a micro-frontend is shown in Listing \ref{code:applied-methods:fetch-and-store-remote-application-settings}. The same principle applies to every remote module inside the architecture.
+\noindent The Angular router provides a handy tool to execute code when a route is activated. This tool is called \texttt{resolver}. A resolver is a service that is executed before the component is rendered. The resolver can be used to fetch data from a remote \ac{API} and make it available to the component. \cite{misc:-:applied-methods:micro-frontends:angular-router-resolver} The \acp{URL} of the micro-frontends are known because they were fetched when the application shell initialized. Therefore the micro-frontend \ac{URL} can be used to fetch and store the \texttt{settings.json} in addition to fetching and displaying the application. A simplified version of the code to fetch and store the settings of a micro-frontend is shown in Listing \ref{code:applied-methods:fetch-and-store-remote-application-settings}. The same principle applies to every micro-frontend inside the prototype.
 
 \ifshowListings
 \begin{listing}[H]

@@ -40,21 +40,21 @@ Module Federation allows a \ac{JS} application to dynamically load and run code 
     \item \texttt{Remote}: The bundle that should be consumed by the host.
 \end{itemize}
 
-\noindent Figure \ref{fig:background:micro-frontend:module-federation:module-federation-architecture} shows a host application that loads multiple remotes. The host is also called an application shell, whereas a remote is a micro-frontend.
+\noindent Figure \ref{fig:background:micro-frontend:module-federation:module-federation-architecture} shows a host application that loads multiple remotes. The host is also called application shell, whereas a remote is a micro-frontend.
 
 \ifshowImages
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.3\linewidth]{images/background/micro-frontends/module-federation/module-federation-architecture.png}
-  \caption{A prototypical micro-frontend architecture, that shows a host application that loads multiple remotes into the application. (Adapted from \cite[119]{book:2021:mezzalira:applied-methods:building-micro-frontends})}\label{fig:background:micro-frontend:module-federation:module-federation-architecture}
+  \caption{A prototypical micro-frontend architecture, that shows a application shell that loads multiple remotes into the application. (Adapted from \cite[119]{book:2021:mezzalira:applied-methods:building-micro-frontends})}\label{fig:background:micro-frontend:module-federation:module-federation-architecture}
 \end{figure}
 \fi
 
-\noindent Module Federation allows the code to be shared bidirectional, allowing a remote to share the whole bundle with a host and vice versa. However, bidirectional sharing can complicate the architecture quite easily. The best approach is to share only in one direction, so the host never shares code with the remote. \cite[119]{book:2021:mezzalira:applied-methods:building-micro-frontends}
+\noindent Module Federation allows the code to be shared bidirectional, allowing a remote to share the whole bundle with a application shell and vice versa. However, bidirectional sharing can complicate the architecture quite easily. The best approach is to share only in one direction, so the application shell never shares code with the remote. \cite[119]{book:2021:mezzalira:applied-methods:building-micro-frontends}
 
 \subsubsection{Configuring Module Federation}\label{subsubsection:background:micro-frontend:module-federation:configuring-module-federation}
 
-Configuring module federation is done inside Webpack's configuration file. Listing \ref{fig:background:micro-frontend:module-federation:configuring-module-federation} shows the configuration of the host application.
+Configuring module federation is done inside Webpack's configuration file. Listing \ref{fig:background:micro-frontend:module-federation:configuring-module-federation} shows the configuration of the application shell application.
 
 \ifshowListings
 \begin{listing}[H]
@@ -80,11 +80,11 @@ plugins: [
 \end{listing}
 \fi
 
-\noindent First, the \texttt{name} of the application has to be defined, in this case, \texttt{Host}. The \texttt{remotes}-object specifies the modules that should be consumable by the host. Every remote consists of an ID and an associated \ac{URL} and the \texttt{remoteEntry.js} contains a map of all \ac{JS} chunks for the micro-frontend that should be fetched. These two values are separated through an \texttt{@} symbol. \cite[124]{book:2021:mezzalira:applied-methods:building-micro-frontends}
+\noindent First, the \texttt{name} of the application has to be defined, in this case, \texttt{Host}. The \texttt{remotes}-object specifies the modules that should be consumable by the application shell. Every remote consists of an ID and an associated \ac{URL} and the \texttt{remoteEntry.js} contains a map of all \ac{JS} chunks for the micro-frontend that should be fetched. These two values are separated through an \texttt{@} symbol. \cite[124]{book:2021:mezzalira:applied-methods:building-micro-frontends}
 
 \bigskip
 
-\noindent For example, the contact micro-frontend has the ID \texttt{Contact} and the \ac{URL} \texttt{http:\slash \slash localhost:4201\slash remoteEntry.js}. If the host loads the contact micro-frontend, Module Federation will fetch the \texttt{remoteEntry.js} file to understand which \ac{JS} chunks should be loaded and which dependencies should be shared between all micro-frontends. \cite[125]{book:2021:mezzalira:applied-methods:building-micro-frontends}
+\noindent For example, the contact micro-frontend has the ID \texttt{Contact} and the \ac{URL} \texttt{http:\slash \slash localhost:4201\slash remoteEntry.js}. If the application shell loads the contact micro-frontend, Module Federation will fetch the \texttt{remoteEntry.js} file to understand which \ac{JS} chunks should be loaded and which dependencies should be shared between all micro-frontends. \cite[125]{book:2021:mezzalira:applied-methods:building-micro-frontends}
 
 \bigskip
 
