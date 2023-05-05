@@ -5,7 +5,7 @@ The previous section explained how the communication strategy within the micro-f
 \ifshowImages
   \begin{figure}[H]
   \centering
-  \includegraphics[width=0.7\linewidth]{images/applied-methods/shared-caching-layer/shared-caching-layer.jpg}
+  \includegraphics[width=0.7\linewidth]{images/applied-methods/shared-caching-layer/shared-caching-layer.png}
   \caption{The structure of the shared caching layer.}\label{fig:applied-methods:structure-shared-caching-layer}
   \end{figure}
 \fi
@@ -50,11 +50,11 @@ class HostCoreModule {}
 
 \subsection{GraphQL Client creation}{subsection:applied-methods:shared-caching-layer:graphql-client-creation}
 
-\noindent The prototype provides abstractions to create the necessary configuration for using the Apollo Client more easily and identically for all micro-frontends. Listing \ref{code:applied-methods:graphql-client-creation} shows the usage of the abstraction to create a new instance of Apollo Client for a micro-frontend. The module \texttt{GraphQLClientOptionsModule} hides the complexity of creating and providing a Apollo Client instance, as shown in Listing \ref{code:applied-methods:creating-the-apollo-client-with-a-shared-cache}. The moduls has a required parameter that specifies a unique name. This name is used to identify and track active Apollo Clients inside the architecture. The \texttt{GraphQLClientOptionsModule} should be used in every module that needs GraphQL functionality and is exposed through Module Federation. When the micro-frontend is then integrated within the application shell, it has its own instance of the Apollo Client. This facilitates independent development of micro-frontends, as the Apollo Client configuration remain the same whether it is running in standalone mode or consumed by the application shell. For example, a problem could arise if the application shell provides the instance of the Apollo Client and the contact micro-frontend injects that instance with \ac{DI}. The contact development team might configure the Apollo Client differently within the contact application, and the functionality might not work as expected within the application-shell because the configuration might be different.
+\noindent The prototype provides abstractions to create the necessary configuration for using the Apollo Client more easily and identically for all micro-frontends. Listing \ref{code:applied-methods:graphql-client-creation} shows the usage of the abstraction to create a new instance of Apollo Client for a micro-frontend. The module \texttt{GraphQLClientOptionsModule} hides the complexity of creating and providing a Apollo Client instance, as shown in Listing \ref{code:applied-methods:creating-the-apollo-client-with-a-shared-cache}. The moduls has a required parameter that specifies a unique name. This name is used to identify and track active Apollo Clients inside the architecture. The \texttt{GraphQLClientOptionsModule} should be used in every module that needs GraphQL functionality and is exposed through Module Federation. When the micro-frontend is then integrated within the application shell, it has its own instance of the Apollo Client. This facilitates independent development of micro-frontends, as the Apollo Client configuration remain the same whether it is running in standalone mode or consumed by the application shell. For example, a problem could arise if the application shell provides the instance of the Apollo Client and the contact micro-frontend injects that instance with \ac{DI}. The contact development team might configure the Apollo Client differently within the contact application, and the functionality might not work as expected within the application shell because the configuration might be different.
 
 \ifshowListings
-  \begin{listing}[H]
-    \begin{minted}{typescript}
+\begin{listing}[H]
+  \begin{minted}{typescript}
 @NgModule({
   imports: [ GraphQLClientOptionsModule.withConfig('contact-remote') ]
 })
@@ -79,7 +79,7 @@ class ContactRemoteCoreModule {}
   }]
 })
 class ContactRemoteModule {}
-\end{minted}
+  \end{minted}
 \caption{Access the shared \texttt{InMemoryCache} instance from \ac{DI}.}\label{code:applied-methods:creating-the-apollo-client-with-a-shared-cache}
 \end{listing}
 \fi

@@ -1,7 +1,7 @@
 \subsection{Fetch application settings}\label{subsection:applied-methods:prototypical-implementation
 :load-remote-settings}
 
-The application shell uses Dynamic Module Federation. The \ac{URL} of a micro-frontend is fetched and stored at the startup process of the application-shell. The problem with static Module Federation is that the \ac{URL} of the remote application must be known at build time. However, this is troublesome if the application should be built once and deployed to multiple stages, like staging, testing and production. It is very tedious to build the same artifact for every environment. The location of micro-frontends in the cluster may change from time to time, requiring the artifacts to be recreated.
+The application shell uses Dynamic Module Federation. The \ac{URL} of a micro-frontend is fetched and stored at the startup process of the application shell. The problem with static Module Federation is that the \ac{URL} of the remote application must be known at build time. However, this is troublesome if the application should be built once and deployed to multiple stages, like staging, testing and production. It is very tedious to build the same artifact for every environment. The location of micro-frontends in the cluster may change from time to time, requiring the artifacts to be recreated.
 
 \bigskip
 

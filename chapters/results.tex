@@ -6,7 +6,7 @@ This chapter explains whether a micro-frontend architecture using GraphQL and a 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\linewidth]{images/results/micro-frontend-prototype.png}
-  \caption{The shared caching architecture of the micro-frontend prototype.}\label{fig:results:micro-frontend-prototype}
+  \caption{The shared caching strategy of the micro-frontend prototype.}\label{fig:results:micro-frontend-prototype}
 \end{figure}
 \fi
 
@@ -15,9 +15,9 @@ This chapter explains whether a micro-frontend architecture using GraphQL and a 
 This section explains how the micro-frontend architecture is evaluated regarding the first hypothesis. Three distinct approaches were identified to measure the performance of the shared GraphQL caching layer. The architecture implements a feature flag allowing it to switch quickly between these three approaches.
 
 \begin{enumerate}
-  \item \textbf{Separate Cache and no reduced queries}: All micro-frontends use a separate cache.
-  \item \textbf{Shared Cache and no reduced queries}: All micro-frontends share the same cache instance.
-  \item \textbf{Shared Cache and reduced queries}: All micro-frontends share the same cache instance, and queries are reduced by loading only fields that are not stored in the cache.
+  \item \textbf{Separate Cache, no reduced queries}: All micro-frontends use a separate cache.
+  \item \textbf{Shared Cache, no reduced queries}: All micro-frontends share the same cache instance.
+  \item \textbf{Shared Cache, reduced queries}: All micro-frontends share the same cache instance, and queries are reduced by loading only fields that are not stored in the cache.
 \end{enumerate}
 
 \noindent Two exemplary paths through the application were planned to measure and compare the performance of these three approaches. These user journeys were intended to show how many network requests were made to the GraphQL \ac{API} and how much network traffic was generated during the process. A large amount of mock data was generated and inserted into the GraphQL \ac{API} to make the measurements as close as possible to real conditions. This large amount of data makes it easier to measure the differences in response size, as it is more expressive. Fetching smaller datasets makes only a difference when the application is used over an extended period of time. The following sections detail the results of the user journeys through the application.

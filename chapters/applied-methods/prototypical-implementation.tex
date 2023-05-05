@@ -48,7 +48,7 @@ module.exports = {
 \end{listing}
 \fi
 
-\noindent The application shell is configured to consume the remote modules listed inside the \texttt{remotes}-object. The configuration to consume the four micro-frontends of the architecture can be seen in the Listing \ref{code:applied-methods:module-federation-config-consume}. This configuration allows the application-shell to consume the \texttt{entry.module} of the micro-frontend, which was exposed before with the configuration from Listing \ref{code:applied-methods:module-federation-config-expose}. As with the remote module configuration, the application shell shares the same dependencies. Dependency sharing is required so that micro-frontends can load their runtime dependencies from the application shell and use the same dependency version.
+\noindent The application shell is configured to consume the remote modules listed inside the \texttt{remotes}-object. The configuration to consume the four micro-frontends of the architecture can be seen in the Listing \ref{code:applied-methods:module-federation-config-consume}. This configuration allows the application shell to consume the \texttt{entry.module} of the micro-frontend, which was exposed before with the configuration from Listing \ref{code:applied-methods:module-federation-config-expose}. As with the remote module configuration, the application shell shares the same dependencies. Dependency sharing is required so that micro-frontends can load their runtime dependencies from the application shell and use the same dependency version.
 
 \ifshowListings
 \begin{listing}[H]
@@ -73,7 +73,7 @@ module.exports = {
   }
 };
   \end{minted}
-  \caption{The configuration of the application-shell to be able to consume micro-frontends.}\label{code:applied-methods:module-federation-config-consume}
+  \caption{The configuration of the application shell to be able to consume micro-frontends.}\label{code:applied-methods:module-federation-config-consume}
 \end{listing}
 \fi
 
