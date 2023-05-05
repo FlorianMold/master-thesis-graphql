@@ -7,6 +7,9 @@ micro front-ends
 Apollo client
 with this
 application-shell
+shared caching
+no query reduction
+mechanism
 
 look for:
 application <=> prototype
