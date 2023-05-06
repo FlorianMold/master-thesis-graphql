@@ -292,7 +292,7 @@ Type policies are a way to define how the client stores and manages data in the 
 \begin{itemize}
   \item A \texttt{read} function which is called when the field is read from the cache.
   \item A \texttt{merge} function which is called when the field is written to the cache.
-  \item The key arguments of the field. These arguments are an array of fields, which identify a field. This so-called \texttt{keyArgs} avoids storing duplicate data in the cache.
+  \item The key arguments of a field. These arguments are an array of fields, which identify a field. This so-called \texttt{keyArgs} avoids storing duplicate data in the cache.
 \end{itemize}
 
 \paragraph{Read function}
@@ -340,5 +340,3 @@ new InMemoryCache({
     \caption{Merge the existing and incoming transactions in a \texttt{merge} function.}\label{code:background:graphql:write-type-policy}
 \end{listing}
 \fi
-
-\paragraph{key args}
