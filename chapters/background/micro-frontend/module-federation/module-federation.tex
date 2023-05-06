@@ -23,7 +23,7 @@ Using Module Federation is as easy as importing external \ac{JS} chunks lazy-loa
 
 \subsubsection{Shared code}\label{subsubsection:background:micro-frontend:module-federation:shared-code}
 
-Module Federation makes sharing code between multiple teams very easy. Module federation allows sharing code between multiple micro-frontends bidirectional. This Webpack plugin flattens the hierarchy between the application shell and the remote micro-frontends. But sharing code from micro-frontends to the host application is discouraged because a unidirectional implementation brings several advantages such as the following: \cite[84]{book:2021:mezzalira:applied-methods:building-micro-frontends}
+Module Federation makes sharing code between multiple teams very easy. Module federation allows sharing code between multiple micro-frontends bidirectional. This Webpack plugin flattens the hierarchy between the application shell and the remote micro-frontends. But sharing code from micro-frontends to the container application is discouraged because a unidirectional implementation brings several advantages such as the following: \cite[84]{book:2021:mezzalira:applied-methods:building-micro-frontends}
 
 \begin{itemize}
   \item The code is easier to debug, as the location of the code is known.
@@ -45,8 +45,8 @@ Module Federation allows a \ac{JS} application to dynamically load and run code 
 \ifshowImages
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.3\linewidth]{images/background/micro-frontends/module-federation/module-federation-architecture.png}
-  \caption{A prototypical micro-frontend architecture, that shows a application shell that loads multiple remotes into the application. (Adapted from \cite[119]{book:2021:mezzalira:applied-methods:building-micro-frontends})}\label{fig:background:micro-frontend:module-federation:module-federation-architecture}
+  \includegraphics[width=0.25\linewidth]{images/background/micro-frontends/module-federation/module-federation-architecture.png}
+  \caption{A prototypical micro-frontend architecture with an application shell that loads multiple remotes into the application. (Adapted from \cite[119]{book:2021:mezzalira:applied-methods:building-micro-frontends})}\label{fig:background:micro-frontend:module-federation:module-federation-architecture}
 \end{figure}
 \fi
 

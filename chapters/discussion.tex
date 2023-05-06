@@ -14,6 +14,7 @@ This section compares the different measurements of the request sizes from Chapt
 
 \noindent Therefore, the query reduction functionality does not significantly improve performance by reducing the size of the responses compared to just using the shared caching layer.
 
+\ifshowImages
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}
@@ -40,6 +41,7 @@ This section compares the different measurements of the request sizes from Chapt
   \end{tikzpicture}
   \caption{Request size comparison between the three approaches.}\label{fig:discussion:request-size}
 \end{figure}
+\fi
 
 \noindent The following section compares the response sizes of the GraphQL \ac{API} for the three approaches.
 
@@ -55,6 +57,7 @@ This section compares the three approaches' response sizes from the GraphQL \ac{
 
 \noindent Just like with the request sizes, query reduction does not significantly improve performance by reducing the size of the network responses compared to just using the shared caching layer.
 
+\ifshowImages
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}
@@ -81,6 +84,7 @@ This section compares the three approaches' response sizes from the GraphQL \ac{
   \end{tikzpicture}
   \caption{Response size comparison between the three approaches.}\label{fig:discussion:response-size}
 \end{figure}
+\fi
 
 \noindent The following section compares the response times of the three approaches. This factor is vital because smaller responses lead to faster page loads, which is crucial for the user experience.
 
@@ -92,6 +96,7 @@ It is hard to make accurate comparisons when it comes to measuring the time it t
 
 \noindent This section compares the total time to download every query response from the GraphQL \ac{API} for the three approaches from Section \ref{section:results:performance-measurement}. The measurement should not be misunderstood, because the browser typically loads the resources in parallel. Here, only the total download time is measured to see how much time it takes to download all the resources in one of the approaches. The measurements were recorded during the user journeys from sections \ref{section:results:comparison-first-journey} and \ref{section:results:comparison-second-journey} alongside the request sizes and response sizes. Therefore the total response times correspond to the measured network sizes from the previous two sections. The results are measured in seconds and are shown in Figure \ref{fig:discussion:response-times}. 
 
+\ifshowImages
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}
@@ -119,5 +124,6 @@ It is hard to make accurate comparisons when it comes to measuring the time it t
   \end{tikzpicture}
   \caption{Response time comparison between the three approaches.}\label{fig:discussion:response-times}
 \end{figure}
+\fi
 
 \noindent Like before, the difference between the first and second approach is quite significant. The second approach is about 12 seconds faster than the first approach for both journeys. The 11, respectively, 25 requests omitted using the shared caching layer are responsible for about 12 seconds of extra download time for the first approach. The results for the second and third approach are practically the same. The results for the second and third approaches are virtually identical. The reduction of 37 queries does not lead to the expected results and does not argue for the use of query reduction.

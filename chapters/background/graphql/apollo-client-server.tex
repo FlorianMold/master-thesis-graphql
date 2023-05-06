@@ -16,11 +16,11 @@ This section describes how the caching mechanism of the Apollo Client works. The
 
 \bigskip
 
-\noindent \textbf{Apollo Client} includes a caching interface called \texttt{ApolloCache} and a proprietary implementation named \texttt{InMemoryCache}. Several Open-Source alternatives implement the \texttt{ApolloCache} interface, but Apollo's implementation is well-supported and receives regular updates. Therefore it was chosen for the micro-frontend prototype.
+\noindent \textbf{Apollo Client} includes a caching interface called \texttt{ApolloCache} and a proprietary implementation named \texttt{InMemoryCache}. Several Open-Source alternatives implement the \texttt{ApolloCache} interface, but Apollo Client's implementation is well-supported and receives regular updates. Therefore it was chosen for the micro-frontend prototype.
 
 \bigskip
 
-\noindent Figure~\ref{fig:background:graphql:user-query-first-time} shows an exemplary query to fetch a user with its unique id. First, the Apollo Client checks whether the user with the given id is already stored inside the cache. If the query with that id has yet to be executed, a network query to fetch the user must be made. The result from the GraphQL Server is stored inside the cache and the user is returned to the application. Four steps must be made to render the user data on the screen. \cite{misc:-:background:graphql:apollo-client-cache-overview}
+\noindent Figure~\ref{fig:background:graphql:user-query-first-time} shows an exemplary query to fetch a user with its unique id. First, the Apollo Client checks whether the user with the given id has already been stored inside the cache. If the query with that id has yet to be executed, a network query to fetch the user must be made. The result from the GraphQL Server is stored inside the cache and the user is returned to the application. Four steps must be made to render the user data on the screen. \cite{misc:-:background:graphql:apollo-client-cache-overview}
 
 \ifshowImages
 \begin{figure}[H]
