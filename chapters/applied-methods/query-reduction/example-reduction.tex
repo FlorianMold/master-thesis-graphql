@@ -1,10 +1,10 @@
-\subsection{Query reduction example}\label{subsection:background:graphql:example-reduction}
+\subsection{Reduction example}\label{subsection:background:graphql:example-reduction}
 
 This section contains an example of how the query reduction is executed with the functionality from apollo-augmented-hooks. The client first navigates to a tabular view of all users. This page executes the GraphQL query shown in Listing \ref{code:applied-methods:query-all-users}. After the query is fetched from the GraphQL \ac{API}, the fields in the query are cached inside Apollo Client's \texttt{InMemoryCache}.
 
 \ifshowListings
-\begin{listing}[H]
-\begin{minted}{typescript}
+  \begin{listing}[H]
+  \begin{minted}{typescript}
 query allUsers {
   allUsers {
     id
@@ -17,9 +17,9 @@ query allUsers {
     Salutation { id }
   }
 }
-\end{minted}
-\caption{A GraphQL query to fetch all users.}\label{code:applied-methods:query-all-users}
-\end{listing}
+  \end{minted}
+  \caption{A GraphQL query to fetch all users.}\label{code:applied-methods:query-all-users}
+  \end{listing}
 \fi
 
 \noindent Afterwards, the client navigates to the detail view of a specific user. The left GraphQL query shown in Figure \ref{fig:applied-methods:comparison-user-reduced-user} is the original query that would normally be fetched from the GraphQL \ac{API} without reducing the query. However, with the help of reducing the query with already existing data, the query on the right is sent to the GraphQL \ac{API}. Exactly the fields which were queried with the GraphQL query shown in Listing \ref{code:applied-methods:query-all-users} are removed. Therefore, 8 of the 16 fields from the query were removed, which reduces the number of queried fields by 50\%. The next chapter goes into more detail, about the impact of reducing queries by utilizing the \texttt{InMemoryCache}.
