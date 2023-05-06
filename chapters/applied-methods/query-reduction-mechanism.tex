@@ -23,7 +23,7 @@ query allUsers {                        query user(id: ID!) {
 \end{listing}
 \fi
 
-\noindent Apollo Client offers a solution to this very problem. The application could have a detail view and a list view that execute the GraphQL queries in Listing \ref{code:applied-methods:compare-allusers-user-query}. The user data might already be in the \texttt{InMemoryCache} where it is stored with the \texttt{allUsers} key, but the Apollo client doesn't know that. The Apollo client can be configured to know where to look for user data using cache redirects. Understanding cache redirects requires a basic understanding of type policies described in Section \ref{subsubsection:background:graphql:apollo-server-client:type-policies}.
+\noindent Apollo Client offers a solution to this very problem. The application could have a detail view and a list view that execute the GraphQL queries in Listing \ref{code:applied-methods:compare-allusers-user-query}. The user data might already be in the \texttt{InMemoryCache} where it is stored with the \texttt{allUsers} key, but the Apollo Client doesn't know that. The Apollo Client can be configured to know where to look for user data using cache redirects. Understanding cache redirects requires a basic understanding of type policies described in Section \ref{subsubsection:background:graphql:apollo-server-client:type-policies}.
 
 \bigskip
 
@@ -50,7 +50,7 @@ type User {
 \fi
 
 
-\noindent Listing \ref{code:applied-methods:query-reduction:user-cache-redirect} shows the \texttt{read} field policy for the \texttt{User}. As in the GraphQL schema from Listing \ref{code:applied-methods:query-reduction:graphql-schema}, the \texttt{user} query is a field of the root query. Therefore, this read function is executed every time the client performs the \texttt{user} query. The \texttt{toReference} function is used to create a valid cache reference for the specified user id. The reference is created based on its \texttt{\_\_typename} and \texttt{id}, as described in Section \ref{subsubsection:background:graphql:apollo-server-client:data-normalization}. The Apollo client uses the result of \texttt{toReference} to look up the object in \texttt{InMemoryCache} and return it if it exists. The query is sent to the GraphQL \ac{API} if the object is not found in the cache.
+\noindent Listing \ref{code:applied-methods:query-reduction:user-cache-redirect} shows the \texttt{read} field policy for the \texttt{User}. As in the GraphQL schema from Listing \ref{code:applied-methods:query-reduction:graphql-schema}, the \texttt{user} query is a field of the root query. Therefore, this read function is executed every time the client performs the \texttt{user} query. The \texttt{toReference} function is used to create a valid cache reference for the specified user id. The reference is created based on its \texttt{\_\_typename} and \texttt{id}, as described in Section \ref{subsubsection:background:graphql:apollo-server-client:data-normalization}. The Apollo Client uses the result of \texttt{toReference} to look up the object in \texttt{InMemoryCache} and return it if it exists. The query is sent to the GraphQL \ac{API} if the object is not found in the cache.
 
 \ifshowListings
 \begin{listing}[H]
@@ -69,7 +69,7 @@ new ApolloClient({
 \end{listing}
 \fi
 
-\noindent Using cache redirects to reduce the number of network requests works, but all requested fields of the query must already be in the cache. If the \texttt{user} query retrieves a field that the \texttt{allUsers} query did not previously retrieve, the Apollo client considers the cache hit incomplete, and the query is executed over the network. The fact that a detail view and a list view are completely identical is very rare in applications. Therefore, this approach cannot effectively reduce the size of the network requests. In addition, the approach is very costly because a redirection must be written for each data type. The approach is not scalable; the same type policies must be written and registered for each micro-frontend.
+\noindent Using cache redirects to reduce the number of network requests works, but all requested fields of the query must already be in the cache. If the \texttt{user} query retrieves a field that the \texttt{allUsers} query did not previously retrieve, the Apollo Client considers the cache hit incomplete, and the query is executed over the network. The fact that a detail view and a list view are completely identical is very rare in applications. Therefore, this approach cannot effectively reduce the size of the network requests. In addition, the approach is very costly because a redirection must be written for each data type. The approach is not scalable; the same type policies must be written and registered for each micro-frontend.
 
 \bigskip
 

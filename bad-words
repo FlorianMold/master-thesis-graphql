@@ -10,6 +10,15 @@ application-shell
 shared caching
 no query reduction
 mechanism
+retrieval policy
+the query
+the type
+the query reduction
+amount
+should be reduced 
+with existing fields
+arguments
 
 look for:
 application <=> prototype
+network request <=> network response
