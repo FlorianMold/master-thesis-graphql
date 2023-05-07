@@ -17,11 +17,11 @@ this.graphQLClient.watchQuery({
 
 \subsubsection{Analysis of the feasibility of reducing queries}
 
-The Apollo Client provides several fetch policies that allow you to specify how the client retrieves data from the cache. The five available fetch policies are: \cite{misc:-:applied-methods:query-reduction:apollo-client:queries}
+The Apollo Client provides several fetch policies that allow the client to specify how the client retrieves data from the cache. The five available fetch policies are: \cite{misc:-:applied-methods:query-reduction:apollo-client:queries}
 
 \begin{itemize}
-  \item \textbf{cache-first (default)}: This fetch policy instructs the Apollo Client first to check the local cache for the query result. If the data is present in the cache, it is returned immediately. Otherwise, Apollo Client will execute the query and retrieves the result from the server, which is then stored in the cache.
-  \item \textbf{cache-and-network}: This fetch policy combines the \texttt{cache-first} and \texttt{network-only} policies. Apollo Client first checks the cache for the query result and returns it immediately if it is present. Then, a network request is made to fetch the most recent data, which is then used to update the cache. This fetch policy is a good option for displaying data that gets updated frequently.
+  \item \textbf{cache-first (default)}: This fetch policy instructs the Apollo Client first to check the local cache for the query result. If the data is already in the cache, it is immediately returned. Otherwise, Apollo Client will execute the query and retrieves the result from the server, which is then stored in the cache.
+  \item \textbf{cache-and-network}: This fetch policy combines the \texttt{cache-first} and \texttt{network-only} policies. Apollo Client first checks the cache for the query result and returns it immediately if it is present. Then, a network request is made to fetch the most recent data, which is then used to update the cache. This fetch policy is an optimal choice for presenting data that undergoes frequent updates.
   \item \textbf{cache-only}: This fetch policy instructs the Apollo Client to check only the cache for the query result. If the result is present in the cache, it is returned immediately.
   \item \textbf{network-only}: This fetch policy instructs Apollo Client to skip the cache entirely and always fetch the query result from the server. However, the result is stored inside the cache.
   \item \textbf{no-cache}: This fetch policy skips the cache entirely and always fetches the query result from the server. Unlike network-only, the result is not cached.
@@ -72,22 +72,22 @@ query {
 
 \ifshowListings
 \begin{listing}[H]
-\begin{minted}{typescript}
+  \begin{minted}{typescript}
 query {
   contact(id: "36bad921-8fcf-4f33-9f29-0d3cd70205c8") {
     id
   }
 }
-\end{minted}
-\caption{GraphQL query that fetches a contact by id.}\label{code:applied-methods:query-reduction:storing-a-query-with-arguments}
-\end{listing}
+  \end{minted}
+  \caption{GraphQL query that fetches a contact by id.}\label{code:applied-methods:query-reduction:storing-a-query-with-arguments}
+  \end{listing}
 \fi
 
 \noindent After fetching the GraphQL query from the GraphQL \ac{API}, the contents of the \texttt{InMemoryCache} are shown in Listing \ref{code:applied-methods:query-reduction:cache-representation-of-query-with-arguments}. The cache entry consists of the name of the query, with the parameters of the query joined together. If the same query is executed with a different \texttt{ID}, there would be a separate cache entry inside the \texttt{ROOT\_QUERY} object.
 
 \ifshowListings
 \begin{listing}[H]
-\begin{minted}{typescript}
+  \begin{minted}{typescript}
 {
   ROOT_QUERY {
     'contact({"id":"36bad921-8fcf-4f33-9f29-0d3cd70205c8"})': {
@@ -99,8 +99,8 @@ query {
     id: '36bad921-8fcf-4f33-9f29-0d3cd70205c8'
   }
 }
-\end{minted}
-\caption{The contents of the cache after fetching the query from Listing \ref{code:applied-methods:query-reduction:storing-a-query-with-arguments}.}\label{code:applied-methods:query-reduction:cache-representation-of-query-with-arguments}
+  \end{minted}
+  \caption{The contents of the cache after fetching the query from Listing \ref{code:applied-methods:query-reduction:storing-a-query-with-arguments}.}\label{code:applied-methods:query-reduction:cache-representation-of-query-with-arguments}
 \end{listing}
 \fi
 

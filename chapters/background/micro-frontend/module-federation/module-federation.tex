@@ -33,11 +33,11 @@ Module Federation makes sharing code between multiple teams very easy. Module fe
 
 \subsubsection{Module Federation 101}\label{subsubsection:background:micro-frontend:module-federation:101}
 
-Module Federation allows a \ac{JS} application to dynamically load and run code from another bundle. Module Federation provides two key concepts that are very important before working with it. \cite[118-119]{book:2021:mezzalira:applied-methods:building-micro-frontends}
+With Module Federation, a \ac{JS} application can load and execute code from another bundle dynamically. Module Federation provides two key concepts that are very important before working with it. \cite[118-119]{book:2021:mezzalira:applied-methods:building-micro-frontends}
 
 \begin{itemize}
-    \item \texttt{Host}: The host is the container that loads the shared libraries and micro-frontends at runtime.
-    \item \texttt{Remote}: The bundle that should be consumed by the host.
+  \item \texttt{Host}: The host is the container that loads the shared libraries and micro-frontends at runtime.
+  \item \texttt{Remote}: The bundle that should be consumed by the host.
 \end{itemize}
 
 \noindent Figure \ref{fig:background:micro-frontend:module-federation:module-federation-architecture} shows a host application that loads multiple remotes. The host is also called application shell, whereas a remote is a micro-frontend.

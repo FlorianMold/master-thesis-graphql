@@ -4,15 +4,15 @@ GraphQL was initially developed by Facebook and refers to itself as the query la
 
 \bigskip
 
-\noindent The official documentation states that GraphQL is a query language for \acp{API} and a runtime for fulfilling those queries with existing data. GraphQL provides a complete and understandable description of the data in the \ac{API}, gives clients the power to ask for exactly what they need and nothing more. It makes it easier to evolve the \acp{API} over time and enables powerful developer tools. The GraphQL specification is implemented in many languages and frameworks and has an extensive library and tool ecosystem.
+\noindent According to the official documentation, GraphQL is both a query language for \acp{API} and a runtime that executes those queries by using existing data. By providing a clear and comprehensive description of the data in the \ac{API}, GraphQL empowers clients to request only the data that they require, streamlining the data transfer process. This approach facilitates the evolution of \acp{API} over time and facilitates the development of powerful developer tools. The GraphQL specification is implemented in programming many languages and frameworks and has an extensive library and tool ecosystem.
 
 \subsection{Origins and history}\label{subsection:background:graphql:origins-and-history}
 
-GraphQL was initially developed in 2012. In 2015 the project was made open-source and available to the public. The reason behind the initial creation of GraphQL was the restricted flexibility of known \ac{API} technologies like \ac{REST}. Mobile devices needed only a subset of the fields that a \ac{REST} endpoint offered. Furthermore, the exact number of fields can change dynamically, based on the current state. The static background of \ac{REST} does not offer this behavior. Using \ac{REST}-based \acp{API} for clients that only need some fields would introduce the problem of over-fetching. Clients will receive more information than they need. This approach leads to problems as mobile networks often have limited network traffic. Over-fetching puts additional strain on the user's data plan, as multiple requests have to be made. \cite{misc:2015:bryon:background:graphql:graphql-query-language}
+GraphQL was initially developed in 2012. In 2015 the project was made open-source and available to the public. The reason behind the initial creation of GraphQL was the restricted flexibility of known \ac{API} technologies like \ac{REST}. Mobile devices needed only a subset of the fields that a \ac{REST} endpoint offered. Furthermore, the exact number of fields can change dynamically, based on the current state. The static background of \ac{REST} does not offer this behavior. Using \ac{REST}-based \acp{API} for clients that only need some fields would introduce the problem of over-fetching. Clients will be provided with information that exceeds their requirements. This approach leads to problems as mobile networks often have limited network traffic. Over-fetching puts additional strain on the user's data plan, as multiple requests have to be made. \cite{misc:2015:bryon:background:graphql:graphql-query-language}
 
 \subsection{GraphQL Characteristics}\label{subsection:background:graphql:graphql-characteristics}
 
-GraphQL is based on several design principles: \cite{misc:-:background:graphql:graphql-specification}
+GraphQL has several design principles: \cite{misc:-:background:graphql:graphql-specification}
 
 \begin{itemize}
   \item \textbf{Hierarchical}: Queries in GraphQL are structured hierarchically, allowing the clients to specify what data they need and in what format. This approach enables efficient data retrieval and reduces network overhead.
