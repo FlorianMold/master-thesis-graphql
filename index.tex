@@ -105,7 +105,7 @@
 %\secondsupervisor[Begutachterinnen]{Titel Vorname Name, Titel}
 \place{Vienna}
 \kurzfassung{
-  Diese Thesis zielt darauf ab zu untersuchen, ob GraphQL eine Performanceverbesserung in Micro-Frontends bringen kann. Hierzu wird ein altes, monolithisches Legacy-System in mehrere Micro-Frontends aufgeteilt. Die Legacy-Anwendung wird entsprechend von Bounded Contexts aufgeteilt. Viele Frontend-Anwendungen, welche mit REST-APIs kommunizieren, haben das Problem des Over-Fetching und Over-Requesting von Daten vom Backend. Kurz gesagt werden viele Felder unnötigerweise abgefragt, was zu verlängerten Wartezeiten führt. Eine GraphQL-API wird als Backend for Frontend Service für die Micro-Frontends verwendet, um die Probleme des Over-Fetching und Over-Requesting anzugehen. Das BFF bildet ein Gateway zum Microservice-Cluster und ruft die Daten der Services ab und aggregiert sie. GraphQL bietet Micro-Frontends angepasste Queries, welche genau die benötigten Daten laden. Viele GraphQL Clients bieten eine In-Memory Caching-Schicht, welche die Ergebnisse der Abfragen speichert. Die gecachten Daten können verwendet werden, um Daten für eine GraphQL-Abfrage zurückzugeben, welche bereits ausgeführt wurde. Die Verwendung des Micro-Frontend Architekturstils bedeutet, dass jede Anwendung ihre eigene Instanz des Caches hat. Dieser Ansatz führt zu vielen unnötigen Anfragen, die der Cache direkt beantworten könnte. Eine Maßnahme zur Verbesserung der Leistung is die Implementierung einer gemeinsam genutzten Caching-Schicht zwischen allen Micro-Frontends. Ein Mechanismus zur Entfernung von Feldern aus GraphQL-Abfragen mit vorhandenen Daten aus dem Cache kann weitere Performanceverbesserungen bringen. Micro-Frontends folgen den Prinzipien von Microservices: Sie sollen unabhängig entwickelt und bereitgestellt werden. Die Architektur des Prototyps soll in Zukunft dazu verwendet werden, das alte System des Unternehmens zu ersetzen. Daher ist es wichtig die Architektur so technologieagnostisch wie möglich zu gestalten. Die gemeinsame genutzte Caching-Schicht und der Reduktionsmechanismus sollte unabhängig von der eingesetzten Technologie funktionieren.
+  Diese Thesis zielt darauf ab zu untersuchen, ob GraphQL eine Performanceverbesserung in Micro-Frontends bringen kann. Hierzu wird ein altes, monolithisches Legacy-System in mehrere Micro-Frontends aufgeteilt. Die Legacy-Anwendung wird entsprechend in Bounded Contexts aufgeteilt. Viele Frontend-Anwendungen, welche mit REST-APIs kommunizieren, haben das Problem des Over-Fetching und Over-Requesting von Daten vom Backend. Kurz gesagt werden viele Felder unnötigerweise abgefragt, was zu verlängerten Wartezeiten führt. Eine GraphQL-API wird als Backend for Frontend Service für die Micro-Frontends verwendet, um die Probleme des Over-Fetching und Over-Requesting anzugehen. Ein BFF bildet ein Gateway zum Microservice-Cluster und ruft die Daten der Services ab und aggregiert diese. GraphQL bietet anpassbare Abfragen, welche genau die vom micro-frontend benötigten Daten laden. Viele GraphQL Clients bieten eine In-Memory Caching-Schicht, welche die Ergebnisse der Abfragen speichert. Die gecachten Daten können verwendet werden, um Daten für eine GraphQL-Abfrage zurückzugeben, welche bereits ausgeführt wurde. Die Verwendung des Micro-Frontend Architekturstils bedeutet, dass jede Anwendung ihre eigene Instanz des Caches hat. Dieser Ansatz führt zu vielen unnötigen Anfragen, die der Cache direkt beantworten könnte. Eine Maßnahme zur Verbesserung der Leistung ist die Implementierung einer gemeinsam genutzten Caching-Schicht zwischen allen Micro-Frontends. Ein Mechanismus zur Entfernung von Feldern aus GraphQL-Abfragen mit vorhandenen Daten aus dem Cache kann weitere Performanceverbesserungen bringen. Micro-Frontends folgen den Prinzipien von Microservices: Sie sollen unabhängig entwickelt und bereitgestellt werden. Die Architektur des Prototyps soll in Zukunft dazu verwendet werden, das alte System des Unternehmens zu ersetzen. Daher ist es wichtig die Architektur so technologieagnostisch wie möglich zu gestalten. Die gemeinsame genutzte Caching-Schicht und der Reduktionsmechanismus sollte unabhängig von der eingesetzten Technologie funktionieren.
 
   \bigskip
 
@@ -115,7 +115,7 @@
 \schlagworte{GraphQL, Micro-frontend, Caching, Backend For Frontend, Apollo Client, Angular React, Webpack}
 
 \outline{
-  This thesis aims to evaluate whether GraphQL can bring a performance boost in micro-frontend architectures. For this purpose, an old monolithic legacy system is divided into multiple micro-frontends, each responsible for a domain. The legacy application is sliced according to bounded contexts. Many frontend applications that communicate with REST APIs face the problem of over-fetching and over-requesting data from a backend. In a nutshell, many fields are unnecessarily fetched, leading to a performance penalty, and too many network requests are made to aggregate the data. A GraphQL API is used as a Backend For Frontend service for the micro-frontends to tackle the problems of over-fetching and over-fetching. The BFF forms a gateway to the microservice cluster and fetches and aggregates the data of the services. GraphQL offers micro-frontends highly customizable queries that fetch precisely the data needed for the requirement. Many GraphQL frontend clients offer an in-memory caching layer that stores the results of the queries. The cached data can be used to return data for a GraphQL query that has already been executed before. Adapting the micro-frontend pattern means that each application has a separate instance of the cache. This approach leads to many unnecessary requests that a shared cache could serve directly. One action to improve the performance is implementing a shared caching layer between all micro-frontends. Another step to boost the performance is implementing a mechanism to reduce GraphQL queries with existing data from the cache. Micro-frontends follow microservices' principles: they should be independently developed and deployed. The prototype's architecture should be used to replace the company's legacy system in the future; therefore, it is essential to make the architecture as technology agnostic as possible. The shared caching layer and reduction mechanism should work regardless of the technology used.
+  This thesis aims to evaluate whether GraphQL can bring a performance boost in micro-frontend architectures. For this purpose, an old monolithic legacy system is divided into multiple micro-frontends, each responsible for a domain. The legacy application is sliced according to bounded contexts. Many frontend applications that communicate with REST APIs face the problem of over-fetching and over-requesting data from a backend. In a nutshell, many fields are unnecessarily fetched, leading to a performance penalty, and too many network requests are made to aggregate the data. A GraphQL API is used as a Backend For Frontend service for the micro-frontends to tackle the problems of over-fetching and over-requesting. The BFF forms a gateway to the microservice cluster and fetches and aggregates the data of the services. GraphQL offers micro-frontends highly customizable queries that fetch precisely the data needed for the requirement. Many GraphQL frontend clients offer an in-memory caching layer that stores the results of the queries. The cached data can be used to return data for a GraphQL query that has already been executed before. Adapting the micro-frontend pattern means that each application has a separate instance of the cache. This approach leads to many unnecessary requests that a shared cache could serve directly. One action to improve the performance is implementing a shared caching layer between all micro-frontends. Another step to boost the performance is implementing a mechanism to reduce GraphQL queries with existing data from the cache. Micro-frontends follow microservices' principles: they should be independently developed and deployed. The prototype's architecture should be used to replace the company's legacy system in the future; therefore, it is essential to make the architecture as technology agnostic as possible. The shared caching layer and reduction mechanism should work regardless of the technology used.
 
   \bigskip
 
@@ -126,7 +126,7 @@
 
 \acknowledgements{
 
-I would like to express my heartfelt gratitude to AGnet's CEO Gerhard Apftelthaler for providing me with the opportunity to pursue this Master's degree and for supporting me throughout the process. He provided me with complete freedom to develop the prototypical system and was always available to assist with any questions I had. His dedication and support were exceptional, and I cannot thank him enough for the invaluable guidance he provided.
+I would like to express my heartfelt gratitude to AGnet's CEO Gerhard Apftelthaler for providing me with the opportunity to pursue this Master's degree and for supporting me throughout the process. He supplied me with complete freedom to develop the prototypical system and was always available to assist with any questions I had. His dedication and support were exceptional, and I cannot thank him enough for the invaluable guidance he provided.
 
 \bigskip
 
@@ -189,27 +189,27 @@ I would like to express my heartfelt gratitude to AGnet's CEO Gerhard Apftelthal
 
 \chapter*{\listacroname}
 \begin{acronym}[XXXXX]
-  \acro{HTTP}{Hypertext Transfer Protocol}
-  \acro{URL}{Uniform Resource Locator}
   \acro{API}{Application Programming Interface}
-  \acro{SPA}{Single-Page-Application}
   \acro{BFF}{Backend For Frontend}
-  \acro{REST}{Representational State Transfer}
-  \acro{IP}{Internet-Procotol}
-  \acro{HTML}{Hypertext Markup Language}
-  \acro{IDE}{Integrated development environment}
-  \acro{JSON}{JavaScript Object Notation}
-  \acro{SQL}{Structured Query Language}
-  \acro{gRPC}{gRPC Remote Procedure Calls}
   \acro{CSS}{Cascading Style Sheets}
-  \acro{JS}{JavaScript}
-  \acro{TS}{TypeScript}
   \acro{DI}{Dependency Injection}
-  \acro{UI}{User Interface}
-  \acro{ID}{Identifier}
-  \acro{UML}{Unified Modeling Language}
-  \acro{ERP}{Enterprise Resource Planning}
   \acro{DOM}{Document Object Model}
+  \acro{ERP}{Enterprise Resource Planning}
+  \acro{gRPC}{gRPC Remote Procedure Calls}
+  \acro{HTML}{Hypertext Markup Language}
+  \acro{HTTP}{Hypertext Transfer Protocol}
+  \acro{ID}{Identifier}
+  \acro{IDE}{Integrated development environment}
+  \acro{IP}{Internet Protocol}
+  \acro{JSON}{JavaScript Object Notation}
+  \acro{JS}{JavaScript}
+  \acro{REST}{Representational State Transfer}
+  \acro{SPA}{Single-Page-Application}
+  \acro{SQL}{Structured Query Language}
+  \acro{TS}{TypeScript}
+  \acro{UI}{User Interface}
+  \acro{UML}{Unified Modeling Language}
+  \acro{URL}{Uniform Resource Locator}
 \end{acronym}
 
 %

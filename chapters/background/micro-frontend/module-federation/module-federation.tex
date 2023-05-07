@@ -15,7 +15,7 @@ Webpack 5 introduced a new native plugin called Module Federation. Module Federa
 
 \subsubsection{Performance}\label{subsubsection:background:micro-frontend:module-federation:performance}
 
-Image multiple teams working on the same application. Each team develops one or more micro-frontend, and the teams have agreed to use the same \ac{UI} component libraries for the micro-frontend architecture. These libraries can be automatically shared with Module Federation, and they will be loaded only once at the beginning of the project, therefore all projects have the same version of the \ac{UI} components. Using only one instance of a dependency for multiple applications saves the browser from downloading a large \ac{JS} bundle. Module Federation can also load new micro-frontends during runtime, instead of defining them all in the configuration. \cite[83]{book:2021:mezzalira:applied-methods:building-micro-frontends}
+Imagine multiple teams working on the same application. Each team develops one or more micro-frontend, and the teams have agreed to use the same \ac{UI} component libraries for the micro-frontend architecture. These libraries can be automatically shared with Module Federation, and they will be loaded only once at the beginning of the project, therefore all projects have the same version of the \ac{UI} components. Using only one instance of a dependency for multiple applications saves the browser from downloading a large \ac{JS} bundle. Module Federation can also load new micro-frontends during runtime, instead of defining them all in the configuration. \cite[83]{book:2021:mezzalira:applied-methods:building-micro-frontends}
 
 \subsubsection{Composition}\label{subsubsection:background:micro-frontend:module-federation:composition}
 
@@ -36,7 +36,7 @@ Module Federation makes sharing code between multiple teams very easy. Module fe
 Module Federation allows a \ac{JS} application to dynamically load and run code from another bundle. Module Federation provides two key concepts that are very important before working with it. \cite[118-119]{book:2021:mezzalira:applied-methods:building-micro-frontends}
 
 \begin{itemize}
-    \item \texttt{Host}: The host is the that container loads the shared libraries and micro-frontends at runtime.
+    \item \texttt{Host}: The host is the container that loads the shared libraries and micro-frontends at runtime.
     \item \texttt{Remote}: The bundle that should be consumed by the host.
 \end{itemize}
 
