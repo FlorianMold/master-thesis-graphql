@@ -4,7 +4,7 @@ One aim of the master thesis was to investigate whether a micro-frontend archite
 
 \section{Request Size}\label{section:discussion:request-size}
 
-This section compares the different measurements of the request sizes from Chapter \ref{chapter:results}. Figure \ref{fig:discussion:request-size} displays the results from the previous sections \ref{section:results:comparison-first-journey} and \ref{section:results:comparison-second-journey} as a bar chart for better comparison. As can be seen from the figure for the first user journey, the differences in request sizes are not very large. The first approach without query reduction and no shared cache is the largest and executes 11 more GraphQL queries than the other two. These 11 extra GraphQL queries make up the total difference from the second approach with the shared caching layer since the queries are not reduced using the cache. The difference between the second and third approach is only 1.65 KB, which is quite insignificant.
+This section compares the different measurements of the request sizes from Chapter \ref{chapter:results}. Figure \ref{fig:discussion:request-size} displays the results from the previous sections \ref{section:results:comparison-first-journey} and \ref{section:results:comparison-second-journey} as a bar chart for better comparison. As can be seen from the figure for the first user journey, the differences in request sizes are not very large. The first approach without query reduction and a separate cache is the largest and executes 11 more GraphQL queries than the other two. These 11 extra GraphQL queries make up the total difference from the second approach with the shared caching layer since the queries are not reduced using the cache. The difference between the second and third approach is only 1.65 KB, which is quite insignificant.
 
 \bigskip
 
@@ -24,7 +24,7 @@ This section compares the different measurements of the request sizes from Chapt
       legend pos=north west,
       ylabel={Request Size (KB)},
       xtick=data, 
-      symbolic x coords={Reduction and shared cache, No reduction and shared cache, No reduction and no shared cache}, 
+      symbolic x coords={Reduction and shared cache, No reduction and shared cache, No reduction and separate cache}, 
       nodes near coords align={vertical},
       nodes near coords,
       height=8.5cm,
@@ -34,8 +34,8 @@ This section compares the different measurements of the request sizes from Chapt
         {fill=lightgray, draw=gray}
       },
     ]
-    \addplot coordinates {(Reduction and shared cache, 13.53) (No reduction and shared cache, 15.18) (No reduction and no shared cache, 17.46)};
-    \addplot coordinates {(Reduction and shared cache, 14.71) (No reduction and shared cache, 16.88) (No reduction and no shared cache, 22.95)};
+    \addplot coordinates {(Reduction and shared cache, 13.53) (No reduction and shared cache, 15.18) (No reduction and separate cache, 17.46)};
+    \addplot coordinates {(Reduction and shared cache, 14.71) (No reduction and shared cache, 16.88) (No reduction and separate cache, 22.95)};
     \legend{First user journey, Second user journey}
     \end{axis}
   \end{tikzpicture}
@@ -67,7 +67,7 @@ This section compares the three approaches' response sizes from the GraphQL \ac{
       legend pos=north west,
       ylabel={Response Size (MB)},
       xtick=data, 
-      symbolic x coords={Reduction and shared cache, No reduction and shared cache, No reduction and no shared cache}, 
+      symbolic x coords={Reduction and shared cache, No reduction and shared cache, No reduction and separate cache}, 
       nodes near coords align={vertical},
       nodes near coords,
       height=8.5cm,
@@ -77,8 +77,8 @@ This section compares the three approaches' response sizes from the GraphQL \ac{
         {fill=lightgray, draw=gray}
       },
     ]
-    \addplot coordinates {(Reduction and shared cache, 8.37) (No reduction and shared cache, 8.44) (No reduction and no shared cache, 10.78)};
-    \addplot coordinates {(Reduction and shared cache, 8.361) (No reduction and shared cache, 8.364) (No reduction and no shared cache, 10.71)};
+    \addplot coordinates {(Reduction and shared cache, 8.37) (No reduction and shared cache, 8.44) (No reduction and separate cache, 10.78)};
+    \addplot coordinates {(Reduction and shared cache, 8.361) (No reduction and shared cache, 8.364) (No reduction and separate cache, 10.71)};
     \legend{First user journey, Second user journey}
     \end{axis}
   \end{tikzpicture}
@@ -107,7 +107,7 @@ It is hard to make accurate comparisons when it comes to measuring the time it t
       ylabel={Response Times (s)},
       xlabel={1.5 Mbps, fast 3G},
       xtick=data, 
-      symbolic x coords={Reduction and shared cache, No reduction and shared cache, No reduction and no shared cache}, 
+      symbolic x coords={Reduction and shared cache, No reduction and shared cache, No reduction and separate cache}, 
       nodes near coords align={vertical},
       nodes near coords,
       height=8.5cm,
@@ -117,8 +117,8 @@ It is hard to make accurate comparisons when it comes to measuring the time it t
         {fill=lightgray, draw=gray}
       },
     ]
-    \addplot coordinates {(Reduction and shared cache, 44.67) (No reduction and shared cache, 45.00) (No reduction and no shared cache, 57.50)};
-    \addplot coordinates {(Reduction and shared cache, 44.59) (No reduction and shared cache, 44.61) (No reduction and no shared cache, 57.14)};
+    \addplot coordinates {(Reduction and shared cache, 44.67) (No reduction and shared cache, 45.00) (No reduction and separate cache, 57.50)};
+    \addplot coordinates {(Reduction and shared cache, 44.59) (No reduction and shared cache, 44.61) (No reduction and separate cache, 57.14)};
     \legend{First user journey, Second user journey}
   \end{axis}
   \end{tikzpicture}
