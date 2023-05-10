@@ -1,0 +1,23 @@
+\section{API Abstraction}\label{section:background:api-abstraction}
+
+Every microservice provides its functionality to consumers with \acp{API}. Nevertheless, it is not advisable that clients directly communicate with microservice \acp{API}. Microservice offer fine-grained interfaces which were made especially for the communication between microservices. Therefore, the client usually has to make multiple requests to fetch and aggregate the data to display a page inside an application. \cite[69]{book:2021:newman:background:bff:micro-services} This approach leads to a lot of requests, also known as over-requesting, which could harm the user experience. \cite[254, 257]{book:2018:richardson:background:bff:microservices-patterns} Both over-requesting and over-fetching are explained in more detail in Section \ref{subsection:background:micro-frontend:generic-vs-consumer-driven-apis}.
+
+\bigskip
+
+\noindent Another integration problem could be that a set of microservices uses another communication protocol, which is not supported on the frontend. For example, an asynchronous message bus or another protocol like \ac{gRPC} that differs from the \ac{HTTP}. Clients usually communicate using synchronous communication, whereas microservices might use asynchronous communication. With an adapter between the frontend and the microservices, the communication will work properly. Even if communication is possible, the client needs to know many internal details about the set of microservices, like the \ac{IP} address. It needs to be specified which microservice offers the required data for the client. Changing the \ac{API} of a microservice would have a ripple effect on the requests of the frontend because they would have to be adapted to the changes in many places. \cite[254-257]{book:2018:richardson:background:bff:microservices-patterns}
+
+\bigskip
+
+\noindent The clients can communicate with an \ac{API} gateway or a more client-centric \ac{BFF} service to solve this problem. \ac{API} gateways serve as an abstraction layer for microservice \acp{API}, serving as the entry point for a system that consists of multiple microservices. \cite[19-20]{book:2020:siriwardena:background:bff:microservice-security-in-action}
+
+\bigskip
+
+\noindent The main task of a gateway is to forward requests to the correct microservice and aggregate the microservice \acp{API} for loading the required data in one request. They might implement functionalities like authorization and authentication or transformation of the communication protocol, like converting \ac{HTTP} to \ac{gRPC}. With \ac{API} gateways, it is easier to split a microservice into two separate services without having a ripple effect to change all clients that consume the microservices. \cite[260-263]{book:2018:richardson:background:bff:microservices-patterns}
+
+\bigskip
+
+\noindent However, the problem with \ac{API} gateways is the ownership. Multiple teams will add their functionality to the gateway and therefore might come into conflict. The \ac{API} gateways are often not suited for their client's needs, and it must be avoided that business logic is put into the \ac{API} gateway. Another pattern to bypass the problems with \ac{API} gateways is the \ac{BFF} pattern. \cite[265-266]{book:2018:richardson:background:bff:microservices-patterns}
+
+\bigskip
+
+\noindent Each frontend application has its own \ac{API} gateway called \ac{BFF} service using this approach. This service is specially designed to fit the requirements of the client. \cite[264-266]{book:2018:richardson:background:bff:microservices-patterns} \cite[71-72]{book:2021:newman:background:bff:micro-services} This method allows every team to develop their \ac{BFF} isolated and autonomous. Therefore a team can develop a complete vertical software from the microservice to the \ac{BFF} and, finally, the micro-frontend. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}

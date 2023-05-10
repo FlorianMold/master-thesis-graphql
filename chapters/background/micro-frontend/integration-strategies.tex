@@ -1,0 +1,36 @@
+\subsection{Integration strategies}\label{subsection:background:micro-frontend-architecture:integration-strategies}
+
+Micro-frontends can be integrated using different strategies. The integration strategy to choose depends on the requirements of the system. They can be either integrated using a client-side integration strategy, a server-side strategy, or a mixture of both.
+
+\subsubsection{Server-Side Integration}\label{subsubsection:background:micro-frontend-architecture:integration-strategies:server-side-integration}
+
+A service that sits between the client and the server usually does server-side composition. \cite[60]{book:2020:geers:background:micro-frontends:micro-frontends-in-action} The server responds with references to the micro-frontends that should be included and their required assets. The service in the middle intercepts that response and replaces the references to the micro-frontends with the actual content before the response is sent back to the browser. The micro-frontends are included where they are positioned and later appear in the \ac{HTML}. An example of a server-side include can be seen in Listing \ref{code:background:micro-frontends:server-side-include}. The micro-frontends are referenced via their \acp{URL}. \cite[61-63]{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
+
+\ifshowListings
+\begin{listing}[H]
+  \begin{minted}{html}
+<html>
+  <body>
+    <!--#include virtual="/erp/dashboard" -->
+  </body>
+</html>
+  \end{minted}
+  \caption{An example of a server-side include.}\label{code:background:micro-frontends:server-side-include}
+\end{listing}
+\fi
+
+\bigskip
+
+\noindent One advantage of server-side integration is the fast initial page-load performance, which is a principle of progressive enhancement. \cite{book:2010:parker:background:micro-frontends:designing-with-progressive-enhancement} The browser fetches the complete \ac{HTML} page and renders it. It does not have to assemble parts of a page, like with client-side integration. The computation is only done on the server, which reduces the strain on the user's device. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action} However, assets like stylesheets and images must still be fetched from the server. Server Side Integration is helpful if the application's primary concern is presenting static content to the end user and if an instant reaction to the user's inputs is unnecessary.  \cite[83]{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
+
+\subsubsection{Client-Side Integration}\label{subsubsection:background:micro-frontend-architecture:integration-strategies:client-side-integration}
+
+If the application should react promptly to user input, a client-side integration strategy should be preferred. For example, when developing an online marketplace, the user should be able to add items to the cart without making a complete roundtrip to the server to see the updated cart. The application should provide a seamless user experience, where the end-user should think that they just use one application. Modern Frameworks like Angular and React offer the development of \acp{SPA}, which provide reactive, client-side rendered applications. The \ac{HTML} Markup is produced on the client instead of the server. \cite{book:2020:geers:background:micro-frontends:micro-frontends-in-action}
+
+\bigskip
+
+\noindent Client-side integration can be achieved through different techniques. The most straightforward method combines the micro-frontends by linking the different applications together with hyperlinks. Each micro-frontend is deployed and accessible via a different \ac{URL}, and the different micro-frontends are then linked with hyperlinks. As the approach implies, switching to another micro-frontend requires a complete page reload and a roundtrip to the server. But, the integration with Hyperlinks breaks the \ac{SPA} approach. This strategy makes it necessary that every micro-frontend is accessible via a separate \ac{URL} and that it can be served as a standalone application and is not dependent on an application shell.
+
+\bigskip
+
+\noindent Another client-side approach is to load every micro-frontend separately into the client's browser and a client-side \ac{JS} library is used to combine them into a single application. Prominent libraries that can help to achieve this approach include Module Federation\footnote{\url{https://github.com/module-federation}}, single-spa\footnote{\url{https://github.com/single-spa/single-spa}}, and qiankun\footnote{\url{https://github.com/umijs/qiankun}}. An additional method to integrate micro-frontends on the client side is to use either iFrames or Web Components. Integrating micro-frontends using this approach enables the page to still follow the \ac{SPA} principles. All of these techniques allow the client to navigate multiple micro-frontends without noticing. No page reloads are necessary. An iFrame is an isolated area with a separate browser context \cite[35]{book:2020:geers:background:micro-frontends:micro-frontends-in-action}, Web Components are custom \ac{HTML} elements that can be embedded into the \ac{DOM} of the browser \cite[103]{book:2019:farrell:background:micro-frontends:web-components-in-action}. Integrating applications with client-side strategy using Module Federation is explained in more detail in Section \ref{subsubsection:background:micro-frontend:module-federation:101}.

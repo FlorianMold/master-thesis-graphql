@@ -1,0 +1,51 @@
+\section{GraphQL}\label{section:background:graphql}
+
+GraphQL was initially developed by Facebook and refers to itself as the query language for \acp{API}. It allows the client to ask precisely for the data fields necessary. GraphQL offers the advantage that all requests can be fetched from only one endpoint. Data types provide an understandable implicit description of \ac{API} for consumers within the GraphQL schema. \cite{misc:-:background:graphql:graphql-org} The functionality of GraphQL can be compared to \ac{SQL} for databases. The client writes its queries with the desired fields from a query.
+
+\bigskip
+
+\noindent According to the official documentation, GraphQL is both a query language for \acp{API} and a runtime that executes those queries by using existing data. By providing a clear and comprehensive description of the data in the \ac{API}, GraphQL empowers clients to request only the data that they require, streamlining the data transfer process. This approach facilitates the evolution of \acp{API} over time and facilitates the development of powerful developer tools. The GraphQL specification is implemented in programming many languages and frameworks and has an extensive library and tool ecosystem.
+
+\subsection{Origins and history}\label{subsection:background:graphql:origins-and-history}
+
+GraphQL was initially developed in 2012. In 2015 the project was made open-source and available to the public. The reason behind the initial creation of GraphQL was the restricted flexibility of known \ac{API} technologies like \ac{REST}. Mobile devices needed only a subset of the fields that a \ac{REST} endpoint offered. Furthermore, the exact number of fields can change dynamically, based on the current state. The static background of \ac{REST} does not offer this behavior. Using \ac{REST}-based \acp{API} for clients that only need some fields would introduce the problem of over-fetching. Clients will be provided with information that exceeds their requirements. This approach leads to problems as mobile networks often have limited network traffic. Over-fetching puts additional strain on the user's data plan, as multiple requests have to be made. \cite{misc:2015:bryon:background:graphql:graphql-query-language}
+
+\subsection{GraphQL Characteristics}\label{subsection:background:graphql:graphql-characteristics}
+
+GraphQL has several design principles: \cite{misc:-:background:graphql:graphql-specification}
+
+\begin{itemize}
+  \item \textbf{Hierarchical}: Queries in GraphQL are structured hierarchically, allowing the clients to specify what data they need and in what format. This approach enables efficient data retrieval and reduces network overhead.
+
+  \item \textbf{Product-centric}: GraphQL is designed to be product-centric rather than data-centric. That means that developers can create \acp{API} that match the needs of specific products or features rather than being constrained by the limitations of a pre-defined data schema.
+
+  \item \textbf{Strong typing}: GraphQL is strongly-typed, meaning the data types are defined explicitly in the schema. The typing provides clarity and reduces ambiguity in the \ac{API} design while also enabling powerful tools for type checking and code generation.
+
+  \item \textbf{Client-specified queries}: In GraphQL, the client specifies the structure of the query rather than the server. This approach allows clients to retrieve only the necessary data, reducing network overhead and enabling faster, more responsive applications.
+
+  \item \textbf{Introspective}: GraphQL provides a built-in introspection system that enables clients to query the schema, allowing for powerful self-documentation and tooling capabilities.
+\end{itemize}
+
+\subsection{Advantages}\label{subsection:background:graphql:graphql-advantages}
+
+GraphQL helps to reduce the network traffic between the clients and the service they query. Research indicates that the dynamic approach to fetching data can reduce the number of fields to be fetched and, therefore, the bytes sent back and forth to the GraphQL server. \cite{inprocessdings:2019:background:graphql:migration-to-graphql}
+
+\bigskip
+
+\noindent Because the client specifies the required fields that should be fetched, the complexity on the server can be reduced. The backend service does not need to implement many endpoints, that are only used by a small subset of clients. The \ac{API} can implement a single endpoint that all clients can query. \cite{book:2018:richardson:background:bff:microservices-patterns}
+
+\bigskip
+
+\noindent The characteristic that GraphQL can query its schema allows service discovery potential. Introspection allows GraphQL tools like GraphQL Voyager\footnote{\url{https://ivangoncharov.github.io/graphql-voyager/}} to visualize the schema in an \ac{UML} class diagram style. Other tools like GraphiQL\footnote{\url{https://github.com/graphql/graphiql}} can be used to analyze the schema and run queries. The functionality of such tools is explained in more detail in Section \ref{subsection:background:graphql:apollo-server-client}. \ac{REST} provides the same functionality to some degree, but additional tooling is needed because \ac{REST} cannot generate specification files.
+
+\subsection{Disadvantages}\label{subsection:background:graphql:graphql-disadvantages}
+
+\noindent The advantage that GraphQL reduces complexity on the server is a disadvantage for the client-side application. It leads to higher complexity when consuming GraphQL services compared to \ac{REST}. With \ac{REST}, only an endpoint has to be queried, whereas, with GraphQL, the requested data has to be specified at the field level. However, the introspection abilities of GraphQL allow consumers to understand better the query and data structure, which mitigates the disadvantage. A study \cite{inproceedings:2020:brito:background:graphql:rest-vs-graphql} showed that the study participants found it easier to consume a GraphQL Service than a \ac{REST} Service \cite{inproceedings:2017:de-pauda:background:graphql:handling-anti-patterns}. GraphQL shifts responsibilities from the server to the client, generally done with a gateway. \ac{API} composition can transfer the responsibility from the server to the client.
+
+\bigskip
+
+\noindent Allowing the client to specify the structure of a query might make the potential complexity of the query not transparent to the client. The approach makes it possibile that the client may specify a query which does not complete in a reasonable time or takes up a lot of resources. \cite{book:2018:richardson:background:bff:microservices-patterns}
+
+\input{chapters/background/graphql/apollo-client-server}
+
+\input{chapters/background/graphql/query-reduction.tex}
