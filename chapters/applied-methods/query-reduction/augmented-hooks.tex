@@ -1,4 +1,4 @@
-\subsection{Remove fields from queries}\label{subsection:applied-methods:query-reduction:how-does-the-library-work}
+\subsection{Implementation}\label{subsection:applied-methods:query-reduction:how-does-the-library-work}
 
 This section briefly describes how the query shrink function removes fields from a query using the \texttt{InMemoryCache}. Apollo Client allows specifying multiple configuration options when trying to fetch a query from a GraphQL \ac{API}. The three most important options are \texttt{variables}, \texttt{query}, and \texttt{fetchPolicy}. The \texttt{query} specifies the GraphQL query, and the \texttt{variables} are the parameters for the query. The \texttt{fetchPolicy} lets the client specify how data is stored and retrieved from the cache. The typical structure of a GraphQL query within the micro-frontend architecture is shown in Listing \ref{code:applied-methods:query-reduction:executing-graphql-query}. The query retrieves the details of the user with the specified \texttt{id}. The default fetch policy of a query is \texttt{cache-first}.   
 

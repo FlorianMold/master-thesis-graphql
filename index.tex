@@ -112,7 +112,7 @@
   \noindent Die Architektur wird dann hinsichtlich ihrer Leistung in Bezug auf die Größe der Anfrage und die Größe der Antwort analysiert. Die Ergebnisse zeigen mehrere interessante Erkenntnisse. Die Verwendung einer gemeinsamen Caching-Schicht verbessert die Leistung drastisch im Vergleich zum naiven Ansatz, bei dem jedes Micro-Frontend seinen eigenen Cache verwendet. Die Reduzierung der Anfragen bringt in diesem Szenario keine signifikante Verbesserung gegenüber der massiven Verbesserung durch die gemeinsame Caching-Schicht.
 }
 
-\schlagworte{GraphQL, Micro-frontend, Caching, Backend For Frontend, Apollo Client, Angular React, Webpack}
+\schlagworte{GraphQL, Software Architektur, Micro-frontend Architektur, Microservice Architektur, Caching, Backend For Frontend Service}
 
 \outline{
   This thesis aims to evaluate whether GraphQL can bring a performance boost in micro-frontend architectures. For this purpose, an old monolithic legacy system is divided into multiple micro-frontends, each responsible for a domain. The legacy application is sliced according to bounded contexts. Many frontend applications that communicate with REST APIs face the problem of over-fetching and over-requesting data from a backend. In a nutshell, many fields are unnecessarily fetched, leading to a performance penalty, and too many network requests are made to aggregate the data. A GraphQL API is used as a Backend For Frontend service for the micro-frontends to tackle the problems of over-fetching and over-requesting. The BFF forms a gateway to the microservice cluster and fetches and aggregates the data of the services. GraphQL offers micro-frontends highly customizable queries that fetch precisely the data needed for the requirement. Many GraphQL frontend clients offer an in-memory caching layer that stores the results of the queries. The cached data can be used to return data for a GraphQL query that has already been executed before. Adapting the micro-frontend pattern means that each application has a separate instance of the cache. This approach leads to many unnecessary requests that a shared cache could serve directly. One action to improve the performance is implementing a shared caching layer between all micro-frontends. Another step to boost the performance is implementing a mechanism to reduce GraphQL queries with existing data from the cache. Micro-frontends follow microservices' principles: they should be independently developed and deployed. The prototype's architecture should be used to replace the company's legacy system in the future; therefore, it is essential to make the architecture as technology agnostic as possible. The shared caching layer and reduction mechanism should work regardless of the technology used.
@@ -122,7 +122,7 @@
   \noindent The architecture is then analyzed concerning its performance regarding request size and response size. The outcomes show several exciting findings. Using a shared caching layer dramatically improves the performance, in comparison to the naive approach where each micro-frontend uses its separate cache. Query reduction does not bring a significant improvement in this scenario, over the massive improvement of the shared caching layer.
 }
 
-\keywords{GraphQL, Micro-frontend, Caching, Backend For Frontend, Apollo Client, Angular React, Webpack}
+\keywords{GraphQL, Software Architecture, Micro-frontend Architecture, Microservice Architecture, Caching, Backend For Frontend Service}
 
 \acknowledgements{
 

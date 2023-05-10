@@ -14,31 +14,39 @@ This section compares the different measurements of the request sizes from Chapt
 
 \noindent Therefore, the query reduction functionality does not significantly improve performance by reducing the size of the responses compared to just using the shared caching layer.
 
+% \ifshowImages
+% \begin{figure}[H]
+%   \centering
+%   \begin{tikzpicture}
+%     \begin{axis}[
+%       ymin=0,
+%       ybar,
+%       legend pos=north west,
+%       ylabel={Request Size (KB)},
+%       xtick=data, 
+%       symbolic x coords={Reduction and shared cache, No reduction and shared cache, No reduction and separate cache}, 
+%       nodes near coords align={vertical},
+%       nodes near coords,
+%       height=8.5cm,
+%       width=16cm,
+%       bar width=30pt,
+%       cycle list={
+%         {fill=lightgray, draw=gray}
+%       },
+%     ]
+%     \addplot coordinates {(Reduction and shared cache, 13.53) (No reduction and shared cache, 15.18) (No reduction and separate cache, 17.46)};
+%     \addplot coordinates {(Reduction and shared cache, 14.71) (No reduction and shared cache, 16.88) (No reduction and separate cache, 22.95)};
+%     \legend{First user journey, Second user journey}
+%     \end{axis}
+%   \end{tikzpicture}
+%   \caption{Request size comparison between the three approaches.}\label{fig:discussion:request-size}
+% \end{figure}
+% \fi
+
 \ifshowImages
 \begin{figure}[H]
   \centering
-  \begin{tikzpicture}
-    \begin{axis}[
-      ymin=0,
-      ybar,
-      legend pos=north west,
-      ylabel={Request Size (KB)},
-      xtick=data, 
-      symbolic x coords={Reduction and shared cache, No reduction and shared cache, No reduction and separate cache}, 
-      nodes near coords align={vertical},
-      nodes near coords,
-      height=8.5cm,
-      width=16cm,
-      bar width=30pt,
-      cycle list={
-        {fill=lightgray, draw=gray}
-      },
-    ]
-    \addplot coordinates {(Reduction and shared cache, 13.53) (No reduction and shared cache, 15.18) (No reduction and separate cache, 17.46)};
-    \addplot coordinates {(Reduction and shared cache, 14.71) (No reduction and shared cache, 16.88) (No reduction and separate cache, 22.95)};
-    \legend{First user journey, Second user journey}
-    \end{axis}
-  \end{tikzpicture}
+  \includegraphics[width=0.9\linewidth]{images/discussion/request-size.png}
   \caption{Request size comparison between the three approaches.}\label{fig:discussion:request-size}
 \end{figure}
 \fi
@@ -57,31 +65,39 @@ This section compares the three approaches' response sizes from the GraphQL \ac{
 
 \noindent Just like with the request sizes, query reduction does not significantly improve performance by reducing the size of the network responses compared to just using the shared caching layer.
 
+% \ifshowImages
+% \begin{figure}[H]
+%   \centering
+%   \begin{tikzpicture}
+%     \begin{axis}[
+%       ymin=0,
+%       ybar,
+%       legend pos=north west,
+%       ylabel={Response Size (MB)},
+%       xtick=data, 
+%       symbolic x coords={Reduction and shared cache, No reduction and shared cache, No reduction and separate cache}, 
+%       nodes near coords align={vertical},
+%       nodes near coords,
+%       height=8.5cm,
+%       width=16cm,
+%       bar width=30pt,
+%       cycle list={
+%         {fill=lightgray, draw=gray}
+%       },
+%     ]
+%     \addplot coordinates {(Reduction and shared cache, 8.37) (No reduction and shared cache, 8.44) (No reduction and separate cache, 10.78)};
+%     \addplot coordinates {(Reduction and shared cache, 8.361) (No reduction and shared cache, 8.364) (No reduction and separate cache, 10.71)};
+%     \legend{First user journey, Second user journey}
+%     \end{axis}
+%   \end{tikzpicture}
+%   \caption{Response size comparison between the three approaches.}\label{fig:discussion:response-size}
+% \end{figure}
+% \fi
+
 \ifshowImages
 \begin{figure}[H]
   \centering
-  \begin{tikzpicture}
-    \begin{axis}[
-      ymin=0,
-      ybar,
-      legend pos=north west,
-      ylabel={Response Size (MB)},
-      xtick=data, 
-      symbolic x coords={Reduction and shared cache, No reduction and shared cache, No reduction and separate cache}, 
-      nodes near coords align={vertical},
-      nodes near coords,
-      height=8.5cm,
-      width=16cm,
-      bar width=30pt,
-      cycle list={
-        {fill=lightgray, draw=gray}
-      },
-    ]
-    \addplot coordinates {(Reduction and shared cache, 8.37) (No reduction and shared cache, 8.44) (No reduction and separate cache, 10.78)};
-    \addplot coordinates {(Reduction and shared cache, 8.361) (No reduction and shared cache, 8.364) (No reduction and separate cache, 10.71)};
-    \legend{First user journey, Second user journey}
-    \end{axis}
-  \end{tikzpicture}
+  \includegraphics[width=0.9\linewidth]{images/discussion/response-size.png}
   \caption{Response size comparison between the three approaches.}\label{fig:discussion:response-size}
 \end{figure}
 \fi
@@ -96,32 +112,40 @@ It is hard to make accurate comparisons when it comes to measuring the time it t
 
 \noindent This section compares the total time to download every query response from the GraphQL \ac{API} for the three approaches from Section \ref{section:results:performance-measurement}. The measurement should not be misunderstood, because the browser typically loads the resources in parallel. Here, only the total download time is measured to see how much time it takes to download all the resources in one of the approaches. The measurements were recorded during the user journeys from sections \ref{section:results:comparison-first-journey} and \ref{section:results:comparison-second-journey} alongside the request sizes and response sizes. Therefore the total response times correspond to the measured network sizes from the previous two sections. The results are measured in seconds and are shown in Figure \ref{fig:discussion:response-times}. 
 
+% \ifshowImages
+% \begin{figure}[H]
+%   \centering
+%   \begin{tikzpicture}
+%     \begin{axis}[
+%       ymin=0,
+%       ybar,
+%       legend pos=north west,
+%       ylabel={Response Times (s)},
+%       xlabel={1.5 Mbps, fast 3G},
+%       xtick=data, 
+%       symbolic x coords={Reduction and shared cache, No reduction and shared cache, No reduction and separate cache}, 
+%       nodes near coords align={vertical},
+%       nodes near coords,
+%       height=8.5cm,
+%       width=16cm,
+%       bar width=30pt,
+%       cycle list={
+%         {fill=lightgray, draw=gray}
+%       },
+%     ]
+%     \addplot coordinates {(Reduction and shared cache, 44.67) (No reduction and shared cache, 45.00) (No reduction and separate cache, 57.50)};
+%     \addplot coordinates {(Reduction and shared cache, 44.59) (No reduction and shared cache, 44.61) (No reduction and separate cache, 57.14)};
+%     \legend{First user journey, Second user journey}
+%   \end{axis}
+%   \end{tikzpicture}
+%   \caption{Response time comparison between the three approaches.}\label{fig:discussion:response-times}
+% \end{figure}
+% \fi
+
 \ifshowImages
 \begin{figure}[H]
   \centering
-  \begin{tikzpicture}
-    \begin{axis}[
-      ymin=0,
-      ybar,
-      legend pos=north west,
-      ylabel={Response Times (s)},
-      xlabel={1.5 Mbps, fast 3G},
-      xtick=data, 
-      symbolic x coords={Reduction and shared cache, No reduction and shared cache, No reduction and separate cache}, 
-      nodes near coords align={vertical},
-      nodes near coords,
-      height=8.5cm,
-      width=16cm,
-      bar width=30pt,
-      cycle list={
-        {fill=lightgray, draw=gray}
-      },
-    ]
-    \addplot coordinates {(Reduction and shared cache, 44.67) (No reduction and shared cache, 45.00) (No reduction and separate cache, 57.50)};
-    \addplot coordinates {(Reduction and shared cache, 44.59) (No reduction and shared cache, 44.61) (No reduction and separate cache, 57.14)};
-    \legend{First user journey, Second user journey}
-  \end{axis}
-  \end{tikzpicture}
+  \includegraphics[width=0.9\linewidth]{images/discussion/response-times.png}
   \caption{Response time comparison between the three approaches.}\label{fig:discussion:response-times}
 \end{figure}
 \fi
