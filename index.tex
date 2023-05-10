@@ -27,25 +27,47 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{float}
+\usepackage{csquotes}
 
-\newboolean{showImages} % Deklaration einer boolschen Variable
-\setboolean{showImages}{true} % Zuweisung eines Wertes.
+\newboolean{showImages}
+\setboolean{showImages}{true}
 
-\newboolean{showListings} % Deklaration einer boolschen Variable
-\setboolean{showListings}{true} % Zuweisung eines Wertes.
+\newboolean{showListings} 
+\setboolean{showListings}{true}
 
-\newboolean{showTables} % Deklaration einer boolschen Variable
-\setboolean{showTables}{true} % Zuweisung eines Wertes.
+\newboolean{showTables}
+\setboolean{showTables}{true} 
 
-\newboolean{showUnusedContent} % Deklaration einer boolschen Variable
-\setboolean{showUnusedContent}{false} % Zuweisung eines Wertes.
+\newboolean{showAppliedMethodsCustomNginxConfSection}
+\setboolean{showAppliedMethodsCustomNginxConfSection}{true}
 
+\newboolean{showAppliedMethodsLoadRemoteSettingsSection}
+\setboolean{showAppliedMethodsLoadRemoteSettingsSection}{true}
+
+\newboolean{showAppliedMethodsSecondaryEntrypoints}
+\setboolean{showAppliedMethodsSecondaryEntrypoints}{true}
+
+\newboolean{showAppliedMethodsTestingQueryReduction}
+\setboolean{showAppliedMethodsTestingQueryReduction}{true}
+
+\newboolean{showResultsChapter}
+\setboolean{showResultsChapter}{true}
+
+\newboolean{showDiscussionChapter}
+\setboolean{showDiscussionChapter}{true}
+
+\newboolean{showConclusionChapter}
+\setboolean{showConclusionChapter}{true}
+
+\newboolean{showFutureWorkChapter}
+\setboolean{showFutureWorkChapter}{true}
 
 %
 % Hier biblatex & Biber konfigurieren; Vergessen Sie nicht, dass Sie biber verwenden müssen um eine Bibliothek zu erzeugen
 %
 \usepackage[backend=biber, style=numeric]{biblatex}
-\addbibresource{Literatur.bib}
+\usepackage{pgfplots} 
+\addbibresource{literature.bib}
 
 %
 % Bei Bedarf bitte hier die Syntax-Highlightings anpassen
@@ -56,7 +78,7 @@
 \providecommand\listacroname{}
 \@ifclasswith{twbook}{english}
 {%
-    \renewcommand\listoflistingscaption{List of source codes}
+    \renewcommand\listoflistingscaption{List of Source Codes}
     \renewcommand\listacroname{List of Abbreviations}
 }{%
     \renewcommand\listoflistingscaption{Quellcodeverzeichnis}
@@ -70,24 +92,50 @@
 %
 % Einträge für Deckblatt, Kurzfassung, etc.
 %
-\title{Can GraphQL bring a performance improvement in micro-frontend architectures?}
+\title{Can GraphQL bring a performance \\ improvement in \\ micro-frontend architectures?}
 \author{Florian Mold, BSc}
-\studentnumber{11776836}
+\studentnumber{2110299006}
 %\author{Titel Vorname Name, Titel\and{}Titel Vorname Name, Titel}
 %\studentnumber{XXXXXXXXXXXXXXX\and{}XXXXXXXXXXXXXXX}
 \supervisor{David Leitner, MSc}
 %\supervisor[Begutachter]{Titel Vorname Name, Titel}
 %\supervisor[Begutachterin]{Titel Vorname Name, Titel}
-%\secondsupervisor{Titel Vorname Name, Titel}
+\secondsupervisor{Gehard Apfelthaler}
 %\secondsupervisor[Begutachter]{Titel Vorname Name, Titel}
 %\secondsupervisor[Begutachterinnen]{Titel Vorname Name, Titel}
-\place{Wien}
-\kurzfassung{In diesem Projektbericht wird untersucht, ob eine Mikro-Frontend-Architektur von einer gemeinsamen Caching-Schicht profitieren kann. Außerdem wird untersucht, ob das Senden von einem Teil einer GraphQL Query an das GraphQL-Backend, welche Felder entfernt, die sich bereits im Cache befinden, einen Leistungsvorteil bietet. Der Prototyp wurde mit drei verschiedenen Ansätzen evaluiert und anhand der Anfrage- und Antwortgröße verglichen. Es wird diskutiert, ob die Vorteile der zusätzlichen Komplexität durch die Verbesserungen durch Caching die Nachteile überwiegen.}
-\schlagworte{GraphQL, Micro-frontend, Caching, Backend-For-Frontend}
-\outline{This project report evaluates whether a micro-frontend architecture can benefit from a shared caching layer. Furthermore, we evaluate whether sending partial queries to the GraphQL backend that remove fields that are already in the cache provides a performance benefit. The prototype was evaluated using three different approaches and compared based on query and response size. The debate is whether the benefits of the added complexity from the improvements through caching outweigh the disadvantages.}
+\place{Vienna}
+\kurzfassung{
+  Diese Thesis zielt darauf ab zu untersuchen, ob GraphQL eine Performanceverbesserung in Micro-Frontends bringen kann. Hierzu wird ein altes, monolithisches Legacy-System in mehrere Micro-Frontends aufgeteilt. Die Legacy-Anwendung wird entsprechend in Bounded Contexts aufgeteilt. Viele Frontend-Anwendungen, welche mit REST-APIs kommunizieren, haben das Problem des Over-Fetching und Over-Requesting von Daten vom Backend. Kurz gesagt werden viele Felder unnötigerweise abgefragt, was zu verlängerten Wartezeiten führt. Eine GraphQL-API wird als Backend for Frontend Service für die Micro-Frontends verwendet, um die Probleme des Over-Fetching und Over-Requesting anzugehen. Ein BFF bildet ein Gateway zum Microservice-Cluster und ruft die Daten der Services ab und aggregiert diese. GraphQL bietet anpassbare Abfragen, welche genau die vom micro-frontend benötigten Daten laden. Viele GraphQL Clients bieten eine In-Memory Caching-Schicht, welche die Ergebnisse der Abfragen speichert. Die gecachten Daten können verwendet werden, um Daten für eine GraphQL-Abfrage zurückzugeben, welche bereits ausgeführt wurde. Die Verwendung des Micro-Frontend Architekturstils bedeutet, dass jede Anwendung ihre eigene Instanz des Caches hat. Dieser Ansatz führt zu vielen unnötigen Anfragen, die der Cache direkt beantworten könnte. Eine Maßnahme zur Verbesserung der Leistung ist die Implementierung einer gemeinsam genutzten Caching-Schicht zwischen allen Micro-Frontends. Ein Mechanismus zur Entfernung von Feldern aus GraphQL-Abfragen mit vorhandenen Daten aus dem Cache kann weitere Performanceverbesserungen bringen. Micro-Frontends folgen den Prinzipien von Microservices: Sie sollen unabhängig entwickelt und bereitgestellt werden. Die Architektur des Prototyps soll in Zukunft dazu verwendet werden, das alte System des Unternehmens zu ersetzen. Daher ist es wichtig die Architektur so technologieagnostisch wie möglich zu gestalten. Die gemeinsame genutzte Caching-Schicht und der Reduktionsmechanismus sollte unabhängig von der eingesetzten Technologie funktionieren.
 
-\keywords{GraphQL, Micro-frontend, Caching, Backend-For-Frontend}
-%\acknowledgements{\blindtext}
+  \bigskip
+
+  \noindent Die Architektur wird dann hinsichtlich ihrer Leistung in Bezug auf die Größe der Anfrage und die Größe der Antwort analysiert. Die Ergebnisse zeigen mehrere interessante Erkenntnisse. Die Verwendung einer gemeinsamen Caching-Schicht verbessert die Leistung drastisch im Vergleich zum naiven Ansatz, bei dem jedes Micro-Frontend seinen eigenen Cache verwendet. Die Reduzierung der Anfragen bringt in diesem Szenario keine signifikante Verbesserung gegenüber der massiven Verbesserung durch die gemeinsame Caching-Schicht.
+}
+
+\schlagworte{GraphQL, Software Architektur, Micro-frontend Architektur, Microservice Architektur, Caching, Backend For Frontend Service}
+
+\outline{
+  This thesis aims to evaluate whether GraphQL can bring a performance boost in micro-frontend architectures. For this purpose, an old monolithic legacy system is divided into multiple micro-frontends, each responsible for a domain. The legacy application is sliced according to bounded contexts. Many frontend applications that communicate with REST APIs face the problem of over-fetching and over-requesting data from a backend. In a nutshell, many fields are unnecessarily fetched, leading to a performance penalty, and too many network requests are made to aggregate the data. A GraphQL API is used as a Backend For Frontend service for the micro-frontends to tackle the problems of over-fetching and over-requesting. The BFF forms a gateway to the microservice cluster and fetches and aggregates the data of the services. GraphQL offers micro-frontends highly customizable queries that fetch precisely the data needed for the requirement. Many GraphQL frontend clients offer an in-memory caching layer that stores the results of the queries. The cached data can be used to return data for a GraphQL query that has already been executed before. Adapting the micro-frontend pattern means that each application has a separate instance of the cache. This approach leads to many unnecessary requests that a shared cache could serve directly. One action to improve the performance is implementing a shared caching layer between all micro-frontends. Another step to boost the performance is implementing a mechanism to reduce GraphQL queries with existing data from the cache. Micro-frontends follow microservices' principles: they should be independently developed and deployed. The prototype's architecture should be used to replace the company's legacy system in the future; therefore, it is essential to make the architecture as technology agnostic as possible. The shared caching layer and reduction mechanism should work regardless of the technology used.
+
+  \bigskip
+
+  \noindent The architecture is then analyzed concerning its performance regarding request size and response size. The outcomes show several exciting findings. Using a shared caching layer dramatically improves the performance, in comparison to the naive approach where each micro-frontend uses its separate cache. Query reduction does not bring a significant improvement in this scenario, over the massive improvement of the shared caching layer.
+}
+
+\keywords{GraphQL, Software Architecture, Micro-frontend Architecture, Microservice Architecture, Caching, Backend For Frontend Service}
+
+\acknowledgements{
+
+I would like to express my heartfelt gratitude to AGnet's CEO Gerhard Apftelthaler for providing me with the opportunity to pursue this Master's degree and for supporting me throughout the process. He supplied me with complete freedom to develop the prototypical system and was always available to assist with any questions I had. His dedication and support were exceptional, and I cannot thank him enough for the invaluable guidance he provided.
+
+\bigskip
+
+\noindent I would also like to extend my sincere thanks to my supervisor, David Leitner, for his invaluable guidance and support during my thesis. His lectures were instrumental in developing my interest in this field, and I was able to apply much of the content from his classes to this project. His patience, expertise, and encouragement helped me to navigate the challenges of this research and to develop my skills and achieve my goals.
+
+\bigskip
+
+\noindent Finally, I would like to thank my family and friends for their unwavering support and encouragement throughout my academic journey. Their love and encouragement were instrumental in helping me to achieve this significant milestone in my life.
+} 
 
 \begin{document}
 
@@ -100,13 +148,68 @@
 
 \input{chapters/applied-methods.tex}
 
-\input{chapters/results.tex}
+\ifshowResultsChapter
+  \input{chapters/results.tex}
+\fi
 
-\input{chapters/conclusion.tex}
+\ifshowDiscussionChapter
+  \input{chapters/discussion.tex}
+\fi
+
+\ifshowConclusionChapter
+  \input{chapters/conclusion.tex}
+\fi
+
+\ifshowFutureWorkChapter
+  \input{chapters/future-work.tex}
+\fi
+
+
+%
+% Hier beginnen die Verzeichnisse.
+%
+\clearpage
+\printbibliography
+\clearpage
+
+% Das Abbildungsverzeichnis
+\listoffigures
+\clearpage
+
+% Das Tabellenverzeichnis
+\listoftables
+\clearpage
+
+% Das Quellcodeverzeichnis
+\listoflistings
+\clearpage
+
+\phantomsection
+\addcontentsline{toc}{chapter}{\listacroname}
 
 \chapter*{\listacroname}
 \begin{acronym}[XXXXX]
-    % \acro{WWW}[WWW]{wor ld wide web}
+  \acro{API}{Application Programming Interface}
+  \acro{BFF}{Backend For Frontend}
+  \acro{CSS}{Cascading Style Sheets}
+  \acro{DI}{Dependency Injection}
+  \acro{DOM}{Document Object Model}
+  \acro{ERP}{Enterprise Resource Planning}
+  \acro{gRPC}{gRPC Remote Procedure Calls}
+  \acro{HTML}{Hypertext Markup Language}
+  \acro{HTTP}{Hypertext Transfer Protocol}
+  \acro{ID}{Identifier}
+  \acro{IDE}{Integrated development environment}
+  \acro{IP}{Internet Protocol}
+  \acro{JSON}{JavaScript Object Notation}
+  \acro{JS}{JavaScript}
+  \acro{REST}{Representational State Transfer}
+  \acro{SPA}{Single-Page-Application}
+  \acro{SQL}{Structured Query Language}
+  \acro{TS}{TypeScript}
+  \acro{UI}{User Interface}
+  \acro{UML}{Unified Modeling Language}
+  \acro{URL}{Uniform Resource Locator}
 \end{acronym}
 
 %
@@ -114,7 +217,14 @@
 %
 \clearpage
 \appendix
-\chapter{Anhang A}
-\clearpage
-\chapter{Anhang B}
+\chapter{Appendix A: Source Code from GitHub}
+
+\subsubsection{The source code of the micro-frontend prototype:} 
+\url{https://github.com/FlorianMold/improving-micro-frontend-architectures-with-apollo-client}
+
+\subsubsection{The forked apollo-augmented-hooks implementation:} 
+\url{https://github.com/FlorianMold/improving-micro-frontend-architectures-with-apollo-client/blob/main/libs/shared/feature/graphql-augmented-operations/src/lib/augmented-query.ts}
+
+% \clearpage
+% \chapter{Anhang B}
 \end{document}
