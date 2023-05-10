@@ -1,0 +1,41 @@
+\subsection{Testing layer}\label{subsection:applied-methods:query-reduction:testing-query-reduction}
+
+The interface seen in Listing \ref{code:applied-methods:query-reduction:graphql-client} is an abstraction for Apollo Client's functionality. The interface was created to allow a comparison between the default Apollo Client behavior and the improved behavior through query reduction. The \texttt{watchQuery} and \texttt{mutate} functions have the same \ac{API} as Apollo Client's original \texttt{watchQuery} and \texttt{mutate} functions. The classes \texttt{ReduceGraphQLClientImpl} and \texttt{GraphQLClientImpl} implement the \texttt{GraphQLClient} interface. The \texttt{ReduceGraphQLClientImpl} uses query reduction functionality, while \texttt{GraphQLClientImpl} utilizes the original Apollo Client functionality. A feature flag is used to determine which implementation is used during runtime.
+
+\ifshowListings
+\begin{listing}[H]
+\begin{minted}{typescript}
+interface GraphQLClient {
+  watchQuery<TData, TVariables>(
+    options: WatchQueryOptions<TData, TVariables>
+  ): Observable<QueryResult<TData>>;
+
+  mutate<TData, TVariables>(
+    options: MutationOptions<TData, TVariables>
+  ): Observable<MutationResult<TData>>;
+}
+\end{minted}
+\caption{The abstract base class for the Apollo Client.}\label{code:applied-methods:query-reduction:graphql-client}
+\end{listing}
+\fi
+
+\noindent The feature flag is implemented as an injection token that can be provided within the micro frontends. The injection token \texttt{REDUCE\_QUERY\_OPTIONS} specifies whether \texttt{ReduceGraphQLClientImpl} or \texttt{GraphQLClientImpl} is initialized. The usage of the injection token is shown in the Listing \ref{code:applied-methods:query-reduction:switch-between-apollo-client-and-query-reduction}. The \texttt{ReduceGraphQLClientImpl} is used when the \texttt{reduceQueries} property is set to \texttt{true}, otherwise, the \texttt{GraphQLClientImpl} is initialized.
+
+\ifshowListings
+\begin{listing}[H]
+\begin{minted}{typescript}
+const REDUCE_QUERY_OPTIONS = 
+  new InjectionToken<ReduceQueryOptions>('reduce-query-options');
+
+@NgModule({
+  providers: [{
+    provide: REDUCE_QUERY_OPTIONS,
+    useValue: { reduceQueries: true },
+  }]
+})
+class ContactCoreModule {}
+\end{minted}
+\caption{Specify which \texttt{GraphQLClient} implementation should be used.}\label{code:applied-methods:query-reduction:switch-between-apollo-client-and-query-reduction}
+\end{listing}
+\fi
+

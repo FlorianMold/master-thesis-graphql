@@ -1,0 +1,84 @@
+\section{Query reduction}\label{section:applied-methods:query-reduction}
+
+The next step to improve the performance of the micro-frontend prototype was to optimize the use of the \texttt{InMemoryCache}. The size of network responses can be reduced by removing fields from a query that are already cached. The theory of removing fields from a query has already been discussed in Section \ref{subsection:background:graphql:query-reduction}. Apollo Client does not provide this functionality out of the box, so it had to be implemented as part of this master thesis. Section \ref{subsubsection:background:graphql:apollo-server-client:in-memory-cache-working} explains in detail how Apollo Client's \texttt{InMemoryCache} works. The most important parameters for caching are the name and the parameters of a query. For example, when a query is executed using the GraphQL \ac{API}, the results of the query are cached with the query name and its parameters as keys. When the same query is run again with the same fields and the same parameters, the results are retrieved from Apollo Client's \texttt{InMemoryCache}. If the query retrieves additional fields that are not cached, the full query is sent to the GraphQL \ac{API}. Only if the query is completely identical, the cache data is used. Consequently, identical queries that retrieve different fields are always retrieved from the server.
+
+\bigskip
+
+\noindent Consider Listing \ref{code:applied-methods:compare-allusers-user-query}, where the left GraphQL query fetches all users, and the right query fetches a user by its id. Both queries fetch the same data type and the same fields, but they are different queries. They have different names and parameters. Both queries are sent to the GraphQL \ac{API}. The right query could be omitted if the user with the specified ID is retrieved from the cache. If the left query is executed before the right query, the data for resolving the user could be completely retrieved from the cache.
+
+\ifshowListings
+\begin{listing}[H]
+  \begin{minted}[escapeinside=||]{typescript}
+query allUsers {                        query user(id: ID!) {
+  allUsers {                              user(id: |\$id|) {
+    id                                      id
+    username                                username
+    email                                   email
+    firstName                               firstName
+    secondName                              secondName
+  }                                       }
+}                                      }
+  \end{minted}
+  \caption{Comparison between the fields of the \texttt{allUsers} and \texttt{User} query.}\label{code:applied-methods:compare-allusers-user-query}
+\end{listing}
+\fi
+
+\noindent Apollo Client offers a solution to this very problem. The application could have a detail view and a list view that execute the GraphQL queries in Listing \ref{code:applied-methods:compare-allusers-user-query}. The user data might already be in the \texttt{InMemoryCache} where it is stored with the \texttt{allUsers} key, but the Apollo Client doesn't know that. The Apollo Client can be configured to know where to look for user data using cache redirects. Understanding cache redirects requires a basic understanding of type policies described in Section \ref{subsubsection:background:graphql:apollo-server-client:type-policies}.
+
+\bigskip
+
+\noindent A \texttt{read} field policy must be written for the \texttt{user} query to inform the Apollo Client where to look for the cached \texttt{User} object. Like the \texttt{firstName} being a \texttt{User} field, the \texttt{user} query is a field of the \texttt{ROOT\_QUERY}. Each query that is executed and stored inside the cache is found within the root query type. This hierarchy resembles the structure of the GraphQL Schema, where GraphQL queries have to be defined inside the \texttt{Query} type. Listing \ref{code:applied-methods:query-reduction:graphql-schema} shows an excerpt from the prototype's GraphQL schema. All queries that a client can execute are listed inside the \texttt{Query} type.
+
+\ifshowListings
+\begin{listing}[H]
+  \begin{minted}{typescript}
+type Query {
+  user(id: ID!): User
+  allUsers(page: Int, perPage: Int): [User]
+  ...
+}
+
+type User {
+  id: ID!
+  firstName: String!
+  secondName: String!
+  ...
+}
+  \end{minted}
+  \caption{An excerpt from the prototype's GraphQL schema.}\label{code:applied-methods:query-reduction:graphql-schema}
+\end{listing}
+\fi
+
+
+\noindent Listing \ref{code:applied-methods:query-reduction:user-cache-redirect} shows the \texttt{read} field policy for the \texttt{User}. As in the GraphQL schema from Listing \ref{code:applied-methods:query-reduction:graphql-schema}, the \texttt{user} query is a field of the root query. Therefore, this read function is executed every time the client performs the \texttt{user} query. The \texttt{toReference} function is used to create a valid cache reference for the specified user id. The reference is created based on its \texttt{\_\_typename} and \texttt{id}, as described in Section \ref{subsubsection:background:graphql:apollo-server-client:data-normalization}. The Apollo Client uses the result of \texttt{toReference} to look up the object in \texttt{InMemoryCache} and return it if it exists. The query is sent to the GraphQL \ac{API} if the object is not found in the cache.
+
+\ifshowListings
+\begin{listing}[H]
+  \begin{minted}{typescript}
+new ApolloClient({
+  cache: new InMemoryCache({ typePolicies: { Query: { fields: {
+    User: {
+      read(_, { args, toReference }): {
+        return toReference({ __typename: 'User', id: args.id });
+      }
+    }
+  }}}})
+});
+  \end{minted}
+\caption{A cache-redirect for the User-type.}\label{code:applied-methods:query-reduction:user-cache-redirect}
+\end{listing}
+\fi
+
+\noindent Using cache redirects to reduce the number of network requests works, but all requested fields of the query must already be in the cache. If the \texttt{user} query retrieves a field that the \texttt{allUsers} query did not previously retrieve, the Apollo Client considers the cache hit incomplete, and the query is executed over the network. The fact that a detail view and a list view are completely identical is very rare in applications. Therefore, this approach cannot effectively reduce the size of the network requests. In addition, the approach is very costly because a redirection must be written for each data type. The approach is not scalable; the same type policies must be written and registered for each micro-frontend.
+
+\bigskip
+
+\noindent The open-source project apollo-augmented-hooks\footnote{\url{https://github.com/appmotion/apollo-augmented-hooks}} on GitHub provides drop-in replacements for Apollo Client's query and mutate functions. It implements the functionality to remove fields from a query that are already cached without requiring any configuration of the cache. However, the big problem is that the project was developed specifically for React's Apollo Client. The library dependencies are outdated and the last version of the library is from 2021. The functionality of the library could only be tested with an old version of Apollo Client and React. The apollo-augmented-hooks dependency was forked to leverage the functionality of the library within the prototype micro-frontend architecture. The first step was to update the dependencies of the fork so that it works with the latest version of Apollo Client. The problem with the old implementation is that it only supports React's Apollo Client with its React hooks\footnote{\url{https://www.apollographql.com/docs/react/api/react/hooks/}}. Therefore, the core functionality of the library was extracted and an adapter for React and Angular was written that uses this functionality. The adapters have the same \ac{API} as the original Apollo Client methods so that the migration to the new functionality is easy. The functionality of the library has been rewritten with \ac{TS}, adding additional features that make better use of the cache. The implementation is described in Section \ref{subsection:applied-methods:query-reduction:how-does-the-library-work}.
+
+\ifshowAppliedMethodsTestingQueryReduction
+  \input{chapters/applied-methods/query-reduction/testing-query-reduction.tex}
+\fi
+
+\input{chapters/applied-methods/query-reduction/augmented-hooks.tex}
+
+\input{chapters/applied-methods/query-reduction/example-reduction.tex}
