@@ -9,3 +9,10 @@
 *.xml
 *.gz
 *.toc
+_minted-index/
+index.out.ps
+index.dvi
+Literatur_bibertool.bib
+index.bbl
+index.blg
+.idea/
