@@ -1,4 +1,4 @@
-\section{Implemente a micro-frontend prototype}\label{section:applied-methods:prototypical-implementation}
+\section{Implement a micro-frontend prototype}\label{section:applied-methods:prototypical-implementation}
 
 The first step was to implement a prototypical micro-frontend application to evaluate the hypothesis. The base architecture was developed to lay the groundwork for later use in a production environment. The micro-frontends are integrated using client-side integration, more precisely, run-time integration. The integration strategy was implemented with Webpack's Module Federation, which was described in more detail in Section \ref{subsection:background:micro-frontend:module-federation}. The majority of the implementation is written in Angular. One micro-frontend was implemented in React to showcase the technology agnosticism of the caching strategy. The prototype contains an application shell that consumes the other micro-frontends. The architecture is divided into nine widgets that display only simple data and four complex 
 \acp{SPA}. The four \acp{SPA} are Dashboard, Contact, Sales, and User.
